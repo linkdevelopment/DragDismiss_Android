@@ -28,7 +28,7 @@
             android:name=".sample_activities.ActivityHorizontalRecyclerView"
             android:theme="@style/Theme.DragDismiss" />
         <activity
-            android:name=".sample_activities.ActivityEdgeTrackingLeft"
+            android:name=".sample_activities.ActivityCollapsingToolbar"
             android:label="Edge tracking"
             android:theme="@style/Theme.DragDismiss" />
     </application>

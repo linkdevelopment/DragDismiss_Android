@@ -29,6 +29,10 @@ class ActivityHorizontalRecyclerView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_horizontal_scroll_view)
+
+        toolbar?.title = "Swipe from left or bottom"
+        setSupportActionBar(toolbar)
+
         recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         mDataList = ArrayList()
@@ -39,8 +43,7 @@ class ActivityHorizontalRecyclerView : AppCompatActivity() {
     }
 
     private val adapter: RecyclerView.Adapter<ViewHolder> =
-        object :
-            RecyclerView.Adapter<ViewHolder>() {
+        object : RecyclerView.Adapter<ViewHolder>() {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
                 val textView = TextView(this@ActivityHorizontalRecyclerView)
                 textView.layoutParams = RecyclerView.LayoutParams(500, 500)

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:draggingDirections="fromLeft"
     app:shouldDragEdgeOnly="true"
-    tools:context="com.linkdev.dragDismiss.sample_activities.ActivityEdgeTrackingLeft">
+    tools:context="com.linkdev.dragDismiss.sample_activities.ActivityCollapsingToolbar">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -18,12 +18,11 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
+                android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:title="Swipe from left edge">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -44,6 +43,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/colorAccent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout

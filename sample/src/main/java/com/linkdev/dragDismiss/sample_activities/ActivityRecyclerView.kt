@@ -39,8 +39,7 @@ class ActivityRecyclerView : AppCompatActivity() {
     }
 
     private val adapter: RecyclerView.Adapter<ViewHolder> =
-        object :
-            RecyclerView.Adapter<ViewHolder>() {
+        object : RecyclerView.Adapter<ViewHolder>() {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
                 val textView = TextView(this@ActivityRecyclerView)
                 textView.layoutParams = RecyclerView.LayoutParams(

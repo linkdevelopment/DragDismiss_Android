@@ -4,25 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.linkdev.dragDismiss.R
-import kotlinx.android.synthetic.main.activity_edge_tracking_left.*
+import kotlinx.android.synthetic.main.activity_collapsing_toolbar.*
 
-class ActivityEdgeTrackingLeft : AppCompatActivity() {
+class ActivityCollapsingToolbar : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edge_tracking_left)
+        setContentView(R.layout.activity_collapsing_toolbar)
 
         setSupportActionBar(toolbar)
 
-        collapsing_toolbar.title = "Swipe from left edge"
+        collapsingToolbar.title = "Swipe from left edge"
     }
 
     companion object {
         fun startActivity(context: Context) {
-            val starter = Intent(context, ActivityEdgeTrackingLeft::class.java)
+            val starter = Intent(context, ActivityCollapsingToolbar::class.java)
             context.startActivity(starter)
         }
     }

@@ -19,6 +19,7 @@ class ActivityNestedScrollView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nested_scroll_view)
+        toolbar?.title = "Swipe from left or bottom"
         setSupportActionBar(toolbar)
     }
 }
