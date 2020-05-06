@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--TODO: Add documentation for attrs-->
+    <declare-styleable name="DragDismissLayout">
+        <attr name="dragDismissFactor" format="float" />
+
+        <attr name="dismissVelocityLimit" format="float" />
+
+        <attr name="maskAlpha" format="integer" />
+
+        <attr name="shouldDragEdgeOnly" format="boolean" />
+
+        <!--<attr name="shouldLimitFlingAnimation" format="boolean" />-->
+
+        <attr name="draggingDirections">
+            <flag name="all" value="15" />
+            <flag name="fromTop" value="1" />
+            <flag name="fromRight" value="2" />
+            <flag name="fromBottom" value="4" />
+            <flag name="fromLeft" value="8" />
+        </attr>
+    </declare-styleable>
+</resources>

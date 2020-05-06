@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.linkdev.dragDismiss.MainActivity">
+
+    <Button
+        android:id="@+id/btnDefault"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Default" />
+
+    <Button
+        android:id="@+id/btnEdgeTrackingLeft"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edge tracking left" />
+
+    <Button
+        android:id="@+id/btnRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="RecyclerView" />
+
+    <Button
+        android:id="@+id/btnNestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NestedScrollView" />
+
+    <Button
+        android:id="@+id/btnHorizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="HorizontalScrollView" />
+</LinearLayout>
