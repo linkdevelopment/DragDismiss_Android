@@ -252,8 +252,7 @@ class DragDismissLayout @JvmOverloads constructor(
             mHeight = height
         }
 
-        if (mInnerScrollViewsList.isEmpty())
-            mInnerScrollViewsList = Utilities.findAllScrollViews(this)
+        mInnerScrollViewsList = Utilities.findAllScrollViews(this)
     }
 
     override fun onDraw(canvas: Canvas) {
