@@ -30,13 +30,12 @@ class ActivityHorizontalRecyclerView : AppCompatActivity() {
         }
     }
 
-    private lateinit var mDataList: ArrayList<Int>
+    private val mDataList = ArrayList<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_horizontal_scroll_view)
 
-        toolbar?.title = "Swipe from left or bottom"
         setSupportActionBar(toolbar)
 
         val sampleAttrs = intent.getParcelableExtra<SampleDismissAttrs>(Extras.EXTRA_SAMPLE_ATTRS)
@@ -45,11 +44,15 @@ class ActivityHorizontalRecyclerView : AppCompatActivity() {
 
         recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        mDataList = ArrayList()
-        for (i in 0..19) {
+
+        initDataList()
+        recyclerView.adapter = adapter
+    }
+
+    private fun initDataList() {
+        for (i in 0..10) {
             mDataList.add(i)
         }
-        recyclerView.adapter = adapter
     }
 
     private val adapter: RecyclerView.Adapter<ViewHolder> =
@@ -63,28 +66,22 @@ class ActivityHorizontalRecyclerView : AppCompatActivity() {
 
             override fun onBindViewHolder(holder: ViewHolder, position: Int) {
                 holder.tv.text = "${mDataList[position]}"
+                holder.tv.setTextColor(
+                    ContextCompat.getColor(
+                        this@ActivityHorizontalRecyclerView,
+                        R.color.colorAccent
+                    )
+                )
                 if (mDataList[position] % 2 == 0) {
                     holder.tv.setBackgroundColor(
                         ContextCompat.getColor(
-                            this@ActivityHorizontalRecyclerView, android.R.color.darker_gray
-                        )
-                    )
-                    holder.tv.setTextColor(
-                        ContextCompat.getColor(
-                            this@ActivityHorizontalRecyclerView,
-                            android.R.color.white
+                            this@ActivityHorizontalRecyclerView, R.color.colorPrimary
                         )
                     )
                 } else {
                     holder.tv.setBackgroundColor(
                         ContextCompat.getColor(
-                            this@ActivityHorizontalRecyclerView,
-                            android.R.color.white
-                        )
-                    )
-                    holder.tv.setTextColor(
-                        ContextCompat.getColor(
-                            this@ActivityHorizontalRecyclerView, android.R.color.darker_gray
+                            this@ActivityHorizontalRecyclerView, R.color.colorPrimaryDark
                         )
                     )
                 }

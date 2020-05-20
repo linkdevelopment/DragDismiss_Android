@@ -596,9 +596,11 @@ class DragDismissLayout @JvmOverloads constructor(
     }
 
     private fun finish() {
-        (context as Activity).overridePendingTransition(0, 0) // remove the ending transition
+        if (context is Activity)
+            (context as Activity).overridePendingTransition(0, 0) // remove the ending transition
         if (mFinishCallback == null) {
-            (context as Activity).finish()
+            if (context is Activity)
+                (context as Activity).finish()
         } else {
             mFinishCallback!!.onFinish()
         }

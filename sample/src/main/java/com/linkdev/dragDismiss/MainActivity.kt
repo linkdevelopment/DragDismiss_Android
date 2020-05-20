@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import com.linkdev.android.dragdismiss.DragDismissLayout
-import com.linkdev.dragDismiss.sample_activities.*
+import com.linkdev.dragDismiss.sample_activities.ActivityHorizontalRecyclerView
+import com.linkdev.dragDismiss.sample_activities.ActivityNestedScrollView
+import com.linkdev.dragDismiss.sample_activities.ActivityRecyclerView
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.section_drag_dismiss_values.*
@@ -27,15 +29,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSampleActivitiesClickListeners() {
-        btnDefault.setOnClickListener { ActivityDefault.startActivity(mContext!!) }
-        btnCollapsingToolbar.setOnClickListener {
-            ActivityCollapsingToolbar.startActivity(
+        btnRecyclerView.setOnClickListener {
+            ActivityRecyclerView.startActivity(
                 mContext!!,
                 getDragDismissAttrs()
             )
         }
-        btnRecyclerView.setOnClickListener { ActivityRecyclerView.startActivity(mContext!!) }
-        btnNestedScrollView.setOnClickListener { ActivityNestedScrollView.startActivity(mContext!!) }
+        btnNestedScrollView.setOnClickListener {
+            ActivityNestedScrollView.startActivity(
+                mContext!!,
+                getDragDismissAttrs()
+            )
+        }
         btnHorizontalScrollView.setOnClickListener {
             ActivityHorizontalRecyclerView.startActivity(
                 mContext!!, getDragDismissAttrs()

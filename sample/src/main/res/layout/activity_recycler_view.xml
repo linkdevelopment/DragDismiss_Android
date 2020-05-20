@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.linkdev.android.dragdismiss.DragDismissLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dragDismissLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:draggingDirections="fromRight"
-    app:shouldDragEdgeOnly="true"
     tools:context="com.linkdev.dragDismiss.sample_activities.ActivityRecyclerView">
 
     <LinearLayout
@@ -23,8 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                android:minHeight="?attr/actionBarSize"
-                app:title="Swipe from right edge" />
+                android:minHeight="?attr/actionBarSize" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
