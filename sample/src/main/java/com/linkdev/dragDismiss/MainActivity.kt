@@ -15,6 +15,8 @@ class MainActivity : AppCompatActivity() {
 
     private var mContext: Context? = null
 
+    val SEEKBAR_DISTANCE_MIN = 30
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,9 +47,10 @@ class MainActivity : AppCompatActivity() {
         val selectedDirections = getSelectedDirections()
         val velocityLevel =
             DragDismissLayout.DismissVelocityLevel.values()[seekbarVelocity.progress]
+        val dragDismissFactor = (seekbarDistance.progress.toFloat() + SEEKBAR_DISTANCE_MIN) / 100
 
         return SampleDismissAttrs(
-            seekbarDistance.progress.toFloat(),
+            dragDismissFactor,
             velocityLevel,
             checkboxEdgeDrag.isChecked,
             selectedDirections
@@ -92,7 +95,8 @@ class MainActivity : AppCompatActivity() {
 
         seekbarDistance.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                tvDistanceProgress.text = (seekbarDistance.progress + 30).toString()
+                tvDistanceProgress.text =
+                    (seekbarDistance.progress + SEEKBAR_DISTANCE_MIN).toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}

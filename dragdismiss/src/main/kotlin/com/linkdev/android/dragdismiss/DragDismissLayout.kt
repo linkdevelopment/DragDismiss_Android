@@ -591,7 +591,7 @@ class DragDismissLayout @JvmOverloads constructor(
      * Moves the view's left and top.
      */
     private fun settleViewAt(left: Int, top: Int) {
-        if (mDragHelper.settleCapturedViewAt(left, top))
+        if (mDragHelper.smoothSlideViewTo(mDraggedView, left, top))
             ViewCompat.postInvalidateOnAnimation(this)
     }
 
