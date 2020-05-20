@@ -18,6 +18,15 @@ import kotlin.math.abs
 import kotlin.properties.Delegates
 
 /**
+ * A ViewGroup built using the ViewDragHelper utility class,
+ * Developed to help you give your users the flexibility of dragging.
+ *
+ *  There are two ways to dismiss a DragDismissLayout
+ *
+ * - [mDragDismissVelocity] If the view is flanged above a certain speed.
+ *
+ * - [mDragDismissDistance] If the layout traveled a certain percentage of the screen.
+ *
  * Created by Mohammed.Fareed on 5/6/2018.
  */
 class DragDismissLayout @JvmOverloads constructor(
@@ -28,44 +37,44 @@ class DragDismissLayout @JvmOverloads constructor(
 
     private val TAG = "DragDismissLayout"
 
-    private val DEFAULT_ALPHA_MASK = 250
-    private val DEFAULT_IS_EDGE_ENABLED = false
-    private val DEFAULT_DIRECTION: Int = DragDirections.DIRECTION_FROM_LEFT
-    private val DEFAULT_DISMISS_FACTOR = 0.4f
-    private val DEFAULT_DISMISS_VELOCITY_LIMIT = 2000.0f
+    companion object {
+        const val DEFAULT_ALPHA_MASK = 255
+        const val DEFAULT_IS_EDGE_ENABLED = false
+        const val DEFAULT_DRAG_DIRECTION: Int = DragDirections.DIRECTION_FROM_LEFT
+        const val DEFAULT_DISMISS_DISTANCE_FRACTION = 0.4f
+        val DEFAULT_DISMISS_VELOCITY_LEVEL = DismissVelocityLevel.LEVEL_3
+    }
 
     /**
      * The starting alpha of the canvas background for the dismiss background fade out effect.
      *
-     * @default DEFAULT_ALPHA_MASK
+     * @default [DEFAULT_ALPHA_MASK]
      */
     private var mAlphaMask = DEFAULT_ALPHA_MASK
 
     /**
-     * There are two implemented ways to dismiss the view
+     * The distance traveled before the view initiate a dismiss on finger up.
      *
-     * 1) [mDismissVelocityLimit] if the view is flanged above a certain speed.
+     * So if it's set to [DEFAULT_DISMISS_DISTANCE_FRACTION] then if the layout is dragged more than [DEFAULT_DISMISS_DISTANCE_FRACTION] of the screen the view will be dismissed on release.
      *
-     * 2) [mSwipeBackFactor] if the layout passed a certain percentage of the screen.
-     *
-     * So if it's set to .4 then if the layout is dragged more than 40% of the screen the view will be dismissed on release.
-     *
-     * @default [DEFAULT_DISMISS_FACTOR]
+     * @default [DEFAULT_DISMISS_DISTANCE_FRACTION]
+     * @see mDragDismissVelocity
      */
-    private var mSwipeBackFactor = DEFAULT_DISMISS_FACTOR
+    private var mDragDismissDistance = DEFAULT_DISMISS_DISTANCE_FRACTION
 
     /**
      * There are two implemented ways to dismiss the view
      *
-     * 1) [mDismissVelocityLimit] if the view is flanged above a certain speed.
+     * 1) [mDragDismissVelocity] If the view is flanged above a certain speed.
      *
-     * 2) [mSwipeBackFactor] if the layout passed a certain percentage of the screen.
+     * 2) [mDragDismissDistance] If the layout passed a certain percentage of the screen.
      *
-     * So if it's set to 2000 then if the layout is dragged at speed pass 2000 will be dismissed on release.
+     * So if it's set to [DEFAULT_DISMISS_VELOCITY_LEVEL] then if the layout is dragged at speed pass [DEFAULT_DISMISS_VELOCITY_LEVEL] will be dismissed on release.
      *
-     * @default [DEFAULT_DISMISS_VELOCITY_LIMIT]
+     * @default [DEFAULT_DISMISS_VELOCITY_LEVEL]
+     * @see mDragDismissDistance
      */
-    private var mDismissVelocityLimit = DEFAULT_DISMISS_VELOCITY_LIMIT
+    private var mDragDismissVelocity = DEFAULT_DISMISS_VELOCITY_LEVEL.velocity
 
     /**
      * If should dismiss if dragged from the edges of selected directions only.
@@ -86,7 +95,7 @@ class DragDismissLayout @JvmOverloads constructor(
      * The selected drag directions(Can be more than one direction) from [DragDirections]
      *
      *
-     * @default [DEFAULT_DIRECTION]
+     * @default [DEFAULT_DRAG_DIRECTION]
      */
     private lateinit var mSelectedDragBackDirections: ArrayList<Int>
 
@@ -102,8 +111,7 @@ class DragDismissLayout @JvmOverloads constructor(
     private var mInnerScrollViewsList = arrayListOf<View>()
 
     /**
-     * The fraction or percentage of the current position to the view dimension
-     * (top or left which ever moved most).
+     * The fraction or percentage of the current position to the view dimension (top or left which ever moved most).
      */
     private var mSwipeBackFraction = 0.0f
 
@@ -126,12 +134,25 @@ class DragDismissLayout @JvmOverloads constructor(
     /**
      * The drag direction options to select from.
      */
-    internal object DragDirections {
+    object DragDirections {
         const val DIRECTION_ALL = 15
         const val DIRECTION_FROM_TOP = 1
         const val DIRECTION_FROM_RIGHT = 2
         const val DIRECTION_FROM_BOTTOM = 4
         const val DIRECTION_FROM_LEFT = 8
+    }
+
+    /**
+     * The velocity in Pixels/second that the view will be dismissed if flanged above.
+     * The higher the level the higher the speed required to dismiss
+     */
+    enum class DismissVelocityLevel(val velocity: Int) {
+        LEVEL_0(0),
+        LEVEL_1(1000),
+        LEVEL_2(2000),
+        LEVEL_3(3000),
+        LEVEL_4(4000),
+        LEVEL_5(5000),
     }
 
     private var red: Int = 0
@@ -155,14 +176,19 @@ class DragDismissLayout @JvmOverloads constructor(
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.DragDismissLayout)
 
         val directionFlags =
-            typedArray.getInt(R.styleable.DragDismissLayout_draggingDirections, DEFAULT_DIRECTION)
+            typedArray.getInt(
+                R.styleable.DragDismissLayout_draggingDirections,
+                DEFAULT_DRAG_DIRECTION
+            )
         mSelectedDragBackDirections =
             Utilities.extractDirectionsFromFlag(directionFlags)
 
-        mSwipeBackFactor =
-            typedArray.getFloat(
-                R.styleable.DragDismissLayout_dragDismissFactor,
-                DEFAULT_DISMISS_FACTOR
+        mDragDismissDistance =
+            typedArray.getFraction(
+                R.styleable.DragDismissLayout_dragDismissDistanceFraction,
+                1,
+                1,
+                DEFAULT_DISMISS_DISTANCE_FRACTION
             )
 
         mAlphaMask =
@@ -174,11 +200,10 @@ class DragDismissLayout @JvmOverloads constructor(
                 DEFAULT_IS_EDGE_ENABLED
             )
 
-        mDismissVelocityLimit =
-            typedArray.getFloat(
-                R.styleable.DragDismissLayout_dismissVelocityLimit,
-                DEFAULT_DISMISS_VELOCITY_LIMIT
-            )
+        mDragDismissVelocity = typedArray.getInt(
+            R.styleable.DragDismissLayout_dragDismissVelocityLevel,
+            DEFAULT_DISMISS_VELOCITY_LEVEL.velocity
+        )
 
         typedArray.recycle()
     }
@@ -282,7 +307,6 @@ class DragDismissLayout @JvmOverloads constructor(
         if (mDragHelper.continueSettling(true))
             ViewCompat.postInvalidateOnAnimation(this)
     }
-
 
     inner class DragHelperCallback : ViewDragHelper.Callback() {
         private var mIsDraggedFromLeft = false
@@ -472,27 +496,33 @@ class DragDismissLayout @JvmOverloads constructor(
         }
 
         /**
-         *  If the directed velocity greater than the set [mDismissVelocityLimit] then settle the view out of screen
+         *  If the directed velocity greater than the set [mDragDismissVelocity] then settle the view out of screen
          */
         private fun velocityRelease(xVelocity: Float, yVelocity: Float): Boolean {
-            if (xVelocity > mDismissVelocityLimit && (selectedAllDragBack() || selectedLeftDragBack())) {
+            if (mDragDismissVelocity <= 0) // LEVEL_0 turns off the velocity dismiss
+                return false
+
+            if (xVelocity > mDragDismissVelocity && (selectedAllDragBack() || selectedLeftDragBack())) {
                 settleViewAt(mWidth, mTopOffset)
                 return true
-            } else if (xVelocity < -mDismissVelocityLimit && (selectedAllDragBack() || selectedRightDragBack())) {
+            } else if (xVelocity < -mDragDismissVelocity && (selectedAllDragBack() || selectedRightDragBack())) {
                 settleViewAt(-mWidth, mTopOffset)
                 return true
-            } else if (yVelocity > mDismissVelocityLimit && (selectedAllDragBack() || selectedTopDragBack())) {
+            } else if (yVelocity > mDragDismissVelocity && (selectedAllDragBack() || selectedTopDragBack())) {
                 settleViewAt(mLeftOffset, mHeight)
                 return true
-            } else if (yVelocity < -mDismissVelocityLimit && (selectedAllDragBack() || selectedBottomDragBack())) {
+            } else if (yVelocity < -mDragDismissVelocity && (selectedAllDragBack() || selectedBottomDragBack())) {
                 settleViewAt(mLeftOffset, -mHeight)
                 return true
             }
             return false
         }
 
+        /**
+         *  If the distance traveled greater than the set [mDragDismissDistance] then settle the view out of screen
+         */
         private fun distanceRelease(): Boolean {
-            if (mSwipeBackFraction >= mSwipeBackFactor) {
+            if (mSwipeBackFraction >= mDragDismissDistance) {
                 if (abs(mLeftOffset) > abs(mTopOffset)) {
                     if (mLeftOffset > 0) {
                         settleViewAt(mWidth, mTopOffset)
@@ -574,72 +604,12 @@ class DragDismissLayout @JvmOverloads constructor(
         }
     }
 
-    /**
-     * The starting alpha of the canvas background for the dismiss background fade out effect.
-     *
-     * @return [mAlphaMask]
-     */
     @IntRange(from = 0, to = 255)
     fun getAlphaMask(): Int {
         return mAlphaMask
     }
 
-    /**
-     * There are two implemented ways to dismiss the view
-     *
-     * 1) [mDismissVelocityLimit] if the view is flanged above a certain speed.
-     *
-     * 2) [mSwipeBackFactor] if the layout passed a certain percentage of the screen.
-     *
-     * So if it's set to .4 then if the layout is dragged more than 40% of the screen the view will be dismissed on release.
-     *
-     * @default [DEFAULT_DISMISS_FACTOR]
-     *
-     * @return [mSwipeBackFactor]
-     */
-    fun getSwipeBackFactor(): Float {
-        return mSwipeBackFactor
-    }
-
-    /**
-     * There are two implemented ways to dismiss the view
-     *
-     * 1) [mDismissVelocityLimit] if the view is flanged above a certain speed.
-     *
-     * 2) [mSwipeBackFactor] if the layout passed a certain percentage of the screen.
-     *
-     * So if it's set to 2000 then if the layout is dragged at speed pass 2000 will be dismissed on release.
-     *
-     * @default [DEFAULT_DISMISS_VELOCITY_LIMIT]
-     *
-     * @return [mDismissVelocityLimit]
-     */
-    fun getDismissVelocityLimit(): Float {
-        return mDismissVelocityLimit
-    }
-
-    /**
-     * If should dismiss if dragged from the edges of selected directions only.
-     *
-     * @return [mIsEdgeEnabled]
-     */
-    fun isEdgeEnabled(): Boolean {
-        return mIsEdgeEnabled
-    }
-
-    /**
-     * The Currently touched edge.
-     *
-     * @return [mTouchedEdge]
-     */
-    fun getTouchedEdge(): Int {
-        return mTouchedEdge
-    }
-
-    /**
-     * Sets The starting alpha of the canvas background for the dismiss background fade out effect.
-     */
-    fun setMaskAlpha(@IntRange(from = 0, to = 255) alphaMask: Int) {
+    fun setDismissBackground(@IntRange(from = 0, to = 255) alphaMask: Int) {
         mAlphaMask = when {
             alphaMask > 255 -> 255
             alphaMask < 0 -> 0
@@ -647,61 +617,28 @@ class DragDismissLayout @JvmOverloads constructor(
         }
     }
 
-    /**
-     * Sets The selected drag directions(Can be more than one direction) from [DragDirections]
-     *
-     * @default [DEFAULT_DIRECTION]
-     */
-    fun setEdges(edges: Int) {
+    fun setDragDirections(edges: Int) {
         mSelectedDragBackDirections = Utilities.extractDirectionsFromFlag(edges)
     }
 
-    /**
-     * There are two implemented ways to dismiss the view
-     *
-     * 1) [mDismissVelocityLimit] if the view is flanged above a certain speed.
-     *
-     * 2) [mSwipeBackFactor] if the layout passed a certain percentage of the screen.
-     *
-     * So if it's set to .4 then if the layout is dragged more than 40% of the screen the view will be dismissed on release.
-     *
-     * @default [DEFAULT_DISMISS_FACTOR]
-     */
-    fun setSwipeBackFactor(@FloatRange(from = 0.0, to = 1.0) swipeBackFactor: Float) {
-        mSwipeBackFactor = swipeBackFactor
+    fun getDragDismissDistance(): Float {
+        return mDragDismissDistance
     }
 
-    /**
-     * There are two implemented ways to dismiss the view
-     *
-     * 1) [mDismissVelocityLimit] if the view is flanged above a certain speed.
-     *
-     * 2) [mSwipeBackFactor] if the layout passed a certain percentage of the screen.
-     *
-     * So if it's set to 2000 then if the layout is dragged at speed pass 2000 will be dismissed on release.
-     *
-     * @default [DEFAULT_DISMISS_VELOCITY_LIMIT]
-     */
-    fun setDismissVelocityLimit(dismissVelocityLimit: Float) {
-        mDismissVelocityLimit = dismissVelocityLimit
+    fun setDragDismissDistance(@FloatRange(from = 0.0, to = 1.0) screenDragDismiss: Float) {
+        mDragDismissDistance = screenDragDismiss
     }
 
-    /**
-     * Sets If should dismiss if dragged from the edges of selected directions only.
-     */
+    fun setDragDismissVelocityLevel(dismissVelocityLevel: DismissVelocityLevel) {
+        mDragDismissVelocity = dismissVelocityLevel.velocity
+    }
+
+    fun isEdgeEnabled(): Boolean {
+        return mIsEdgeEnabled
+    }
+
     fun setEdgeEnabled(edgeEnabled: Boolean) {
         mIsEdgeEnabled = edgeEnabled
-    }
-
-    /**
-     * Sets The Currently touched edge.
-     */
-    fun setTouchedEdge(touchedEdge: Int) {
-        mTouchedEdge = touchedEdge
-    }
-
-    private fun setLeftOffset(left: Int) {
-        mLeftOffset = left
     }
 
     fun setFinishCallback(finishCallback: FinishCallback) {

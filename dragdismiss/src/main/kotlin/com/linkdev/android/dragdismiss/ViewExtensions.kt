@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 
 
-fun View.contains(x: Float, y: Float): Boolean {
+internal fun View.contains(x: Float, y: Float): Boolean {
     val localRect = Rect()
     this.getGlobalVisibleRect(localRect)
     return localRect.contains(x.toInt(), y.toInt())
 }
 
-fun View.isScrollableView(): Boolean {
+internal fun View.isScrollableView(): Boolean {
     return this is ScrollView
             || this is HorizontalScrollView
             || this is NestedScrollView

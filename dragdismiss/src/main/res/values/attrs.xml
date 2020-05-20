@@ -2,15 +2,22 @@
 <resources>
     <!--TODO: Add documentation for attrs-->
     <declare-styleable name="DragDismissLayout">
-        <attr name="dragDismissFactor" format="float" />
+        <!-- The percentage of the screen that the view will be dismissed if dragged across it -->
+        <attr name="dragDismissDistanceFraction" format="fraction|reference" />
 
-        <attr name="dismissVelocityLimit" format="float" />
+        <!-- The velocity in Pixels/second that the view will be dismissed if flanged above.
+        The higher the level the higher the speed required to dismiss -->
+        <attr name="dragDismissVelocityLevel">
+            <enum name="level_1" value="1000" />
+            <enum name="level_2" value="2000" />
+            <enum name="level_3" value="3000" />
+            <enum name="level_4" value="4000" />
+            <enum name="level_5" value="5000" />
+        </attr>
 
-        <attr name="maskAlpha" format="integer" />
+        <attr name="maskAlpha" format="integer|reference" />
 
-        <attr name="shouldDragEdgeOnly" format="boolean" />
-
-        <!--<attr name="shouldLimitFlingAnimation" format="boolean" />-->
+        <attr name="shouldDragEdgeOnly" format="boolean|reference" />
 
         <attr name="draggingDirections">
             <flag name="all" value="15" />

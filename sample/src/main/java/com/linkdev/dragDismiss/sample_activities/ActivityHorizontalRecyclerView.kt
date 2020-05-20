@@ -12,14 +12,20 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.linkdev.dragDismiss.R
-import kotlinx.android.synthetic.main.activity_recycler_view.*
+import com.linkdev.dragDismiss.utils.Extras
+import com.linkdev.dragDismiss.utils.SampleDismissAttrs
+import com.linkdev.dragDismiss.utils.applyAttrs
+import kotlinx.android.synthetic.main.activity_horizontal_scroll_view.*
+import kotlinx.android.synthetic.main.activity_recycler_view.recyclerView
+import kotlinx.android.synthetic.main.activity_recycler_view.toolbar
 import java.util.*
 
 class ActivityHorizontalRecyclerView : AppCompatActivity() {
 
     companion object {
-        fun startActivity(context: Context) {
+        fun startActivity(context: Context, sampleAttrs: SampleDismissAttrs) {
             val starter = Intent(context, ActivityHorizontalRecyclerView::class.java)
+            starter.putExtra(Extras.EXTRA_SAMPLE_ATTRS, sampleAttrs)
             context.startActivity(starter)
         }
     }
@@ -32,6 +38,10 @@ class ActivityHorizontalRecyclerView : AppCompatActivity() {
 
         toolbar?.title = "Swipe from left or bottom"
         setSupportActionBar(toolbar)
+
+        val sampleAttrs = intent.getParcelableExtra<SampleDismissAttrs>(Extras.EXTRA_SAMPLE_ATTRS)
+        if (sampleAttrs != null)
+            dragDismissLayout.applyAttrs(sampleAttrs)
 
         recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)

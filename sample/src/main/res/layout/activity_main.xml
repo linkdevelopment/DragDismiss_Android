@@ -3,8 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.linkdev.dragDismiss.MainActivity">
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:context="com.linkdev.dragDismiss.MainActivity">
+
+        <include layout="@layout/section_drag_dismiss_attrs" />
+
+    </androidx.core.widget.NestedScrollView>
 
     <Button
         android:id="@+id/btnDefault"

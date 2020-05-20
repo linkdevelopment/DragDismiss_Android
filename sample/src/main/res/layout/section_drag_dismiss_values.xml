@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:background="@color/colorPrimary"
+    android:paddingVertical="@dimen/marginLarge">
+
+    <TextView
+        android:id="@+id/tvDismissValues"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dismiss values"
+        app:layout_constraintStart_toEndOf="@id/guidelineStart"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvVelocity"
+        style="@style/textBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginMedium"
+        android:text="Drag dismiss velocity level"
+        app:layout_constraintStart_toEndOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tvDismissValues" />
+
+    <TextView
+        android:id="@+id/tvVelocityProgress"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginMedium"
+        android:layout_marginTop="@dimen/marginMedium"
+        android:text="2"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvVelocity"
+        app:layout_constraintStart_toEndOf="@id/tvVelocity" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekbarVelocity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="5"
+        android:paddingVertical="@dimen/marginMedium"
+        android:progress="2"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tvVelocity" />
+
+    <TextView
+        android:id="@+id/tvDistance"
+        style="@style/textBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginMedium"
+        android:text="Drag dismiss fraction"
+        app:layout_constraintStart_toEndOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/seekbarVelocity" />
+
+    <TextView
+        android:id="@+id/tvDistanceProgress"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginMedium"
+        android:layout_marginTop="@dimen/marginMedium"
+        android:text="50"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvDistance"
+        app:layout_constraintStart_toEndOf="@id/tvDistance" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekbarDistance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="70"
+        android:paddingVertical="@dimen/marginMedium"
+        android:progress="20"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tvDistance" />
+
+    <include
+        android:id="@+id/guidelineStart"
+        layout="@layout/view_guideline_start" />
+
+    <include
+        android:id="@+id/guidelineEnd"
+        layout="@layout/view_guideline_end" />
+</androidx.constraintlayout.widget.ConstraintLayout>
