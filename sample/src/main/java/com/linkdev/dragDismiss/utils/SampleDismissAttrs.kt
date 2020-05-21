@@ -9,5 +9,6 @@ data class SampleDismissAttrs(
     val dragDismissFactor: Float,
     val dragDismissVelocityLevel: DragDismissLayout.DismissVelocityLevel,
     val shouldDragEdgeOnly: Boolean,
-    val draggingDirections: Int
+    val draggingDirections: Int,
+    val backgroundAlpha: Float
 ) : Parcelable

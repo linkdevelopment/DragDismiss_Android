@@ -53,12 +53,14 @@ class MainActivity : AppCompatActivity() {
         val velocityLevel =
             DragDismissLayout.DismissVelocityLevel.values()[seekbarVelocity.progress]
         val dragDismissFactor = (seekbarDistance.progress.toFloat() + SEEKBAR_DISTANCE_MIN) / 100
+        val backgroundAlpha = seekbarBackgroundAlpha.progress.toFloat() / 100
 
         return SampleDismissAttrs(
             dragDismissFactor,
             velocityLevel,
             checkboxEdgeDrag.isChecked,
-            selectedDirections
+            selectedDirections,
+            backgroundAlpha
         )
     }
 
@@ -80,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         if (selectedDirections.isEmpty())
             return 0
 
-        var directions: Int = 0
+        var directions = 0
         for (direction in selectedDirections)
             directions = directions or direction
 
@@ -102,6 +104,17 @@ class MainActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 tvDistanceProgress.text =
                     (seekbarDistance.progress + SEEKBAR_DISTANCE_MIN).toString()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        seekbarBackgroundAlpha.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                tvAlphaProgress.text =
+                    (seekbarBackgroundAlpha.progress).toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}

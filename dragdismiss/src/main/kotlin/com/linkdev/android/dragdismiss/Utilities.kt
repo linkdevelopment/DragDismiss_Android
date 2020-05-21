@@ -3,6 +3,7 @@ package com.linkdev.android.dragdismiss
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import kotlin.math.roundToInt
 
 /**
  * Created by Mohammed.Fareed on 5/22/2018.
@@ -66,5 +67,9 @@ internal object Utilities {
 
     private fun containsFlag(flagSet: Int, flag: Int): Boolean {
         return flagSet or flag == flagSet
+    }
+
+    fun calculateAlphaFromFraction(fraction: Float): Int {
+        return (fraction * 255).roundToInt()
     }
 }

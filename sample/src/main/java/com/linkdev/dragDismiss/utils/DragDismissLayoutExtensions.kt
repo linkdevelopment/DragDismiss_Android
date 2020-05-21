@@ -7,4 +7,5 @@ fun DragDismissLayout.applyAttrs(sampleAttrs: SampleDismissAttrs) {
     setDragDismissVelocityLevel(sampleAttrs.dragDismissVelocityLevel)
     setEdgeEnabled(sampleAttrs.shouldDragEdgeOnly)
     setDragDirections(sampleAttrs.draggingDirections)
+    setBackgroundAlpha(sampleAttrs.backgroundAlpha)
 }
