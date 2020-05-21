@@ -16,22 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".sample_activities.ActivityDefault"
-            android:theme="@style/Theme.DragDismiss" />
+
         <activity
             android:name=".sample_activities.ActivityRecyclerView"
-            android:theme="@style/Theme.DragDismiss" />
+            android:theme="@style/DragDismissTheme" />
         <activity
             android:name=".sample_activities.ActivityNestedScrollView"
-            android:theme="@style/Theme.DragDismiss" />
+            android:theme="@style/DragDismissTheme" />
         <activity
             android:name=".sample_activities.ActivityHorizontalRecyclerView"
-            android:theme="@style/Theme.DragDismiss" />
-        <activity
-            android:name=".sample_activities.ActivityCollapsingToolbar"
-            android:label="Edge tracking"
-            android:theme="@style/Theme.DragDismiss" />
+            android:theme="@style/DragDismissTheme" />
     </application>
 
 </manifest>
