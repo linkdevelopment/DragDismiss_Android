@@ -18,9 +18,6 @@ import kotlin.math.abs
 import kotlin.properties.Delegates
 
 /**
- * A ViewGroup built using the ViewDragHelper utility class,
- * Developed to help you give your users the flexibility of dragging.
- *
  *  There are two ways to dismiss a DragDismissLayout
  *
  * - [mDragDismissVelocity] If the view is flanged above a certain speed.
@@ -38,7 +35,7 @@ class DragDismissLayout @JvmOverloads constructor(
     private val TAG = "DragDismissLayout"
 
     companion object {
-        const val DEFAULT_ALPHA_MASK = 255
+        const val DEFAULT_BACKGROUND_ALPHA_FRACTION = 0.8f
         const val DEFAULT_IS_EDGE_ENABLED = false
         const val DEFAULT_DRAG_DIRECTION: Int = DragDirections.DIRECTION_FROM_LEFT
         const val DEFAULT_DISMISS_DISTANCE_FRACTION = 0.4f
@@ -48,9 +45,10 @@ class DragDismissLayout @JvmOverloads constructor(
     /**
      * The starting alpha of the canvas background for the dismiss background fade out effect.
      *
-     * @default [DEFAULT_ALPHA_MASK]
+     * @default [DEFAULT_BACKGROUND_ALPHA_FRACTION]
      */
-    private var mAlphaMask = DEFAULT_ALPHA_MASK
+    private var mBackgroundAlpha =
+        Utilities.calculateAlphaFromFraction(DEFAULT_BACKGROUND_ALPHA_FRACTION)
 
     /**
      * The distance traveled before the view initiate a dismiss on finger up.
@@ -155,11 +153,6 @@ class DragDismissLayout @JvmOverloads constructor(
         LEVEL_5(5000),
     }
 
-    private var red: Int = 0
-    private var green: Int = 0
-    private var blue: Int = 0
-    private var alpha: Int = 0
-
     init {
         setWillNotDraw(false)
         initDragHelper()
@@ -191,8 +184,15 @@ class DragDismissLayout @JvmOverloads constructor(
                 DEFAULT_DISMISS_DISTANCE_FRACTION
             )
 
-        mAlphaMask =
-            typedArray.getInt(R.styleable.DragDismissLayout_maskAlpha, DEFAULT_ALPHA_MASK)
+        mBackgroundAlpha =
+            Utilities.calculateAlphaFromFraction(
+                typedArray.getFraction(
+                    R.styleable.DragDismissLayout_backgroundAlpha,
+                    1,
+                    1,
+                    DEFAULT_BACKGROUND_ALPHA_FRACTION
+                )
+            )
 
         mIsEdgeEnabled =
             typedArray.getBoolean(
@@ -258,8 +258,12 @@ class DragDismissLayout @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         // Sets the alpha of the canvas as the view position changes
-        alpha = (mAlphaMask - (mAlphaMask * mSwipeBackFraction)).toInt()
-        canvas.drawARGB(alpha, red, green, blue)
+        canvas.drawARGB(
+            (mBackgroundAlpha - (mBackgroundAlpha * mSwipeBackFraction)).toInt(),
+            0,
+            0,
+            0
+        )
     }
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
@@ -602,16 +606,12 @@ class DragDismissLayout @JvmOverloads constructor(
     }
 
     @IntRange(from = 0, to = 255)
-    fun getAlphaMask(): Int {
-        return mAlphaMask
+    fun getBackgroundAlpha(): Int {
+        return mBackgroundAlpha
     }
 
-    fun setDismissBackground(@IntRange(from = 0, to = 255) alphaMask: Int) {
-        mAlphaMask = when {
-            alphaMask > 255 -> 255
-            alphaMask < 0 -> 0
-            else -> alphaMask
-        }
+    fun setBackgroundAlpha(@FloatRange(from = 0.0, to = 1.0) backgroundAlpha: Float) {
+        mBackgroundAlpha = Utilities.calculateAlphaFromFraction(backgroundAlpha)
     }
 
     fun setDragDirections(edges: Int) {
