@@ -129,7 +129,7 @@ class DragDismissLayout @JvmOverloads constructor(
     /**
      * The callback method after the animation is done the implementing activity will have to call it's finish
      */
-    private var mFinishCallback: FinishCallback? = null
+    private var mFinishCallback: (() -> Unit)? = null
 
     /**
      * The drag direction options to select from.
@@ -554,18 +554,14 @@ class DragDismissLayout @JvmOverloads constructor(
     private fun edgeSwipe(): Boolean {
         if (mIsEdgeEnabled) {
             var isTouchEnabled = false
-            if (selectedBottomDragBack()) {
+            if (selectedBottomDragBack())
                 isTouchEnabled = mTouchedEdge == ViewDragHelper.EDGE_BOTTOM
-            }
-            if (selectedTopDragBack()) {
+            if (selectedTopDragBack())
                 isTouchEnabled = isTouchEnabled || mTouchedEdge == ViewDragHelper.EDGE_TOP
-            }
-            if (selectedLeftDragBack()) {
+            if (selectedLeftDragBack())
                 isTouchEnabled = isTouchEnabled || mTouchedEdge == ViewDragHelper.EDGE_LEFT
-            }
-            if (selectedRightDragBack()) {
+            if (selectedRightDragBack())
                 isTouchEnabled = isTouchEnabled || mTouchedEdge == ViewDragHelper.EDGE_RIGHT
-            }
             return isTouchEnabled
         }
         return true
@@ -601,7 +597,7 @@ class DragDismissLayout @JvmOverloads constructor(
             if (context is Activity)
                 (context as Activity).finish()
         } else {
-            mFinishCallback!!.onFinish()
+            mFinishCallback!!.invoke()
         }
     }
 
@@ -642,11 +638,7 @@ class DragDismissLayout @JvmOverloads constructor(
         mIsEdgeEnabled = edgeEnabled
     }
 
-    fun setFinishCallback(finishCallback: FinishCallback) {
+    fun setFinishCallback(finishCallback: (() -> Unit)?) {
         mFinishCallback = finishCallback
-    }
-
-    interface FinishCallback {
-        fun onFinish()
     }
 }
