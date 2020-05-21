@@ -1,22 +1,21 @@
-## DragDismiss
+# DragDismiss
 [![Platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)
-[![API](https://img.shields.io/badge/Min--SDK-19-yellowgreen)]
+![API](https://img.shields.io/badge/Min--SDK-19-yellowgreen)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Many studies and surveys showed that users prefer dragging and swiping to clicking...
 
-DragDismissLayout is a ViewGroup,  
-**Built** using the ViewDragHelper utility class,  
-**Developed** to help you give your users the flexibility of dragging.
+DragDismissLayout is a ViewGroup, **Built** using the ViewDragHelper utility class, **Developed** to help you give your users the flexibility of dragging.
+
+![](screenshots/screenshot.gif)
 
 - No changes in code required, Just wrap your xml View with DragDismissLayout and voila.
 - We support all types of views static and scrolling horizontally or vertically.
-- Works with out of the box with activities, And supports fragments following below steps.
+- Works with activities, And fragments.
 - Built using androidx ViewDragHelper utility class.
-- Written completely in kotlin supporting kotlin-Idiomatic.
-- Tested and applied in multiple applications.
+- Kotlin-Idiomatic, Written completely in kotlin.
 
-## Start using DragDismiss
+# Start using DragDismiss
 `latestVersion` is ![](https://img.shields.io/badge/platform-android-brightgreen.svg)
 
 Add the following in your app's `build.gradle` file:
@@ -38,13 +37,13 @@ First wrap the target layout with `DragDismissLayout` ViewGroup
     app:dragDismissDistanceFraction="50%"
     app:dragDismissVelocityLevel="level_3"
     app:draggingDirections="fromLeft|fromRight"
-    app:maskAlpha="50"
+    app:backgroundAlpha="50%"
     app:shouldDragEdgeOnly="false">
 
 </com.linkdev.android.dragdismiss.DragDismissLayout>
 ```
 
-#### With activities
+### With activities
 Use `Theme.DragDismiss` as your activity's theme
 ```xml
 <activity
@@ -58,17 +57,21 @@ Or add these to your existing Theme for activities that implement DragDismiss
 <item name="android:windowBackground">@android:color/transparent</item>
 ```
 
-#### With fragments
-Due to the view destruction of the replaced Fragments, Fragments that are implementing DragDismissLayout has to be **added**.
+### With fragments
+Due to the view destruction of the replaced Fragments, Fragments that are implementing DragDismissLayout has to be shown using `fragmentTransaction.add()`.
 
+To prevent the dismissal of the containing activity, setFinishCallback for a callback when the view settles out of the screen.
+```kotlin
+dragDismissLayout.setFinishCallback {navigateUp()}
+```
 
-## Contribute
+# Contribute
 Contributions and contributors are always welcome!, Help us make DragDismiss better and give back to the community.
 
 Found an issue or feel like contributing? Please use [Github][issues]  
 Have a question? Please use Stackoverflow with tag [DragDismissLayout][stackoverflow]
 
-## License
+# License
     Copyright 2015 Link Development
 
     Licensed under the Apache License, Version 2.0 (the "License");
