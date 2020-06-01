@@ -173,7 +173,7 @@ class DragDismissLayout @JvmOverloads constructor(
         setWillNotDraw(false)
         initDragHelper()
 
-        initAttrs(context, attrs!!)
+        initAttrs(context, attrs)
     }
 
     private fun initDragHelper() {
@@ -181,7 +181,7 @@ class DragDismissLayout @JvmOverloads constructor(
         mDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_ALL)
     }
 
-    private fun initAttrs(context: Context, attrs: AttributeSet) {
+    private fun initAttrs(context: Context, attrs: AttributeSet?) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.DragDismissLayout)
 
         val directionFlags =
