@@ -9,7 +9,6 @@ DragDismissLayout is a ViewGroup, **Built** using the ViewDragHelper utility cla
 
 ![](screenshots/screenshot.gif)
 
-- No changes in code required, Just wrap your xml View with DragDismissLayout and voila.
 - We support all types of views static and scrolling horizontally or vertically.
 - Works with activities, And fragments.
 - Built using androidx ViewDragHelper utility class.
