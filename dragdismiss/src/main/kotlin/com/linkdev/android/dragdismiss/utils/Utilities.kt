@@ -14,25 +14,27 @@
  * limitations under the License.
  */
 
-package com.linkdev.android.dragdismiss
+package com.linkdev.android.dragdismiss.utils
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import com.linkdev.android.dragdismiss.layout.DragDismissDirections
+import com.linkdev.android.dragdismiss.layout.DragDismissLayout
 import kotlin.math.roundToInt
 
 /**
- * Created by Mohammed.Fareed on 5/22/2018.
+ * Created on 5/22/2018.
  */
 internal object Utilities {
 
     fun extractDirectionsFromFlag(directionFlag: Int): ArrayList<Int> {
         val directions = intArrayOf(
-            DragDismissLayout.DragDirections.DIRECTION_FROM_LEFT,
-            DragDismissLayout.DragDirections.DIRECTION_FROM_BOTTOM,
-            DragDismissLayout.DragDirections.DIRECTION_FROM_RIGHT,
-            DragDismissLayout.DragDirections.DIRECTION_FROM_TOP,
-            DragDismissLayout.DragDirections.DIRECTION_ALL
+            DragDismissDirections.DIRECTION_FROM_LEFT,
+            DragDismissDirections.DIRECTION_FROM_BOTTOM,
+            DragDismissDirections.DIRECTION_FROM_RIGHT,
+            DragDismissDirections.DIRECTION_FROM_TOP,
+            DragDismissDirections.DIRECTION_ALL
         )
         val result = ArrayList<Int>()
         for (direction in directions) {
@@ -40,26 +42,6 @@ internal object Utilities {
                 result.add(direction)
         }
         return result
-    }
-
-    fun canViewScrollUp(view: View, x: Float, y: Float): Boolean {
-        return if (!view.contains(x, y)) false
-        else view.canScrollVertically(1)
-    }
-
-    fun canViewScrollDown(view: View, x: Float, y: Float): Boolean {
-        return if (!view.contains(x, y)) false
-        else view.canScrollVertically(-1)
-    }
-
-    fun canViewScrollRight(view: View, x: Float, y: Float): Boolean {
-        return if (!view.contains(x, y)) false
-        else view.canScrollHorizontally(-1)
-    }
-
-    fun canViewScrollLeft(view: View, x: Float, y: Float): Boolean {
-        return if (!view.contains(x, y)) false
-        else view.canScrollHorizontally(1)
     }
 
     fun findAllScrollViews(viewGroup: ViewGroup): ArrayList<View> {

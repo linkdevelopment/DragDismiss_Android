@@ -10,10 +10,4 @@
     limitations under the License.-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.linkdev.android.dragdismiss">
-
-    <application>
-        <activity
-            android:name=".DragDismissActivity"
-            android:theme="@style/DragDismissTheme" />
-    </application>
 </manifest>

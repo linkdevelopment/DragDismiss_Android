@@ -11,10 +11,9 @@
     limitations under the License.-->
 
 <resources>
-
     <declare-styleable name="DragDismissLayout">
         <!-- The percentage of the screen that the view will be dismissed if dragged across it -->
-        <attr name="dragDismissDistanceFraction" format="fraction|reference" />
+        <attr name="dragDismissScreenPercentage" format="fraction|reference" />
 
         <!-- The velocity in Pixels/second that the view will be dismissed if flanged above it.
         The higher the level the higher the speed required to dismiss -->

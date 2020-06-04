@@ -11,13 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.linkdev.android.dragdismiss.DragDismiss
+import com.linkdev.android.dragdismiss.layout.DragDismissVelocityLevel
 import com.linkdev.dragDismiss.R
 import com.linkdev.dragDismiss.utils.Extras
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
-import com.linkdev.dragDismiss.utils.applyAttrs
-import kotlinx.android.synthetic.main.activity_horizontal_scroll_view.*
-import kotlinx.android.synthetic.main.activity_recycler_view.recyclerView
-import kotlinx.android.synthetic.main.activity_recycler_view.toolbar
+import kotlinx.android.synthetic.main.activity_recycler_view.*
 import java.util.*
 
 class ActivityRecyclerView : AppCompatActivity() {
@@ -30,16 +29,22 @@ class ActivityRecyclerView : AppCompatActivity() {
         }
     }
 
+    private var mContext: Context = this
+
     private var mDataList = ArrayList<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recycler_view)
-        setSupportActionBar(toolbar)
+        val sampleAttrs = intent.getParcelableExtra<SampleDismissAttrs>(Extras.EXTRA_SAMPLE_ATTRS)!!
+        DragDismiss.create(mContext)
+            .setDragDismissScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
+            .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
+            .setShouldDragEdgeOnly(sampleAttrs.shouldDragEdgeOnly)
+            .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
+            .setDragDismissBackgroundAlpha(sampleAttrs.backgroundAlpha)
+            .attach(this, R.layout.activity_recycler_view)
 
-        val sampleAttrs = intent.getParcelableExtra<SampleDismissAttrs>(Extras.EXTRA_SAMPLE_ATTRS)
-        if (sampleAttrs != null)
-            dragDismissLayout.applyAttrs(sampleAttrs)
+        setSupportActionBar(toolbar)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         initDataList()

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.linkdev.android.dragdismiss
+package com.linkdev.android.dragdismiss.layout
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -29,6 +29,8 @@ import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import androidx.core.view.ViewCompat
 import androidx.customview.widget.ViewDragHelper
+import com.linkdev.android.dragdismiss.R
+import com.linkdev.android.dragdismiss.utils.*
 import java.util.*
 import kotlin.math.abs
 import kotlin.properties.Delegates
@@ -38,11 +40,11 @@ import kotlin.properties.Delegates
  *
  * - [mDragDismissVelocity] If the view is flanged above a certain speed.
  *
- * - [mDragDismissDistance] If the layout traveled a certain percentage of the screen.
+ * - [mDragDismissScreenPercentage] If the layout traveled a certain percentage of the screen.
  *
- * Created by Mohammed.Fareed on 5/6/2018.
+ * Created on 5/6/2018.
  */
-class DragDismissLayout @JvmOverloads constructor(
+internal class DragDismissLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -50,21 +52,13 @@ class DragDismissLayout @JvmOverloads constructor(
 
     private val TAG = "DragDismissLayout"
 
-    companion object {
-        const val DEFAULT_BACKGROUND_ALPHA_FRACTION = 0.8f
-        const val DEFAULT_IS_EDGE_ENABLED = false
-        const val DEFAULT_DRAG_DIRECTION: Int = DragDirections.DIRECTION_FROM_LEFT
-        const val DEFAULT_DISMISS_DISTANCE_FRACTION = 0.4f
-        val DEFAULT_DISMISS_VELOCITY_LEVEL = DismissVelocityLevel.LEVEL_3
-    }
-
     /**
      * The starting alpha of the canvas background for the dismiss background fade out effect.
      *
      * @default [DEFAULT_BACKGROUND_ALPHA_FRACTION]
      */
     private var mBackgroundAlpha =
-        Utilities.calculateAlphaFromFraction(DEFAULT_BACKGROUND_ALPHA_FRACTION)
+        Utilities.calculateAlphaFromFraction(DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION)
 
     /**
      * The distance traveled before the view initiate a dismiss on finger up.
@@ -74,26 +68,26 @@ class DragDismissLayout @JvmOverloads constructor(
      * @default [DEFAULT_DISMISS_DISTANCE_FRACTION]
      * @see mDragDismissVelocity
      */
-    private var mDragDismissDistance = DEFAULT_DISMISS_DISTANCE_FRACTION
+    private var mDragDismissScreenPercentage = DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE
 
     /**
      * There are two implemented ways to dismiss the view
      *
      * 1) [mDragDismissVelocity] If the view is flanged above a certain speed.
      *
-     * 2) [mDragDismissDistance] If the layout passed a certain percentage of the screen.
+     * 2) [mDragDismissScreenPercentage] If the layout passed a certain percentage of the screen.
      *
      * So if it's set to [DEFAULT_DISMISS_VELOCITY_LEVEL] then if the layout is dragged at speed pass [DEFAULT_DISMISS_VELOCITY_LEVEL] will be dismissed on release.
      *
      * @default [DEFAULT_DISMISS_VELOCITY_LEVEL]
-     * @see mDragDismissDistance
+     * @see mDragDismissScreenPercentage
      */
-    private var mDragDismissVelocity = DEFAULT_DISMISS_VELOCITY_LEVEL.velocity
+    private var mDragDismissVelocity = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL.velocity
 
     /**
      * If should dismiss if dragged from the edges of selected directions only.
      */
-    private var mIsEdgeEnabled = DEFAULT_IS_EDGE_ENABLED
+    private var mShouldDragEdgeOnly = DragDismissDefaults.DEFAULT_SHOULD_DRAG_EDGE_ONLY
 
     /**
      * The Currently touched edge.
@@ -106,7 +100,7 @@ class DragDismissLayout @JvmOverloads constructor(
     private lateinit var mDraggedView: View
 
     /**
-     * The selected drag directions(Can be more than one direction) from [DragDirections]
+     * The selected drag directions(Can be more than one direction) from [DragDismissDirections]
      *
      *
      * @default [DEFAULT_DRAG_DIRECTION]
@@ -143,31 +137,7 @@ class DragDismissLayout @JvmOverloads constructor(
     /**
      * The callback method after the animation is done the implementing activity will have to call it's finish
      */
-    private var mFinishCallback: (() -> Unit)? = null
-
-    /**
-     * The drag direction options to select from.
-     */
-    object DragDirections {
-        const val DIRECTION_ALL = 15
-        const val DIRECTION_FROM_TOP = 1
-        const val DIRECTION_FROM_RIGHT = 2
-        const val DIRECTION_FROM_BOTTOM = 4
-        const val DIRECTION_FROM_LEFT = 8
-    }
-
-    /**
-     * The velocity in Pixels/second that the view will be dismissed if flanged above.
-     * The higher the level the higher the speed required to dismiss
-     */
-    enum class DismissVelocityLevel(val velocity: Int) {
-        LEVEL_0(0),
-        LEVEL_1(1000),
-        LEVEL_2(2000),
-        LEVEL_3(3000),
-        LEVEL_4(4000),
-        LEVEL_5(5000),
-    }
+    private var mDismissCallback: (() -> Unit)? = null
 
     init {
         setWillNotDraw(false)
@@ -187,17 +157,17 @@ class DragDismissLayout @JvmOverloads constructor(
         val directionFlags =
             typedArray.getInt(
                 R.styleable.DragDismissLayout_draggingDirections,
-                DEFAULT_DRAG_DIRECTION
+                DragDismissDefaults.DEFAULT_DRAG_DIRECTION
             )
         mSelectedDragBackDirections =
             Utilities.extractDirectionsFromFlag(directionFlags)
 
-        mDragDismissDistance =
+        mDragDismissScreenPercentage =
             typedArray.getFraction(
-                R.styleable.DragDismissLayout_dragDismissDistanceFraction,
+                R.styleable.DragDismissLayout_dragDismissScreenPercentage,
                 1,
                 1,
-                DEFAULT_DISMISS_DISTANCE_FRACTION
+                DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE
             )
 
         mBackgroundAlpha =
@@ -206,19 +176,19 @@ class DragDismissLayout @JvmOverloads constructor(
                     R.styleable.DragDismissLayout_backgroundAlpha,
                     1,
                     1,
-                    DEFAULT_BACKGROUND_ALPHA_FRACTION
+                    DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION
                 )
             )
 
-        mIsEdgeEnabled =
+        mShouldDragEdgeOnly =
             typedArray.getBoolean(
                 R.styleable.DragDismissLayout_shouldDragEdgeOnly,
-                DEFAULT_IS_EDGE_ENABLED
+                DragDismissDefaults.DEFAULT_SHOULD_DRAG_EDGE_ONLY
             )
 
         mDragDismissVelocity = typedArray.getInt(
             R.styleable.DragDismissLayout_dragDismissVelocityLevel,
-            DEFAULT_DISMISS_VELOCITY_LEVEL.velocity
+            DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL.velocity
         )
 
         typedArray.recycle()
@@ -499,19 +469,19 @@ class DragDismissLayout @JvmOverloads constructor(
         }
 
         private fun canViewScrollLeft(innerScrollView: View): Boolean {
-            return Utilities.canViewScrollLeft(innerScrollView, mPointerX, mPointerY)
+            return innerScrollView.canViewScrollLeft(mPointerX, mPointerY)
         }
 
         private fun canViewScrollRight(innerScrollView: View): Boolean {
-            return Utilities.canViewScrollRight(innerScrollView, mPointerX, mPointerY)
+            return innerScrollView.canViewScrollRight(mPointerX, mPointerY)
         }
 
         private fun canViewScrollDown(innerScrollView: View): Boolean {
-            return Utilities.canViewScrollDown(innerScrollView, mPointerX, mPointerY)
+            return innerScrollView.canViewScrollDown(mPointerX, mPointerY)
         }
 
         private fun canViewScrollUp(innerScrollView: View): Boolean {
-            return Utilities.canViewScrollUp(innerScrollView, mPointerX, mPointerY)
+            return innerScrollView.canViewScrollUp(mPointerX, mPointerY)
         }
 
         /**
@@ -538,10 +508,10 @@ class DragDismissLayout @JvmOverloads constructor(
         }
 
         /**
-         *  If the distance traveled greater than the set [mDragDismissDistance] then settle the view out of screen
+         *  If the distance traveled greater than the set [mDragDismissScreenPercentage] then settle the view out of screen
          */
         private fun distanceRelease(): Boolean {
-            if (mSwipeBackFraction >= mDragDismissDistance) {
+            if (mSwipeBackFraction >= mDragDismissScreenPercentage) {
                 if (abs(mLeftOffset) > abs(mTopOffset)) {
                     if (mLeftOffset > 0) {
                         settleViewAt(mWidth, mTopOffset)
@@ -572,7 +542,7 @@ class DragDismissLayout @JvmOverloads constructor(
     }
 
     private fun edgeSwipe(): Boolean {
-        if (mIsEdgeEnabled) {
+        if (mShouldDragEdgeOnly) {
             var isTouchEnabled = false
             if (selectedBottomDragBack())
                 isTouchEnabled = mTouchedEdge == ViewDragHelper.EDGE_BOTTOM
@@ -588,19 +558,19 @@ class DragDismissLayout @JvmOverloads constructor(
     }
 
     private fun selectedAllDragBack() =
-        mSelectedDragBackDirections.contains(DragDirections.DIRECTION_ALL)
+        mSelectedDragBackDirections.contains(DragDismissDirections.DIRECTION_ALL)
 
     private fun selectedBottomDragBack() =
-        mSelectedDragBackDirections.contains(DragDirections.DIRECTION_FROM_BOTTOM)
+        mSelectedDragBackDirections.contains(DragDismissDirections.DIRECTION_FROM_BOTTOM)
 
     private fun selectedTopDragBack() =
-        mSelectedDragBackDirections.contains(DragDirections.DIRECTION_FROM_TOP)
+        mSelectedDragBackDirections.contains(DragDismissDirections.DIRECTION_FROM_TOP)
 
     private fun selectedRightDragBack() =
-        mSelectedDragBackDirections.contains(DragDirections.DIRECTION_FROM_RIGHT)
+        mSelectedDragBackDirections.contains(DragDismissDirections.DIRECTION_FROM_RIGHT)
 
     private fun selectedLeftDragBack() =
-        mSelectedDragBackDirections.contains(DragDirections.DIRECTION_FROM_LEFT)
+        mSelectedDragBackDirections.contains(DragDismissDirections.DIRECTION_FROM_LEFT)
 
     /**
      * Moves the view's left and top.
@@ -613,11 +583,11 @@ class DragDismissLayout @JvmOverloads constructor(
     private fun finish() {
         if (context is Activity)
             (context as Activity).overridePendingTransition(0, 0) // remove the ending transition
-        if (mFinishCallback == null) {
+        if (mDismissCallback == null) {
             if (context is Activity)
                 (context as Activity).finish()
         } else {
-            mFinishCallback!!.invoke()
+            mDismissCallback!!.invoke()
         }
     }
 
@@ -635,26 +605,26 @@ class DragDismissLayout @JvmOverloads constructor(
     }
 
     fun getDragDismissDistance(): Float {
-        return mDragDismissDistance
+        return mDragDismissScreenPercentage
     }
 
     fun setDragDismissDistance(@FloatRange(from = 0.0, to = 1.0) screenDragDismiss: Float) {
-        mDragDismissDistance = screenDragDismiss
+        mDragDismissScreenPercentage = screenDragDismiss
     }
 
-    fun setDragDismissVelocityLevel(dismissVelocityLevel: DismissVelocityLevel) {
-        mDragDismissVelocity = dismissVelocityLevel.velocity
+    fun setDragDismissVelocityLevel(dragDismissVelocityLevel: DragDismissVelocityLevel) {
+        mDragDismissVelocity = dragDismissVelocityLevel.velocity
     }
 
-    fun isEdgeEnabled(): Boolean {
-        return mIsEdgeEnabled
+    fun shouldDragEdgeOnly(): Boolean {
+        return mShouldDragEdgeOnly
     }
 
-    fun setEdgeEnabled(edgeEnabled: Boolean) {
-        mIsEdgeEnabled = edgeEnabled
+    fun shouldDragEdgeOnly(shouldDragEdgeOnly: Boolean) {
+        mShouldDragEdgeOnly = shouldDragEdgeOnly
     }
 
-    fun setFinishCallback(finishCallback: (() -> Unit)?) {
-        mFinishCallback = finishCallback
+    fun setDismissCallback(dismissCallback: (() -> Unit)?) {
+        mDismissCallback = dismissCallback
     }
 }

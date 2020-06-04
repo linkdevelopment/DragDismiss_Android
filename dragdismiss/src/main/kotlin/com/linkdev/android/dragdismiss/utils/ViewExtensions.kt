@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.linkdev.android.dragdismiss
+package com.linkdev.android.dragdismiss.utils
 
 import android.graphics.Rect
 import android.view.View
@@ -25,7 +25,6 @@ import android.widget.ScrollView
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-
 
 internal fun View.contains(x: Float, y: Float): Boolean {
     val localRect = Rect()
@@ -41,4 +40,24 @@ internal fun View.isScrollableView(): Boolean {
             || this is RecyclerView
             || this is ViewPager
             || this is WebView
+}
+
+internal fun View.canViewScrollUp(x: Float, y: Float): Boolean {
+    return if (!contains(x, y)) false
+    else canScrollVertically(1)
+}
+
+internal fun View.canViewScrollDown(x: Float, y: Float): Boolean {
+    return if (!contains(x, y)) false
+    else canScrollVertically(-1)
+}
+
+internal fun View.canViewScrollRight(x: Float, y: Float): Boolean {
+    return if (!contains(x, y)) false
+    else canScrollHorizontally(-1)
+}
+
+internal fun View.canViewScrollLeft(x: Float, y: Float): Boolean {
+    return if (!contains(x, y)) false
+    else canScrollHorizontally(1)
 }

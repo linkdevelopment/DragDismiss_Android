@@ -1,13 +1,13 @@
 package com.linkdev.dragDismiss.utils
 
 import android.os.Parcelable
-import com.linkdev.android.dragdismiss.DragDismissLayout
+import com.linkdev.android.dragdismiss.layout.DragDismissVelocityLevel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class SampleDismissAttrs(
-    val dragDismissFactor: Float,
-    val dragDismissVelocityLevel: DragDismissLayout.DismissVelocityLevel,
+    val dragDismissScreenPercentage: Float,
+    val dragDragDismissVelocityLevel: DragDismissVelocityLevel,
     val shouldDragEdgeOnly: Boolean,
     val draggingDirections: Int,
     val backgroundAlpha: Float

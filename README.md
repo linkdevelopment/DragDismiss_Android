@@ -16,35 +16,7 @@ DragDismissLayout is a ViewGroup, **Built** using the ViewDragHelper utility cla
 - Kotlin-Idiomatic, Written completely in kotlin.
 
 # Start using DragDismiss
-`latestVersion` is ![](https://img.shields.io/badge/platform-android-brightgreen.svg)
-
-Add the following in your app's `build.gradle` file:
-```groovy
-repositories {
-    jcenter()
-}
-dependencies {
-    implementation 'com.linkdev.android:dragdismiss:${latestVersion}'
-}
-```
-First wrap the target layout with `DragDismissLayout` ViewGroup
-```xml
-<com.linkdev.android.dragdismiss.DragDismissLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/dragDismissLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:dragDismissDistanceFraction="50%"
-    app:dragDismissVelocityLevel="level_3"
-    app:draggingDirections="fromLeft|fromRight"
-    app:backgroundAlpha="50%"
-    app:shouldDragEdgeOnly="false">
-
-</com.linkdev.android.dragdismiss.DragDismissLayout>
-```
-
-### With activities
-Use `Theme.DragDismiss` as your activity's theme
+**Firstly,** you will have to use `Theme.DragDismiss` as your activity's theme
 ```xml
 <activity
     android:name=".ActivityName"
@@ -56,14 +28,28 @@ Or add these to your existing Theme for activities that implement DragDismiss
 <item name="android:windowIsTranslucent">true</item>
 <item name="android:windowBackground">@android:color/transparent</item>
 ```
-
-### With fragments
-Due to the view destruction of the replaced Fragments, Fragments that are implementing DragDismissLayout has to be shown using `fragmentTransaction.add()`.
-
-To prevent the dismissal of the containing activity, setFinishCallback for a callback when the view settles out of the screen.
+**Then,** You can set the DragDismiss directly from your onCreate method like below
 ```kotlin
-dragDismissLayout.setFinishCallback {navigateUp()}
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    DragDismiss.create(mContext)
+        .attach(this, R.layout.activity_layout_name)
+}
 ```
+**Note** `setContentView()` is not set.
+
+
+**Custmizations,** For extra custmizations for your DragDismissLayout check below.
+```kotlin
+DragDismiss.create(mContext)
+    .setDragDismissScreenPercentage(0.5f)
+    .setDragDismissVelocityLevel(DragDismissVelocityLevel.LEVEL_3)
+    .setShouldDragEdgeOnly(false)
+    .setDragDismissDraggingDirections(DragDismissDirections.DIRECTION_FROM_LEFT or DragDismissDirections.DIRECTION_FROM_RIGHT)
+    .setDragDismissBackgroundAlpha(0.8f)
+    .attach(this, R.layout.activity_layout_name)
+```
+You can learn more and play around with the attrs in the sample by cloning the repo.
 
 # Contribute
 Contributions and contributors are always welcome!, Help us make DragDismiss better and give back to the community.
@@ -72,7 +58,7 @@ Found an issue or feel like contributing? Please use [Github][issues]
 Have a question? Please use Stackoverflow with tag [DragDismissLayout][stackoverflow]
 
 # License
-    Copyright 2015 Link Development
+    Copyright 2020-present Link Development
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -88,3 +74,4 @@ Have a question? Please use Stackoverflow with tag [DragDismissLayout][stackover
 
  [issues]: https://github.com/DragDismissLayout/issues
  [stackoverflow]: http://stackoverflow.com/questions/tagged/DragDismissLayout
+ 

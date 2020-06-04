@@ -4,7 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import com.linkdev.android.dragdismiss.DragDismissLayout
+import com.linkdev.android.dragdismiss.layout.DragDismissDirections
+import com.linkdev.android.dragdismiss.layout.DragDismissVelocityLevel
 import com.linkdev.dragDismiss.sample_activities.ActivityHorizontalRecyclerView
 import com.linkdev.dragDismiss.sample_activities.ActivityNestedScrollView
 import com.linkdev.dragDismiss.sample_activities.ActivityRecyclerView
@@ -15,14 +16,13 @@ import kotlinx.android.synthetic.main.section_dragging_directions.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var mContext: Context? = null
+    private var mContext: Context = this
 
     val SEEKBAR_DISTANCE_MIN = 30
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mContext = this
         setSampleActivitiesClickListeners()
 
         setupDragDismissAttrs()
@@ -31,19 +31,19 @@ class MainActivity : AppCompatActivity() {
     private fun setSampleActivitiesClickListeners() {
         btnRecyclerView.setOnClickListener {
             ActivityRecyclerView.startActivity(
-                mContext!!,
+                mContext,
                 getDragDismissAttrs()
             )
         }
         btnNestedScrollView.setOnClickListener {
             ActivityNestedScrollView.startActivity(
-                mContext!!,
+                mContext,
                 getDragDismissAttrs()
             )
         }
         btnHorizontalScrollView.setOnClickListener {
             ActivityHorizontalRecyclerView.startActivity(
-                mContext!!, getDragDismissAttrs()
+                mContext, getDragDismissAttrs()
             )
         }
     }
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     private fun getDragDismissAttrs(): SampleDismissAttrs {
         val selectedDirections = getSelectedDirections()
         val velocityLevel =
-            DragDismissLayout.DismissVelocityLevel.values()[seekbarVelocity.progress]
+            DragDismissVelocityLevel.values()[seekbarVelocity.progress]
         val dragDismissFactor = (seekbarDistance.progress.toFloat() + SEEKBAR_DISTANCE_MIN) / 100
         val backgroundAlpha = seekbarBackgroundAlpha.progress.toFloat() / 100
 
@@ -66,18 +66,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun getSelectedDirections(): Int {
         if (checkboxAll.isChecked) {
-            return DragDismissLayout.DragDirections.DIRECTION_ALL
+            return DragDismissDirections.DIRECTION_ALL
         }
         val selectedDirections = arrayListOf<Int>()
 
         if (checkboxBottom.isChecked)
-            selectedDirections.add(DragDismissLayout.DragDirections.DIRECTION_FROM_BOTTOM)
+            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_BOTTOM)
         if (checkboxTop.isChecked)
-            selectedDirections.add(DragDismissLayout.DragDirections.DIRECTION_FROM_TOP)
+            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_TOP)
         if (checkboxLeft.isChecked)
-            selectedDirections.add(DragDismissLayout.DragDirections.DIRECTION_FROM_LEFT)
+            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_LEFT)
         if (checkboxRight.isChecked)
-            selectedDirections.add(DragDismissLayout.DragDirections.DIRECTION_FROM_RIGHT)
+            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_RIGHT)
 
         if (selectedDirections.isEmpty())
             return 0
