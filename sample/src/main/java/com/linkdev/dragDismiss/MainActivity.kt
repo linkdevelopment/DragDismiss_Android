@@ -1,125 +1,32 @@
 package com.linkdev.dragDismiss
 
-import android.content.Context
 import android.os.Bundle
-import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import com.linkdev.android.dragdismiss.layout.DragDismissDirections
-import com.linkdev.android.dragdismiss.layout.DragDismissVelocityLevel
-import com.linkdev.dragDismiss.sample_activities.ActivityHorizontalRecyclerView
-import com.linkdev.dragDismiss.sample_activities.ActivityNestedScrollView
-import com.linkdev.dragDismiss.sample_activities.ActivityRecyclerView
+import androidx.fragment.app.FragmentTransaction
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.section_drag_dismiss_values.*
-import kotlinx.android.synthetic.main.section_dragging_directions.*
 
-class MainActivity : AppCompatActivity() {
-
-    private var mContext: Context = this
-
-    val SEEKBAR_DISTANCE_MIN = 30
+class MainActivity : AppCompatActivity(), MainFragment.IMainFragmentInteraction {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSampleActivitiesClickListeners()
 
-        setupDragDismissAttrs()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, MainFragment.newInstance(), MainFragment.TAG)
+                .commit()
+        }
     }
 
-    private fun setSampleActivitiesClickListeners() {
-        btnRecyclerView.setOnClickListener {
-            ActivityRecyclerView.startActivity(
-                mContext,
-                getDragDismissAttrs()
+    override fun onFragmentClicked(dragDismissAttrs: SampleDismissAttrs) {
+        supportFragmentManager.beginTransaction()
+            .add(
+                R.id.fragmentContainer,
+                SampleFragment.newInstance(dragDismissAttrs),
+                SampleFragment.TAG
             )
-        }
-        btnNestedScrollView.setOnClickListener {
-            ActivityNestedScrollView.startActivity(
-                mContext,
-                getDragDismissAttrs()
-            )
-        }
-        btnHorizontalScrollView.setOnClickListener {
-            ActivityHorizontalRecyclerView.startActivity(
-                mContext, getDragDismissAttrs()
-            )
-        }
-    }
-
-    private fun getDragDismissAttrs(): SampleDismissAttrs {
-        val selectedDirections = getSelectedDirections()
-        val velocityLevel =
-            DragDismissVelocityLevel.values()[seekbarVelocity.progress]
-        val dragDismissFactor = (seekbarDistance.progress.toFloat() + SEEKBAR_DISTANCE_MIN) / 100
-        val backgroundAlpha = seekbarBackgroundAlpha.progress.toFloat() / 100
-
-        return SampleDismissAttrs(
-            dragDismissFactor,
-            velocityLevel,
-            checkboxEdgeDrag.isChecked,
-            selectedDirections,
-            backgroundAlpha
-        )
-    }
-
-    private fun getSelectedDirections(): Int {
-        if (checkboxAll.isChecked) {
-            return DragDismissDirections.DIRECTION_ALL
-        }
-        val selectedDirections = arrayListOf<Int>()
-
-        if (checkboxBottom.isChecked)
-            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_BOTTOM)
-        if (checkboxTop.isChecked)
-            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_TOP)
-        if (checkboxLeft.isChecked)
-            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_LEFT)
-        if (checkboxRight.isChecked)
-            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_RIGHT)
-
-        if (selectedDirections.isEmpty())
-            return 0
-
-        var directions = 0
-        for (direction in selectedDirections)
-            directions = directions or direction
-
-        return directions
-    }
-
-    private fun setupDragDismissAttrs() {
-        seekbarVelocity.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                tvVelocityProgress.text = seekbarVelocity.progress.toString()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-
-        seekbarDistance.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                tvDistanceProgress.text =
-                    (seekbarDistance.progress + SEEKBAR_DISTANCE_MIN).toString()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-
-        seekbarBackgroundAlpha.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                tvAlphaProgress.text =
-                    (seekbarBackgroundAlpha.progress).toString()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+            .addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
     }
 }

@@ -18,28 +18,29 @@ package com.linkdev.android.dragdismiss.containers
 
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.linkdev.android.dragdismiss.layout.DragDismissLayout
 
-// Created on 6/3/2020.
+// Created on 29/9/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
-internal class ActivityContainer : IContainer {
+internal class FragmentContainer : IContainer {
 
-    private lateinit var mContainingActivity: AppCompatActivity
+    private lateinit var mContainingFragment: Fragment
 
     override fun attach(
         container: Any,
         @LayoutRes layoutID: Int,
         dragDismissLayout: DragDismissLayout
     ): View {
-        check(container is AppCompatActivity) { "ActivityContainer called with a non AppCompatActivity container" }
+        check(container is Fragment) { "FragmentContainer called with a non Fragment container" }
 
-        mContainingActivity = container
+        mContainingFragment = container
 
         return container.layoutInflater.inflate(layoutID, dragDismissLayout)
     }
 
     override fun onDismiss() {
-        mContainingActivity.finish()
+        mContainingFragment.fragmentManager?.beginTransaction()
+            ?.remove(mContainingFragment)?.commit()
     }
 }

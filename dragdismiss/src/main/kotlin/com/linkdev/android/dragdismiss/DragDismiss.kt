@@ -17,9 +17,12 @@
 package com.linkdev.android.dragdismiss
 
 import android.content.Context
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.linkdev.android.dragdismiss.containers.ActivityContainer
+import com.linkdev.android.dragdismiss.containers.FragmentContainer
 import com.linkdev.android.dragdismiss.containers.IContainer
 import com.linkdev.android.dragdismiss.layout.DragDismissLayout
 import com.linkdev.android.dragdismiss.layout.DragDismissVelocityLevel
@@ -40,17 +43,20 @@ class DragDismiss private constructor(private val mContext: Context) {
 
     private val mDragDismissProperties = DragDismissProperties()
 
-    fun attach(container: Any, @LayoutRes layoutID: Int) {
+    fun attach(container: Any, @LayoutRes layoutID: Int): View {
         val dragDismissLayout = constructDragDismissLayout()
 
-        when (container) {
+        mContainer = when (container) {
             is AppCompatActivity -> {
-                mContainer = ActivityContainer()
+                ActivityContainer()
+            }
+            is Fragment -> {
+                FragmentContainer()
             }
             else -> throw NotImplementedError("This container is not supported yet.")
         }
 
-        mContainer.attach(container, layoutID, dragDismissLayout)
+        return mContainer.attach(container, layoutID, dragDismissLayout)
     }
 
     fun setDragDismissAttrs(

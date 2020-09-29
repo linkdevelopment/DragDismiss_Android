@@ -3,6 +3,7 @@ package com.linkdev.dragDismiss.sample_activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.linkdev.android.dragdismiss.DragDismiss
 import com.linkdev.dragDismiss.R
@@ -24,15 +25,19 @@ class ActivityNestedScrollView : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(getDragDismissContentView())
+
+        setSupportActionBar(toolbar)
+    }
+
+    private fun getDragDismissContentView(): View {
         val sampleAttrs = intent.getParcelableExtra<SampleDismissAttrs>(Extras.EXTRA_SAMPLE_ATTRS)!!
-        DragDismiss.create(mContext)
+        return DragDismiss.create(mContext)
             .setDragDismissScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
             .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
             .setShouldDragEdgeOnly(sampleAttrs.shouldDragEdgeOnly)
             .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
             .setDragDismissBackgroundAlpha(sampleAttrs.backgroundAlpha)
             .attach(this, R.layout.activity_nested_scroll_view)
-
-        setSupportActionBar(toolbar)
     }
 }

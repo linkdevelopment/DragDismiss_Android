@@ -35,20 +35,24 @@ class ActivityRecyclerView : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val sampleAttrs = intent.getParcelableExtra<SampleDismissAttrs>(Extras.EXTRA_SAMPLE_ATTRS)!!
-        DragDismiss.create(mContext)
-            .setDragDismissScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
-            .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
-            .setShouldDragEdgeOnly(sampleAttrs.shouldDragEdgeOnly)
-            .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
-            .setDragDismissBackgroundAlpha(sampleAttrs.backgroundAlpha)
-            .attach(this, R.layout.activity_recycler_view)
+        setContentView(getDragDismissContentView())
 
         setSupportActionBar(toolbar)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         initDataList()
         recyclerView.adapter = adapter
+    }
+
+    private fun getDragDismissContentView(): View {
+        val sampleAttrs = intent.getParcelableExtra<SampleDismissAttrs>(Extras.EXTRA_SAMPLE_ATTRS)!!
+        return DragDismiss.create(mContext)
+            .setDragDismissScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
+            .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
+            .setShouldDragEdgeOnly(sampleAttrs.shouldDragEdgeOnly)
+            .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
+            .setDragDismissBackgroundAlpha(sampleAttrs.backgroundAlpha)
+            .attach(this, R.layout.activity_recycler_view)
     }
 
     private fun initDataList() {

@@ -16,6 +16,7 @@
 
 package com.linkdev.android.dragdismiss.containers
 
+import android.view.View
 import androidx.annotation.LayoutRes
 import com.linkdev.android.dragdismiss.layout.DragDismissLayout
 
@@ -23,7 +24,7 @@ import com.linkdev.android.dragdismiss.layout.DragDismissLayout
 // Copyright (c) 2020 Link Development All rights reserved.
 internal interface IContainer {
 
-    fun attach(container: Any, @LayoutRes layoutID: Int, dragDismissLayout: DragDismissLayout)
+    fun attach(container: Any, @LayoutRes layoutID: Int, dragDismissLayout: DragDismissLayout): View
 
     fun onDismiss()
 }
