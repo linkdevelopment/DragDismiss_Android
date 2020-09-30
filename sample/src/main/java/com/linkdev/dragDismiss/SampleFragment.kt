@@ -11,7 +11,7 @@ import com.linkdev.dragDismiss.utils.SampleDismissAttrs
 
 // Created by Mohammed Fareed on 9/28/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
-class SampleFragment : Fragment(R.layout.fragment_sample) {
+class SampleFragment : Fragment() {
 
     companion object {
         const val TAG = "SampleFragment"
@@ -28,6 +28,10 @@ class SampleFragment : Fragment(R.layout.fragment_sample) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return getDragDismissView()
+    }
+
+    private fun getDragDismissView(): View {
         val sampleAttrs = arguments?.getParcelable<SampleDismissAttrs>(Extras.EXTRA_SAMPLE_ATTRS)!!
         return DragDismiss.create(requireActivity())
             .setDragDismissScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
