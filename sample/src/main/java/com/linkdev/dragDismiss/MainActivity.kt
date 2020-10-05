@@ -3,6 +3,7 @@ package com.linkdev.dragDismiss
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
+import com.linkdev.dragDismiss.sample_fragments.SampleFragment
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
 
 class MainActivity : AppCompatActivity(), MainFragment.IMainFragmentInteraction {

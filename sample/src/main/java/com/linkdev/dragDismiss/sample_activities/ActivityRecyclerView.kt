@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.linkdev.android.dragdismiss.DragDismiss
-import com.linkdev.android.dragdismiss.layout.DragDismissVelocityLevel
 import com.linkdev.dragDismiss.R
 import com.linkdev.dragDismiss.utils.Extras
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
@@ -31,7 +30,7 @@ class ActivityRecyclerView : AppCompatActivity() {
 
     private var mContext: Context = this
 
-    private var mDataList = ArrayList<Int>()
+    private var mDataList = arrayListOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +38,11 @@ class ActivityRecyclerView : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this)
-        initDataList()
         recyclerView.adapter = adapter
     }
 
@@ -53,12 +55,6 @@ class ActivityRecyclerView : AppCompatActivity() {
             .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
             .setDragDismissBackgroundAlpha(sampleAttrs.backgroundAlpha)
             .attach(this, R.layout.activity_recycler_view)
-    }
-
-    private fun initDataList() {
-        for (i in 0..10) {
-            mDataList.add(i)
-        }
     }
 
     private val adapter: RecyclerView.Adapter<ViewHolder> =

@@ -1,4 +1,4 @@
-package com.linkdev.dragDismiss
+package com.linkdev.dragDismiss.sample_fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.linkdev.android.dragdismiss.DragDismiss
+import com.linkdev.dragDismiss.R
 import com.linkdev.dragDismiss.utils.Extras
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
 
