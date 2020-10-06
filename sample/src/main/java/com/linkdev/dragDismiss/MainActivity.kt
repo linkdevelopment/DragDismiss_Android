@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity(), MainFragment.IMainFragmentInteraction 
                 SampleFragment.TAG
             )
             .addToBackStack(null)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
     }
 }

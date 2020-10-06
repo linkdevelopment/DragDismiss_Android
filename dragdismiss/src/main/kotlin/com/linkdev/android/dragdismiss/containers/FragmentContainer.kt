@@ -19,7 +19,8 @@ package com.linkdev.android.dragdismiss.containers
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.linkdev.android.dragdismiss.layout.DragDismissLayout
+import com.linkdev.android.dragdismiss.view.DragDismissLayout
+import java.lang.Exception
 
 // Created on 29/9/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
@@ -40,7 +41,11 @@ internal class FragmentContainer : IContainer {
     }
 
     override fun onDismiss() {
-        mContainingFragment.fragmentManager?.beginTransaction()
-            ?.remove(mContainingFragment)?.commit()
+        val fragmentManager = mContainingFragment.fragmentManager
+
+        if (fragmentManager?.findFragmentById(mContainingFragment.id) == null)
+            throw Exception("Fragment not is not added")
+
+        fragmentManager.beginTransaction().remove(mContainingFragment).commit()
     }
 }

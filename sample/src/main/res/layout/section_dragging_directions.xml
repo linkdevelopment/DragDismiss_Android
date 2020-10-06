@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="230dp"
+    android:layout_height="wrap_content"
     android:layout_margin="16dp"
     android:background="@color/colorPrimary"
     android:paddingVertical="@dimen/marginLarge">
@@ -12,7 +12,7 @@
         style="@style/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dragging directions"
+        android:text="@string/dragging_directions"
         app:layout_constraintStart_toEndOf="@id/guidelineStart"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginMedium"
         android:paddingHorizontal="@dimen/marginLarge"
-        android:text="All"
+        android:text="@string/all"
         app:layout_constraintBottom_toTopOf="@id/checkboxBottom"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
@@ -35,7 +35,7 @@
         android:layout_marginTop="@dimen/marginMedium"
         android:checked="true"
         android:paddingHorizontal="@dimen/marginLarge"
-        android:text="Left"
+        android:text="@string/left"
         app:layout_constraintBottom_toBottomOf="@id/checkboxAll"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/checkboxAll"
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginMedium"
         android:paddingHorizontal="@dimen/marginLarge"
-        android:text="Right"
+        android:text="@string/right"
         app:layout_constraintBottom_toBottomOf="@id/checkboxAll"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintTop_toTopOf="@id/checkboxAll" />
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginMedium"
         android:paddingHorizontal="@dimen/marginLarge"
-        android:text="Top"
+        android:text="@string/top"
         app:layout_constraintBottom_toTopOf="@id/checkboxAll"
         app:layout_constraintStart_toStartOf="@id/checkboxAll"
         app:layout_constraintTop_toBottomOf="@id/tvDraggingDirection"
@@ -70,20 +70,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginMedium"
         android:paddingHorizontal="@dimen/marginLarge"
-        android:text="Bottom"
-        app:layout_constraintBottom_toTopOf="@id/checkboxEdgeDrag"
+        android:text="@string/bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/checkboxAll"
         app:layout_constraintTop_toBottomOf="@id/checkboxAll" />
-
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkboxEdgeDrag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginMedium"
-        android:paddingHorizontal="@dimen/marginLarge"
-        android:text="Edge dragging"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart" />
 
     <include layout="@layout/view_guideline_start" />
 

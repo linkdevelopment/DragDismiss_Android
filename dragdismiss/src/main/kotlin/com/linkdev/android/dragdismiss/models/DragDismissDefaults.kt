@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.linkdev.android.dragdismiss.utils
+package com.linkdev.android.dragdismiss.models
 
-import com.linkdev.android.dragdismiss.layout.DragDismissDirections
-import com.linkdev.android.dragdismiss.layout.DragDismissVelocityLevel
+import com.linkdev.android.dragdismiss.models.DragDismissDirections
+import com.linkdev.android.dragdismiss.models.DragDismissVelocityLevel
 
-// Created by Mohammed Fareed on 6/3/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
 object DragDismissDefaults {
     const val DEFAULT_DISMISS_SCREEN_PERCENTAGE = 0.4f

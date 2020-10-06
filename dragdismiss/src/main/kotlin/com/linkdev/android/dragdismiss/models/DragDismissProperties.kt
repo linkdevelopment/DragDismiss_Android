@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.linkdev.android.dragdismiss.utils
-
-import com.linkdev.android.dragdismiss.layout.DragDismissVelocityLevel
+package com.linkdev.android.dragdismiss.models
 
 // Created on 6/3/2020.
 // Copyright (c) 2020 Link Development All rights reserved.

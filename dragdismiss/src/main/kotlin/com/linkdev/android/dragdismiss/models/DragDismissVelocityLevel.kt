@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.linkdev.android.dragdismiss.layout
+package com.linkdev.android.dragdismiss.models
 
 /**
- * The drag direction options to select from.
+ * The velocity in Pixels/second that the view will be dismissed if flanged above.
+ * The higher the level the higher the speed required to dismiss
  */
-object DragDismissDirections {
-    const val DIRECTION_ALL = 15
-    const val DIRECTION_FROM_TOP = 1
-    const val DIRECTION_FROM_RIGHT = 2
-    const val DIRECTION_FROM_BOTTOM = 4
-    const val DIRECTION_FROM_LEFT = 8
+enum class DragDismissVelocityLevel(val velocity: Int) {
+    LEVEL_0(0),
+    LEVEL_1(1000),
+    LEVEL_2(2000),
+    LEVEL_3(3000),
+    LEVEL_4(4000),
+    LEVEL_5(5000),
 }

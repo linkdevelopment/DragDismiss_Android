@@ -2,10 +2,11 @@ package com.linkdev.dragDismiss
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.CompoundButton
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
-import com.linkdev.android.dragdismiss.layout.DragDismissDirections
-import com.linkdev.android.dragdismiss.layout.DragDismissVelocityLevel
+import com.linkdev.android.dragdismiss.models.DragDismissDirections
+import com.linkdev.android.dragdismiss.models.DragDismissVelocityLevel
 import com.linkdev.dragDismiss.sample_activities.ActivityHorizontalRecyclerView
 import com.linkdev.dragDismiss.sample_activities.ActivityNestedScrollView
 import com.linkdev.dragDismiss.sample_activities.ActivityRecyclerView
@@ -14,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.section_drag_dismiss_values.*
 import kotlinx.android.synthetic.main.section_dragging_directions.*
 
-// Created by Mohammed Fareed on 9/28/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
 class MainFragment : Fragment(R.layout.fragment_main) {
 
@@ -22,7 +22,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var mContext: Context
 
     companion object {
-        const val SEEKBAR_DISTANCE_MIN = 30
+        const val SEEKBAR_SCREEN_PERCENTAGE_MIN = 30
         const val TAG = "MainFragment"
 
         fun newInstance() = MainFragment()
@@ -36,28 +36,35 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mContext = requireActivity()
+
+        setListeners()
+    }
+
+    private fun setListeners() {
         setSampleActivitiesClickListeners()
 
         setupDragDismissAttrs()
+
+        setCheckListeners()
+    }
+
+    private fun setCheckListeners() {
+        checkboxAll.setOnCheckedChangeListener { com, isChecked -> onAllChecked(com, isChecked) }
+        checkboxTop.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
+        checkboxBottom.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
+        checkboxLeft.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
+        checkboxRight.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
     }
 
     private fun setSampleActivitiesClickListeners() {
         btnRecyclerView.setOnClickListener {
-            ActivityRecyclerView.startActivity(
-                mContext,
-                getDragDismissAttrs()
-            )
+            ActivityRecyclerView.startActivity(mContext, getDragDismissAttrs())
         }
         btnNestedScrollView.setOnClickListener {
-            ActivityNestedScrollView.startActivity(
-                mContext,
-                getDragDismissAttrs()
-            )
+            ActivityNestedScrollView.startActivity(mContext, getDragDismissAttrs())
         }
         btnHorizontalScrollView.setOnClickListener {
-            ActivityHorizontalRecyclerView.startActivity(
-                mContext, getDragDismissAttrs()
-            )
+            ActivityHorizontalRecyclerView.startActivity(mContext, getDragDismissAttrs())
         }
         btnFragment.setOnClickListener {
             mListener.onFragmentClicked(getDragDismissAttrs())
@@ -68,66 +75,61 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val selectedDirections = getSelectedDirections()
         val velocityLevel =
             DragDismissVelocityLevel.values()[seekbarVelocity.progress]
-        val dragDismissFactor = (seekbarDistance.progress.toFloat() + SEEKBAR_DISTANCE_MIN) / 100
-        val backgroundAlpha = seekbarBackgroundAlpha.progress.toFloat() / 100
+        val dragDismissScreenPercentage =
+            (seekbarDistance.progress.toFloat() + SEEKBAR_SCREEN_PERCENTAGE_MIN) / 100
+        val backgroundVisibility = seekbarBackgroundAlpha.progress.toFloat() / 100
 
         return SampleDismissAttrs(
-            dragDismissFactor,
+            dragDismissScreenPercentage,
             velocityLevel,
             checkboxEdgeDrag.isChecked,
             selectedDirections,
-            backgroundAlpha
+            backgroundVisibility
         )
     }
 
     private fun getSelectedDirections(): Int {
-        if (checkboxAll.isChecked) {
+        if (checkboxAll.isChecked)
             return DragDismissDirections.DIRECTION_ALL
-        }
-        val selectedDirections = arrayListOf<Int>()
-
-        if (checkboxBottom.isChecked)
-            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_BOTTOM)
-        if (checkboxTop.isChecked)
-            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_TOP)
-        if (checkboxLeft.isChecked)
-            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_LEFT)
-        if (checkboxRight.isChecked)
-            selectedDirections.add(DragDismissDirections.DIRECTION_FROM_RIGHT)
-
-        if (selectedDirections.isEmpty())
-            return 0
 
         var directions = 0
-        for (direction in selectedDirections)
-            directions = directions or direction
+        if (checkboxBottom.isChecked)
+            directions = directions or DragDismissDirections.DIRECTION_FROM_BOTTOM
+        if (checkboxTop.isChecked)
+            directions = directions or DragDismissDirections.DIRECTION_FROM_TOP
+        if (checkboxLeft.isChecked)
+            directions = directions or DragDismissDirections.DIRECTION_FROM_LEFT
+        if (checkboxRight.isChecked)
+            directions = directions or DragDismissDirections.DIRECTION_FROM_RIGHT
 
         return directions
     }
 
     private fun setupDragDismissAttrs() {
-        seekbarVelocity.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                tvVelocityProgress.text = seekbarVelocity.progress.toString()
-            }
+        seekbarVelocity.setOnSeekBarChangeListener(onSeekBarVelocityChangeListener())
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+        seekbarDistance.setOnSeekBarChangeListener(onSeekBarDistanceChangeListener())
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+        seekbarBackgroundAlpha.setOnSeekBarChangeListener(onSeekBarBackgroundChangeListener())
+    }
 
-        seekbarDistance.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                tvDistanceProgress.text =
-                    (seekbarDistance.progress + SEEKBAR_DISTANCE_MIN).toString()
-            }
+    private fun onDirectionChecked() {
+        checkboxAll.isChecked =
+            checkboxTop.isChecked && checkboxBottom.isChecked && checkboxLeft.isChecked && checkboxRight.isChecked
+    }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+    private fun onAllChecked(compoundButton: CompoundButton, checked: Boolean) {
+        if (!compoundButton.isPressed)
+            return
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+        checkboxTop.isChecked = checked
+        checkboxBottom.isChecked = checked
+        checkboxLeft.isChecked = checked
+        checkboxRight.isChecked = checked
+    }
 
-        seekbarBackgroundAlpha.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+    private fun onSeekBarBackgroundChangeListener(): SeekBar.OnSeekBarChangeListener {
+        return object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 tvAlphaProgress.text =
                     (seekbarBackgroundAlpha.progress).toString()
@@ -136,7 +138,32 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+        }
+    }
+
+    private fun onSeekBarDistanceChangeListener(): SeekBar.OnSeekBarChangeListener {
+        return object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                tvDistanceProgress.text =
+                    (seekbarDistance.progress + SEEKBAR_SCREEN_PERCENTAGE_MIN).toString()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        }
+    }
+
+    private fun onSeekBarVelocityChangeListener(): SeekBar.OnSeekBarChangeListener {
+        return object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                tvVelocityProgress.text = seekbarVelocity.progress.toString()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        }
     }
 
     interface IMainFragmentInteraction {

@@ -10,7 +10,6 @@ import com.linkdev.dragDismiss.R
 import com.linkdev.dragDismiss.utils.Extras
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
 
-// Created by Mohammed Fareed on 9/28/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
 class SampleFragment : Fragment() {
 

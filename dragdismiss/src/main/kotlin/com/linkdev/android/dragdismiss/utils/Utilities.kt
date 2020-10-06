@@ -19,8 +19,7 @@ package com.linkdev.android.dragdismiss.utils
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
-import com.linkdev.android.dragdismiss.layout.DragDismissDirections
-import com.linkdev.android.dragdismiss.layout.DragDismissLayout
+import com.linkdev.android.dragdismiss.models.DragDismissDirections
 import kotlin.math.roundToInt
 
 /**

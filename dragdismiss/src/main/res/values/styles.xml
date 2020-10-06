@@ -10,7 +10,6 @@
     limitations under the License.-->
 
 <resources>
-
     <style name="DragDismissTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsTranslucent">true</item>

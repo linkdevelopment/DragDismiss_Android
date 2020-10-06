@@ -1,7 +1,7 @@
 package com.linkdev.dragDismiss.utils
 
 import android.os.Parcelable
-import com.linkdev.android.dragdismiss.layout.DragDismissVelocityLevel
+import com.linkdev.android.dragdismiss.models.DragDismissVelocityLevel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.linkdev.android.dragdismiss.layout
+package com.linkdev.android.dragdismiss.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -30,6 +30,9 @@ import androidx.annotation.IntRange
 import androidx.core.view.ViewCompat
 import androidx.customview.widget.ViewDragHelper
 import com.linkdev.android.dragdismiss.R
+import com.linkdev.android.dragdismiss.models.DragDismissDefaults
+import com.linkdev.android.dragdismiss.models.DragDismissDirections
+import com.linkdev.android.dragdismiss.models.DragDismissVelocityLevel
 import com.linkdev.android.dragdismiss.utils.*
 import java.util.*
 import kotlin.math.abs
@@ -50,12 +53,10 @@ internal class DragDismissLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ViewGroup(context, attrs, defStyleAttr) {
 
-    private val TAG = "DragDismissLayout"
-
     /**
      * The starting alpha of the canvas background for the dismiss background fade out effect.
      *
-     * @default [DEFAULT_BACKGROUND_ALPHA_FRACTION]
+     * @default [DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION]
      */
     private var mBackgroundAlpha =
         Utilities.calculateAlphaFromFraction(DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION)
@@ -63,9 +64,9 @@ internal class DragDismissLayout @JvmOverloads constructor(
     /**
      * The distance traveled before the view initiate a dismiss on finger up.
      *
-     * So if it's set to [DEFAULT_DISMISS_DISTANCE_FRACTION] then if the layout is dragged more than [DEFAULT_DISMISS_DISTANCE_FRACTION] of the screen the view will be dismissed on release.
+     * So if it's set to [DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE] then if the layout is dragged more than [DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE] of the screen the view will be dismissed on release.
      *
-     * @default [DEFAULT_DISMISS_DISTANCE_FRACTION]
+     * @default [DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE]
      * @see mDragDismissVelocity
      */
     private var mDragDismissScreenPercentage = DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE
@@ -77,9 +78,9 @@ internal class DragDismissLayout @JvmOverloads constructor(
      *
      * 2) [mDragDismissScreenPercentage] If the layout passed a certain percentage of the screen.
      *
-     * So if it's set to [DEFAULT_DISMISS_VELOCITY_LEVEL] then if the layout is dragged at speed pass [DEFAULT_DISMISS_VELOCITY_LEVEL] will be dismissed on release.
+     * So if it's set to [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL] then if the layout is dragged at speed pass [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL] will be dismissed on release.
      *
-     * @default [DEFAULT_DISMISS_VELOCITY_LEVEL]
+     * @default [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL]
      * @see mDragDismissScreenPercentage
      */
     private var mDragDismissVelocity = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL.velocity
@@ -103,7 +104,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
      * The selected drag directions(Can be more than one direction) from [DragDismissDirections]
      *
      *
-     * @default [DEFAULT_DRAG_DIRECTION]
+     * @default [DragDismissDefaults.DEFAULT_DRAG_DIRECTION]
      */
     private lateinit var mSelectedDragBackDirections: ArrayList<Int>
 
@@ -596,11 +597,22 @@ internal class DragDismissLayout @JvmOverloads constructor(
         return mBackgroundAlpha
     }
 
+    /**
+     * The starting alpha of the canvas background for the dismiss background fade out effect.
+     *
+     * @default [DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION]
+     */
     fun setBackgroundAlpha(@FloatRange(from = 0.0, to = 1.0) backgroundAlpha: Float) {
         mBackgroundAlpha = Utilities.calculateAlphaFromFraction(backgroundAlpha)
     }
 
-    fun setDragDirections(edges: Int) {
+    /**
+     * The selected drag directions(Can be more than one direction) from [DragDismissDirections]
+     *
+     *
+     * @default [DragDismissDefaults.DEFAULT_DRAG_DIRECTION]
+     */
+    fun setDraggingDirections(edges: Int) {
         mSelectedDragBackDirections = Utilities.extractDirectionsFromFlag(edges)
     }
 
@@ -608,10 +620,30 @@ internal class DragDismissLayout @JvmOverloads constructor(
         return mDragDismissScreenPercentage
     }
 
+    /**
+     * The distance traveled before the view initiate a dismiss on finger up.
+     *
+     * So if it's set to [DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE] then if the layout is dragged more than [DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE] of the screen the view will be dismissed on release.
+     *
+     * @default [DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE]
+     * @see mDragDismissVelocity
+     */
     fun setDragDismissDistance(@FloatRange(from = 0.0, to = 1.0) screenDragDismiss: Float) {
         mDragDismissScreenPercentage = screenDragDismiss
     }
 
+    /**
+     * There are two implemented ways to dismiss the view
+     *
+     * 1) [mDragDismissVelocity] If the view is flanged above a certain speed.
+     *
+     * 2) [mDragDismissScreenPercentage] If the layout passed a certain percentage of the screen.
+     *
+     * So if it's set to [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL] then if the layout is dragged at speed pass [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL] will be dismissed on release.
+     *
+     * @default [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL]
+     * @see mDragDismissScreenPercentage
+     */
     fun setDragDismissVelocityLevel(dragDismissVelocityLevel: DragDismissVelocityLevel) {
         mDragDismissVelocity = dragDismissVelocityLevel.velocity
     }
@@ -620,7 +652,10 @@ internal class DragDismissLayout @JvmOverloads constructor(
         return mShouldDragEdgeOnly
     }
 
-    fun shouldDragEdgeOnly(shouldDragEdgeOnly: Boolean) {
+    /**
+     * If should dismiss if dragged from the edges of selected directions only.
+     */
+    fun setShouldDragEdgeOnly(shouldDragEdgeOnly: Boolean) {
         mShouldDragEdgeOnly = shouldDragEdgeOnly
     }
 

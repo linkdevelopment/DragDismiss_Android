@@ -13,7 +13,7 @@
         style="@style/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dismiss values"
+        android:text="@string/dismiss_values"
         app:layout_constraintStart_toEndOf="@id/guidelineStart"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginMedium"
-        android:text="Drag dismiss velocity level"
+        android:text="@string/drag_dismiss_velocity_level"
         app:layout_constraintStart_toEndOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tvDismissValues" />
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marginMedium"
         android:layout_marginTop="@dimen/marginMedium"
-        android:text="2"
+        android:text="@string/default_dismiss_velocity_level"
         app:layout_constraintBaseline_toBaselineOf="@id/tvVelocity"
         app:layout_constraintStart_toEndOf="@id/tvVelocity" />
 
@@ -44,18 +44,18 @@
         android:layout_height="wrap_content"
         android:max="5"
         android:paddingVertical="@dimen/marginMedium"
-        android:progress="2"
+        android:progress="3"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tvVelocity" />
 
     <TextView
-        android:id="@+id/tvDistance"
+        android:id="@+id/tvScreenPercentage"
         style="@style/textBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginMedium"
-        android:text="Drag dismiss fraction"
+        android:text="@string/drag_dismiss_screen_percentage"
         app:layout_constraintStart_toEndOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/seekbarVelocity" />
 
@@ -66,9 +66,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marginMedium"
         android:layout_marginTop="@dimen/marginMedium"
-        android:text="50"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvDistance"
-        app:layout_constraintStart_toEndOf="@id/tvDistance" />
+        android:text="@string/default_drag_dismiss"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvScreenPercentage"
+        app:layout_constraintStart_toEndOf="@id/tvScreenPercentage" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/seekbarDistance"
@@ -76,10 +76,10 @@
         android:layout_height="wrap_content"
         android:max="70"
         android:paddingVertical="@dimen/marginMedium"
-        android:progress="20"
+        android:progress="10"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tvDistance" />
+        app:layout_constraintTop_toBottomOf="@id/tvScreenPercentage" />
 
     <TextView
         android:id="@+id/tvAlpha"
@@ -87,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginMedium"
-        android:text="Background visibility"
+        android:text="@string/background_visibility"
         app:layout_constraintStart_toEndOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/seekbarDistance" />
 
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marginMedium"
         android:layout_marginTop="@dimen/marginMedium"
-        android:text="80"
+        android:text="@string/default_bg_visibility"
         app:layout_constraintBaseline_toBaselineOf="@id/tvAlpha"
         app:layout_constraintStart_toEndOf="@id/tvAlpha" />
 
@@ -112,6 +112,16 @@
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tvAlpha" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkboxEdgeDrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginMedium"
+        android:paddingHorizontal="@dimen/marginLarge"
+        android:text="@string/drag_edges_only"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/seekbarBackgroundAlpha" />
 
     <include
         android:id="@+id/guidelineStart"

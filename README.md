@@ -5,16 +5,17 @@
 
 Many studies and surveys showed that users prefer dragging and swiping to clicking...
 
-DragDismissLayout is a ViewGroup, **Built** using the ViewDragHelper utility class, **Developed** to help you give your users the flexibility of dragging.
+DragDismissLayout is a ViewGroup, Built using the ViewDragHelper utility class, Developed to help you give your users the flexibility of dragging to dismiss visible screen.
 
 ![](screenshots/screenshot.gif)
 
 - We support all types of views static and scrolling horizontally or vertically.
-- Works with activities, And fragments.
+- Works with activities and fragments.
+- Works with activities and fragments.
 - Built using androidx ViewDragHelper utility class.
-- Kotlin-Idiomatic, Written completely in kotlin.
+- Kotlin-Idiomatic, written completely in kotlin.
 
-# Start using DragDismiss
+# How to use DragDismiss
 **Firstly,** you will have to use `Theme.DragDismiss` as your activity's theme
 ```xml
 <activity

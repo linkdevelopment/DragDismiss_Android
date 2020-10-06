@@ -1,6 +1,24 @@
 <resources>
-    <string name="app_name">DragDismiss Sample</string>
+    <string name="app_name">Drag Dismiss</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_bg_visibility">80</string>
+    <string name="drag_edges_only">Drag edges only</string>
+    <string name="background_visibility">Background visibility</string>
+    <string name="default_drag_dismiss">40</string>
+    <string name="drag_dismiss_screen_percentage">Drag dismiss screen travel percentage</string>
+    <string name="default_dismiss_velocity_level">3</string>
+    <string name="drag_dismiss_velocity_level">Drag dismiss velocity level</string>
+    <string name="dismiss_values">Dismiss values</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="recyclerview">RecyclerView</string>
+    <string name="nested_scroll_view">NestedScrollView</string>
+    <string name="horizontal_scroll_view">HorizontalScrollView</string>
+    <string name="fragment">Fragment</string>
+    <string name="dragging_directions">Dragging directions</string>
+    <string name="all">All</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="top">Top</string>
+    <string name="bottom">Bottom</string>
 </resources>
