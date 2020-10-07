@@ -15,9 +15,7 @@ import com.linkdev.android.dragdismiss.DragDismiss
 import com.linkdev.dragDismiss.R
 import com.linkdev.dragDismiss.utils.Extras
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
-import kotlinx.android.synthetic.main.activity_recycler_view.recyclerView
-import kotlinx.android.synthetic.main.activity_recycler_view.toolbar
-import java.util.*
+import kotlinx.android.synthetic.main.activity_recycler_view.*
 
 class ActivityHorizontalRecyclerView : AppCompatActivity() {
 
@@ -31,7 +29,7 @@ class ActivityHorizontalRecyclerView : AppCompatActivity() {
 
     private var mContext: Context = this
 
-    private val mDataList = ArrayList<Int>()
+    private var mDataList = arrayListOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +40,6 @@ class ActivityHorizontalRecyclerView : AppCompatActivity() {
         recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        initDataList()
         recyclerView.adapter = adapter
     }
 
@@ -53,14 +50,8 @@ class ActivityHorizontalRecyclerView : AppCompatActivity() {
             .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
             .setShouldDragEdgeOnly(sampleAttrs.shouldDragEdgeOnly)
             .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
-            .setDragDismissBackgroundAlpha(sampleAttrs.backgroundAlpha)
+            .setDragDismissBackgroundDim(sampleAttrs.backgroundAlpha)
             .attach(this, R.layout.activity_horizontal_recycler_view)
-    }
-
-    private fun initDataList() {
-        for (i in 0..10) {
-            mDataList.add(i)
-        }
     }
 
     private val adapter: RecyclerView.Adapter<ViewHolder> =

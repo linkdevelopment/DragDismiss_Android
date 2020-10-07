@@ -19,7 +19,7 @@ package com.linkdev.android.dragdismiss.containers
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.linkdev.android.dragdismiss.view.DragDismissLayout
+import com.linkdev.android.dragdismiss.views.DragDismissLayout
 import java.lang.Exception
 
 // Created on 29/9/2020.

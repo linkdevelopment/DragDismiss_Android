@@ -23,7 +23,7 @@ import com.linkdev.android.dragdismiss.models.DragDismissVelocityLevel
 object DragDismissDefaults {
     const val DEFAULT_DISMISS_SCREEN_PERCENTAGE = 0.4f
     val DEFAULT_DISMISS_VELOCITY_LEVEL = DragDismissVelocityLevel.LEVEL_3
-    const val DEFAULT_BACKGROUND_ALPHA_FRACTION = 0.8f
+    const val DEFAULT_BACKGROUND_DIM = 0.8f
     const val DEFAULT_SHOULD_DRAG_EDGE_ONLY = false
     const val DEFAULT_DRAG_DIRECTION: Int = DragDismissDirections.DIRECTION_FROM_LEFT
 }

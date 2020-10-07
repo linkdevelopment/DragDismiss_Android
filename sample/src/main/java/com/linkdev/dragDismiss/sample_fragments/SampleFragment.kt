@@ -38,7 +38,7 @@ class SampleFragment : Fragment() {
             .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
             .setShouldDragEdgeOnly(sampleAttrs.shouldDragEdgeOnly)
             .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
-            .setDragDismissBackgroundAlpha(sampleAttrs.backgroundAlpha)
+            .setDragDismissBackgroundDim(sampleAttrs.backgroundAlpha)
             .attach(this, R.layout.fragment_sample)
     }
 }

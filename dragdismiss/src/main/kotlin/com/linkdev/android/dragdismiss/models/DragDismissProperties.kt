@@ -23,5 +23,5 @@ internal class DragDismissProperties(
     var dragDragDismissVelocityLevel: DragDismissVelocityLevel = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL,
     var shouldDragEdgeOnly: Boolean = DragDismissDefaults.DEFAULT_SHOULD_DRAG_EDGE_ONLY,
     var draggingDirections: Int = DragDismissDefaults.DEFAULT_DRAG_DIRECTION,
-    var backgroundAlpha: Float = DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION
+    var backgroundDim: Float = DragDismissDefaults.DEFAULT_BACKGROUND_DIM
 )

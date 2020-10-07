@@ -18,7 +18,7 @@ package com.linkdev.android.dragdismiss.containers
 
 import android.view.View
 import androidx.annotation.LayoutRes
-import com.linkdev.android.dragdismiss.view.DragDismissLayout
+import com.linkdev.android.dragdismiss.views.DragDismissLayout
 
 // Created by Mohammed Fareed on 6/3/2020.
 // Copyright (c) 2020 Link Development All rights reserved.

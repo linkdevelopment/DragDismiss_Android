@@ -16,6 +16,9 @@ DragDismissLayout is a ViewGroup, Built using the ViewDragHelper utility class, 
 - Kotlin-Idiomatic, written completely in kotlin.
 
 # How to use DragDismiss
+DragDismiss can be used with both activities and fragments:
+
+##Activites
 **Firstly,** you will have to use `Theme.DragDismiss` as your activity's theme
 ```xml
 <activity
@@ -32,23 +35,81 @@ Or add these to your existing Theme for activities that implement DragDismiss
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    setContentView(getDragDismissContentView())
+}
+
+fun getDragDismissContentView() =
     DragDismiss.create(mContext)
         .attach(this, R.layout.activity_layout_name)
+```
+## Fragments
+**Firstly,** you will have to use `Theme.DragDismiss` as your activity's theme
+```kotlin
+override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+): View? {
+    return getDragDismissContentView()
+}
+
+private fun getDragDismissContentView(): View {
+    return DragDismiss.create(requireActivity())
+        .attach(this, R.layout.fragment_layout_name)
 }
 ```
-**Note** `setContentView()` is not set.
 
-
-**Custmizations,** For extra custmizations for your DragDismissLayout check below.
+#Custmizations
+For extra custmizations for your DragDismissLayout check below.
 ```kotlin
 DragDismiss.create(mContext)
     .setDragDismissScreenPercentage(0.5f)
     .setDragDismissVelocityLevel(DragDismissVelocityLevel.LEVEL_3)
     .setShouldDragEdgeOnly(false)
     .setDragDismissDraggingDirections(DragDismissDirections.DIRECTION_FROM_LEFT or DragDismissDirections.DIRECTION_FROM_RIGHT)
-    .setDragDismissBackgroundAlpha(0.8f)
+    .setDragDismissBackgroundDim(0.8f)
     .attach(this, R.layout.activity_layout_name)
 ```
+
+## Set dragging directions
+The directions that the screen ca be dragged from.
+One of (DIRECTION_ALL, DIRECTION_FROM_LEFT, DIRECTION_FROM_RIGHT, DIRECTION_FROM_TOP, DIRECTION_FROM_BOTTOM)
+```kotlin
+DragDismiss.create(mContext)
+    .setDragDismissDraggingDirections(DragDismissDirections.DIRECTION_FROM_LEFT or DragDismissDirections.DIRECTION_FROM_RIGHT)
+```
+
+## Set screen dismiss percentage
+The Percentage of the screen that if the screen traveled pass it will be dismissed.
+```kotlin
+DragDismiss.create(mContext)
+    .setDragDismissScreenPercentage(0.5f)
+```
+
+## Set velocity level
+The Speed that if the screen is flung past it will be dismissed.
+Available levels are (LEVEL_0, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5), The higher the level the harder it will be to dismiss the screen by a fling.
+```kotlin
+DragDismiss.create(mContext)
+    .setDragDismissVelocityLevel(DragDismissVelocityLevel.LEVEL_1)
+```
+**Note, ** LEVEL_0 disable the flang dismiss feature
+
+## Set drag edges only
+If should enable the dragging from edges only.
+```kotlin
+DragDismiss.create(mContext)
+    .setShouldDragEdgeOnly(false)
+```
+
+## Set dragging background dim
+Dims the previous screen while dragging.
+```kotlin
+DragDismiss.create(mContext)
+    .setDragDismissBackgroundDim(0.8f)
+```
+**Note, ** set to 0f to make it fully visible.
+
 You can learn more and play around with the attrs in the sample by cloning the repo.
 
 # Contribute

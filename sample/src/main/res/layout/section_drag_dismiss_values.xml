@@ -82,12 +82,12 @@
         app:layout_constraintTop_toBottomOf="@id/tvScreenPercentage" />
 
     <TextView
-        android:id="@+id/tvAlpha"
+        android:id="@+id/tvBackgroundDim"
         style="@style/textBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginMedium"
-        android:text="@string/background_visibility"
+        android:text="@string/background_dim"
         app:layout_constraintStart_toEndOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/seekbarDistance" />
 
@@ -99,8 +99,8 @@
         android:layout_marginStart="@dimen/marginMedium"
         android:layout_marginTop="@dimen/marginMedium"
         android:text="@string/default_bg_visibility"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvAlpha"
-        app:layout_constraintStart_toEndOf="@id/tvAlpha" />
+        app:layout_constraintBaseline_toBaselineOf="@id/tvBackgroundDim"
+        app:layout_constraintStart_toEndOf="@id/tvBackgroundDim" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/seekbarBackgroundAlpha"
@@ -111,7 +111,7 @@
         android:progress="80"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tvAlpha" />
+        app:layout_constraintTop_toBottomOf="@id/tvBackgroundDim" />
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/checkboxEdgeDrag"

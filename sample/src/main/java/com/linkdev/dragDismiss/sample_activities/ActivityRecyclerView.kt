@@ -16,7 +16,6 @@ import com.linkdev.dragDismiss.R
 import com.linkdev.dragDismiss.utils.Extras
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
 import kotlinx.android.synthetic.main.activity_recycler_view.*
-import java.util.*
 
 class ActivityRecyclerView : AppCompatActivity() {
 
@@ -53,7 +52,7 @@ class ActivityRecyclerView : AppCompatActivity() {
             .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
             .setShouldDragEdgeOnly(sampleAttrs.shouldDragEdgeOnly)
             .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
-            .setDragDismissBackgroundAlpha(sampleAttrs.backgroundAlpha)
+            .setDragDismissBackgroundDim(sampleAttrs.backgroundAlpha)
             .attach(this, R.layout.activity_recycler_view)
     }
 

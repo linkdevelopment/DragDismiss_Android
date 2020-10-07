@@ -19,7 +19,7 @@ package com.linkdev.android.dragdismiss.containers
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import com.linkdev.android.dragdismiss.view.DragDismissLayout
+import com.linkdev.android.dragdismiss.views.DragDismissLayout
 
 // Created on 6/3/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
@@ -40,6 +40,7 @@ internal class ActivityContainer : IContainer {
     }
 
     override fun onDismiss() {
+        mContainingActivity.overridePendingTransition(0, 0) // remove the ending transition
         mContainingActivity.finish()
     }
 }

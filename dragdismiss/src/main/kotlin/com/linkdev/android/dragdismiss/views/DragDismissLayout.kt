@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.linkdev.android.dragdismiss.view
+package com.linkdev.android.dragdismiss.views
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
@@ -56,10 +55,10 @@ internal class DragDismissLayout @JvmOverloads constructor(
     /**
      * The starting alpha of the canvas background for the dismiss background fade out effect.
      *
-     * @default [DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION]
+     * @default [DragDismissDefaults.DEFAULT_BACKGROUND_DIM]
      */
-    private var mBackgroundAlpha =
-        Utilities.calculateAlphaFromFraction(DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION)
+    private var mBackgroundDimAlpha =
+        Utilities.calculateAlphaFromFraction(DragDismissDefaults.DEFAULT_BACKGROUND_DIM)
 
     /**
      * The distance traveled before the view initiate a dismiss on finger up.
@@ -171,13 +170,13 @@ internal class DragDismissLayout @JvmOverloads constructor(
                 DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE
             )
 
-        mBackgroundAlpha =
+        mBackgroundDimAlpha =
             Utilities.calculateAlphaFromFraction(
                 typedArray.getFraction(
                     R.styleable.DragDismissLayout_backgroundAlpha,
                     1,
                     1,
-                    DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION
+                    DragDismissDefaults.DEFAULT_BACKGROUND_DIM
                 )
             )
 
@@ -246,7 +245,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
         super.onDraw(canvas)
         // Sets the alpha of the canvas as the view position changes
         canvas.drawARGB(
-            (mBackgroundAlpha - (mBackgroundAlpha * mSwipeBackFraction)).toInt(),
+            (mBackgroundDimAlpha - (mBackgroundDimAlpha * mSwipeBackFraction)).toInt(),
             0,
             0,
             0
@@ -393,7 +392,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
             super.onViewDragStateChanged(state)
             if (state == ViewDragHelper.STATE_IDLE) {
                 if (mSwipeBackFraction >= 1) { // The view is out of screen
-                    finish()
+                    dismiss()
                 }
             }
         }
@@ -581,29 +580,22 @@ internal class DragDismissLayout @JvmOverloads constructor(
             ViewCompat.postInvalidateOnAnimation(this)
     }
 
-    private fun finish() {
-        if (context is Activity)
-            (context as Activity).overridePendingTransition(0, 0) // remove the ending transition
-        if (mDismissCallback == null) {
-            if (context is Activity)
-                (context as Activity).finish()
-        } else {
-            mDismissCallback!!.invoke()
-        }
+    private fun dismiss() {
+        mDismissCallback!!.invoke()
     }
 
     @IntRange(from = 0, to = 255)
-    fun getBackgroundAlpha(): Int {
-        return mBackgroundAlpha
+    fun getBackgroundDim(): Int {
+        return mBackgroundDimAlpha
     }
 
     /**
      * The starting alpha of the canvas background for the dismiss background fade out effect.
      *
-     * @default [DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION]
+     * @default [DragDismissDefaults.DEFAULT_BACKGROUND_DIM]
      */
-    fun setBackgroundAlpha(@FloatRange(from = 0.0, to = 1.0) backgroundAlpha: Float) {
-        mBackgroundAlpha = Utilities.calculateAlphaFromFraction(backgroundAlpha)
+    fun setBackgroundDim(@FloatRange(from = 0.0, to = 1.0) backgroundDimAlpha: Float) {
+        mBackgroundDimAlpha = Utilities.calculateAlphaFromFraction(backgroundDimAlpha)
     }
 
     /**

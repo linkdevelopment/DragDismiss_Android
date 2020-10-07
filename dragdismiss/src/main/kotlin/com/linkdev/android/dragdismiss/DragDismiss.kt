@@ -24,7 +24,7 @@ import androidx.fragment.app.Fragment
 import com.linkdev.android.dragdismiss.containers.ActivityContainer
 import com.linkdev.android.dragdismiss.containers.FragmentContainer
 import com.linkdev.android.dragdismiss.containers.IContainer
-import com.linkdev.android.dragdismiss.view.DragDismissLayout
+import com.linkdev.android.dragdismiss.views.DragDismissLayout
 import com.linkdev.android.dragdismiss.models.DragDismissVelocityLevel
 import com.linkdev.android.dragdismiss.models.DragDismissDefaults
 import com.linkdev.android.dragdismiss.models.DragDismissDirections
@@ -49,20 +49,20 @@ class DragDismiss private constructor(private val mContext: Context) {
         dragDragDismissVelocityLevel: DragDismissVelocityLevel = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL,
         shouldDragEdgeOnly: Boolean = DragDismissDefaults.DEFAULT_SHOULD_DRAG_EDGE_ONLY,
         draggingDirections: Int = DragDismissDefaults.DEFAULT_DRAG_DIRECTION,
-        backgroundAlpha: Float = DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION
+        backgroundDim: Float = DragDismissDefaults.DEFAULT_BACKGROUND_DIM
     ): DragDismiss {
         mDragDismissProperties.apply {
             this.dragDismissScreenPercentage = dragDismissScreenPercentage
             this.dragDragDismissVelocityLevel = dragDragDismissVelocityLevel
             this.shouldDragEdgeOnly = shouldDragEdgeOnly
             this.draggingDirections = draggingDirections
-            this.backgroundAlpha = backgroundAlpha
+            this.backgroundDim = backgroundDim
         }
         return this
     }
 
     /**
-     * The distance traveled before the view initiate a dismiss on finger up.
+     * The percentage of the screen traveled before It's dismissed on release.
      *
      * So if it's set to [DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE] then if the layout is dragged more than [DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE] of the screen the view will be dismissed on release.
      *
@@ -72,17 +72,11 @@ class DragDismiss private constructor(private val mContext: Context) {
         mDragDismissProperties.dragDismissScreenPercentage = dragDismissScreenPercentage
         return this
     }
+
     /**
-     * There are two implemented ways to dismiss the view
-     *
-     * 1) [mDragDismissVelocity] If the view is flanged above a certain speed.
-     *
-     * 2) [mDragDismissScreenPercentage] If the layout passed a certain percentage of the screen.
-     *
-     * So if it's set to [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL] then if the layout is dragged at speed pass [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL] will be dismissed on release.
+     * The speed level that if the screen is flung past it will be dismissed on release.
      *
      * @default [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL]
-     * @see mDragDismissScreenPercentage
      */
     fun setDragDismissVelocityLevel(dragDragDismissVelocityLevel: DragDismissVelocityLevel): DragDismiss {
         mDragDismissProperties.dragDragDismissVelocityLevel = dragDragDismissVelocityLevel
@@ -90,7 +84,7 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
-     * If should dismiss if dragged from the edges of selected directions only.
+     * If should dismiss if dragged from the edges of the selected directions only.
      */
     fun setShouldDragEdgeOnly(shouldDragEdgeOnly: Boolean): DragDismiss {
         mDragDismissProperties.shouldDragEdgeOnly = shouldDragEdgeOnly
@@ -110,10 +104,10 @@ class DragDismiss private constructor(private val mContext: Context) {
     /**
      * The starting alpha of the canvas background for the dismiss background fade out effect.
      *
-     * @default [DragDismissDefaults.DEFAULT_BACKGROUND_ALPHA_FRACTION]
+     * @default [DragDismissDefaults.DEFAULT_BACKGROUND_DIM]
      */
-    fun setDragDismissBackgroundAlpha(backgroundAlpha: Float): DragDismiss {
-        mDragDismissProperties.backgroundAlpha = backgroundAlpha
+    fun setDragDismissBackgroundDim(backgroundAlpha: Float): DragDismiss {
+        mDragDismissProperties.backgroundDim = backgroundAlpha
         return this
     }
 
@@ -128,7 +122,7 @@ class DragDismiss private constructor(private val mContext: Context) {
             setDragDismissVelocityLevel(mDragDismissProperties.dragDragDismissVelocityLevel)
             setShouldDragEdgeOnly(mDragDismissProperties.shouldDragEdgeOnly)
             setDraggingDirections(mDragDismissProperties.draggingDirections)
-            setBackgroundAlpha(mDragDismissProperties.backgroundAlpha)
+            setBackgroundDim(mDragDismissProperties.backgroundDim)
         }
 
         dragDismissLayout.setDismissCallback(onViewDismissed())

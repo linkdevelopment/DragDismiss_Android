@@ -77,14 +77,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             DragDismissVelocityLevel.values()[seekbarVelocity.progress]
         val dragDismissScreenPercentage =
             (seekbarDistance.progress.toFloat() + SEEKBAR_SCREEN_PERCENTAGE_MIN) / 100
-        val backgroundVisibility = seekbarBackgroundAlpha.progress.toFloat() / 100
+        val backgroundDim = seekbarBackgroundAlpha.progress.toFloat() / 100
 
         return SampleDismissAttrs(
             dragDismissScreenPercentage,
             velocityLevel,
             checkboxEdgeDrag.isChecked,
             selectedDirections,
-            backgroundVisibility
+            backgroundDim
         )
     }
 
