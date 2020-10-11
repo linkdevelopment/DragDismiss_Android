@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.linkdev.dragDismiss">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,12 +21,23 @@
 
         <activity
             android:name=".sample_activities.ActivityRecyclerView"
+            android:label="@string/recyclerview"
             android:theme="@style/DragDismissTheme" />
         <activity
             android:name=".sample_activities.ActivityNestedScrollView"
+            android:label="@string/nested_scroll_view"
             android:theme="@style/DragDismissTheme" />
         <activity
             android:name=".sample_activities.ActivityHorizontalRecyclerView"
+            android:label="@string/horizontal_scroll_view"
+            android:theme="@style/DragDismissTheme" />
+        <activity
+            android:name=".sample_activities.viewpager_sample.ActivityViewPager"
+            android:label="@string/view_pager"
+            android:theme="@style/DragDismissTheme" />
+        <activity
+            android:name=".sample_activities.ActivityWebView"
+            android:label="@string/web_view"
             android:theme="@style/DragDismissTheme" />
     </application>
 

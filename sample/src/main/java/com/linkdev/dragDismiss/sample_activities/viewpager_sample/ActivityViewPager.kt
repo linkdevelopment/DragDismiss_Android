@@ -1,4 +1,4 @@
-package com.linkdev.dragDismiss.sample_activities
+package com.linkdev.dragDismiss.sample_activities.viewpager_sample
 
 import android.content.Context
 import android.content.Intent
@@ -6,17 +6,18 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.linkdev.android.dragdismiss.DragDismiss
-import com.linkdev.android.dragdismiss.models.DragDismissDirections
 import com.linkdev.dragDismiss.R
 import com.linkdev.dragDismiss.utils.Extras
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
-import kotlinx.android.synthetic.main.activity_nested_scroll_view.*
+import kotlinx.android.synthetic.main.activity_viewpager.*
 
-class ActivityNestedScrollView : AppCompatActivity() {
+// Created by Mohammed Fareed on 10/7/2020.
+// Copyright (c) 2020 Link Development All rights reserved.
+class ActivityViewPager : AppCompatActivity() {
 
     companion object {
         fun startActivity(context: Context, sampleDismissAttrs: SampleDismissAttrs) {
-            val starter = Intent(context, ActivityNestedScrollView::class.java)
+            val starter = Intent(context, ActivityViewPager::class.java)
             starter.putExtra(Extras.EXTRA_SAMPLE_ATTRS, sampleDismissAttrs)
             context.startActivity(starter)
         }
@@ -29,6 +30,8 @@ class ActivityNestedScrollView : AppCompatActivity() {
         setContentView(getDragDismissContentView())
 
         setSupportActionBar(toolbar)
+
+        initViewPager()
     }
 
     private fun getDragDismissContentView(): View {
@@ -38,6 +41,12 @@ class ActivityNestedScrollView : AppCompatActivity() {
             .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
             .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
             .setDragDismissBackgroundDim(sampleAttrs.backgroundAlpha)
-            .attach(this, R.layout.activity_nested_scroll_view)
+            .attach(this, R.layout.activity_viewpager)
+    }
+
+    private fun initViewPager() {
+        val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+        viewPager.adapter = viewPagerAdapter
+        tablayout.setupWithViewPager(viewPager)
     }
 }

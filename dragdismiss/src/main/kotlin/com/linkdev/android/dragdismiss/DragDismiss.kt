@@ -46,15 +46,13 @@ class DragDismiss private constructor(private val mContext: Context) {
 
     fun setDragDismissAttrs(
         dragDismissScreenPercentage: Float = DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE,
-        dragDragDismissVelocityLevel: DragDismissVelocityLevel = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL,
-        shouldDragEdgeOnly: Boolean = DragDismissDefaults.DEFAULT_SHOULD_DRAG_EDGE_ONLY,
+        dragDismissVelocityLevel: DragDismissVelocityLevel = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL,
         draggingDirections: Int = DragDismissDefaults.DEFAULT_DRAG_DIRECTION,
         backgroundDim: Float = DragDismissDefaults.DEFAULT_BACKGROUND_DIM
     ): DragDismiss {
         mDragDismissProperties.apply {
             this.dragDismissScreenPercentage = dragDismissScreenPercentage
-            this.dragDragDismissVelocityLevel = dragDragDismissVelocityLevel
-            this.shouldDragEdgeOnly = shouldDragEdgeOnly
+            this.dragDragDismissVelocityLevel = dragDismissVelocityLevel
             this.draggingDirections = draggingDirections
             this.backgroundDim = backgroundDim
         }
@@ -84,14 +82,6 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
-     * If should dismiss if dragged from the edges of the selected directions only.
-     */
-    fun setShouldDragEdgeOnly(shouldDragEdgeOnly: Boolean): DragDismiss {
-        mDragDismissProperties.shouldDragEdgeOnly = shouldDragEdgeOnly
-        return this
-    }
-
-    /**
      * The selected drag directions(Can be more than one direction) from [DragDismissDirections]
      *
      * @default [DragDismissDefaults.DEFAULT_DRAG_DIRECTION]
@@ -112,7 +102,7 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
-     * Constructs the layout using sat attrs and defaults if not.
+     * Constructs the layout using sat attrs and using defaults if not.
      * @return returns the DragDismissView
      */
     private fun constructDragDismissLayout(): DragDismissLayout {
@@ -120,7 +110,6 @@ class DragDismiss private constructor(private val mContext: Context) {
         dragDismissLayout.apply {
             setDragDismissDistance(mDragDismissProperties.dragDismissScreenPercentage)
             setDragDismissVelocityLevel(mDragDismissProperties.dragDragDismissVelocityLevel)
-            setShouldDragEdgeOnly(mDragDismissProperties.shouldDragEdgeOnly)
             setDraggingDirections(mDragDismissProperties.draggingDirections)
             setBackgroundDim(mDragDismissProperties.backgroundDim)
         }

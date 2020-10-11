@@ -4,19 +4,20 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.linkdev.android.dragdismiss.DragDismiss
-import com.linkdev.android.dragdismiss.models.DragDismissDirections
 import com.linkdev.dragDismiss.R
 import com.linkdev.dragDismiss.utils.Extras
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
-import kotlinx.android.synthetic.main.activity_nested_scroll_view.*
+import kotlinx.android.synthetic.main.activity_webview.*
 
-class ActivityNestedScrollView : AppCompatActivity() {
+// Copyright (c) 2020 Link Development All rights reserved.
+class ActivityWebView : AppCompatActivity() {
 
     companion object {
         fun startActivity(context: Context, sampleDismissAttrs: SampleDismissAttrs) {
-            val starter = Intent(context, ActivityNestedScrollView::class.java)
+            val starter = Intent(context, ActivityWebView::class.java)
             starter.putExtra(Extras.EXTRA_SAMPLE_ATTRS, sampleDismissAttrs)
             context.startActivity(starter)
         }
@@ -28,7 +29,13 @@ class ActivityNestedScrollView : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(getDragDismissContentView())
 
+        initWebView()
         setSupportActionBar(toolbar)
+    }
+
+    private fun initWebView() {
+        webView.webViewClient = WebViewClient()
+        webView.loadUrl("https://developer.android.com/")
     }
 
     private fun getDragDismissContentView(): View {
@@ -38,6 +45,6 @@ class ActivityNestedScrollView : AppCompatActivity() {
             .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
             .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
             .setDragDismissBackgroundDim(sampleAttrs.backgroundAlpha)
-            .attach(this, R.layout.activity_nested_scroll_view)
+            .attach(this, R.layout.activity_webview)
     }
 }

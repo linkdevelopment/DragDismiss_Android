@@ -28,9 +28,6 @@
         <!-- Sets the alpha of the black Background while the view is dragged -->
         <attr name="backgroundAlpha" format="fraction|reference" />
 
-        <!-- Sets if the view is dragged only using the view's edges -->
-        <attr name="shouldDragEdgeOnly" format="boolean|reference" />
-
         <!-- Sets the directions that the view is dismissed if dragged from -->
         <attr name="draggingDirections">
             <flag name="all" value="15" />

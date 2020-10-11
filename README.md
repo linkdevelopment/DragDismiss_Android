@@ -3,9 +3,7 @@
 ![API](https://img.shields.io/badge/Min--SDK-19-yellowgreen)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
-Many studies and surveys showed that users prefer dragging and swiping to clicking...
-
-DragDismissLayout is a ViewGroup, Built using the ViewDragHelper utility class, Developed to help you give your users the flexibility of dragging to dismiss visible screen.
+DragDismissLayout is a ViewGroup, built using the ViewDragHelper utility class, Developed to help you give your users the flexibility of swiping to dismiss visible screen.
 
 ![](screenshots/screenshot.gif)
 
@@ -43,7 +41,7 @@ fun getDragDismissContentView() =
         .attach(this, R.layout.activity_layout_name)
 ```
 ## Fragments
-**Firstly,** you will have to use `Theme.DragDismiss` as your activity's theme
+The fragment will have to be added using the
 ```kotlin
 override fun onCreateView(
     inflater: LayoutInflater,
@@ -65,7 +63,6 @@ For extra custmizations for your DragDismissLayout check below.
 DragDismiss.create(mContext)
     .setDragDismissScreenPercentage(0.5f)
     .setDragDismissVelocityLevel(DragDismissVelocityLevel.LEVEL_3)
-    .setShouldDragEdgeOnly(false)
     .setDragDismissDraggingDirections(DragDismissDirections.DIRECTION_FROM_LEFT or DragDismissDirections.DIRECTION_FROM_RIGHT)
     .setDragDismissBackgroundDim(0.8f)
     .attach(this, R.layout.activity_layout_name)
@@ -94,13 +91,6 @@ DragDismiss.create(mContext)
     .setDragDismissVelocityLevel(DragDismissVelocityLevel.LEVEL_1)
 ```
 **Note, ** LEVEL_0 disable the flang dismiss feature
-
-## Set drag edges only
-If should enable the dragging from edges only.
-```kotlin
-DragDismiss.create(mContext)
-    .setShouldDragEdgeOnly(false)
-```
 
 ## Set dragging background dim
 Dims the previous screen while dragging.

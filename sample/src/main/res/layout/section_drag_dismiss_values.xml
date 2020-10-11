@@ -113,16 +113,6 @@
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tvBackgroundDim" />
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkboxEdgeDrag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginMedium"
-        android:paddingHorizontal="@dimen/marginLarge"
-        android:text="@string/drag_edges_only"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/seekbarBackgroundAlpha" />
-
     <include
         android:id="@+id/guidelineStart"
         layout="@layout/view_guideline_start" />

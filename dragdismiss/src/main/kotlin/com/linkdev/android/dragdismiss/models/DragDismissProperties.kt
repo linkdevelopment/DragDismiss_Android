@@ -21,7 +21,6 @@ package com.linkdev.android.dragdismiss.models
 internal class DragDismissProperties(
     var dragDismissScreenPercentage: Float = DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE,
     var dragDragDismissVelocityLevel: DragDismissVelocityLevel = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL,
-    var shouldDragEdgeOnly: Boolean = DragDismissDefaults.DEFAULT_SHOULD_DRAG_EDGE_ONLY,
     var draggingDirections: Int = DragDismissDefaults.DEFAULT_DRAG_DIRECTION,
     var backgroundDim: Float = DragDismissDefaults.DEFAULT_BACKGROUND_DIM
 )

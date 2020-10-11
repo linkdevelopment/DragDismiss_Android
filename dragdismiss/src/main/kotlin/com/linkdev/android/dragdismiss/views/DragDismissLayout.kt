@@ -85,16 +85,6 @@ internal class DragDismissLayout @JvmOverloads constructor(
     private var mDragDismissVelocity = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL.velocity
 
     /**
-     * If should dismiss if dragged from the edges of selected directions only.
-     */
-    private var mShouldDragEdgeOnly = DragDismissDefaults.DEFAULT_SHOULD_DRAG_EDGE_ONLY
-
-    /**
-     * The Currently touched edge.
-     */
-    private var mTouchedEdge = ViewDragHelper.INVALID_POINTER
-
-    /**
      * The first child of the DragDismissLayout, and the view to be dragged.
      */
     private lateinit var mDraggedView: View
@@ -148,7 +138,6 @@ internal class DragDismissLayout @JvmOverloads constructor(
 
     private fun initDragHelper() {
         mDragHelper = ViewDragHelper.create(this, 1f, DragHelperCallback())
-        mDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_ALL)
     }
 
     private fun initAttrs(context: Context, attrs: AttributeSet?) {
@@ -178,12 +167,6 @@ internal class DragDismissLayout @JvmOverloads constructor(
                     1,
                     DragDismissDefaults.DEFAULT_BACKGROUND_DIM
                 )
-            )
-
-        mShouldDragEdgeOnly =
-            typedArray.getBoolean(
-                R.styleable.DragDismissLayout_shouldDragEdgeOnly,
-                DragDismissDefaults.DEFAULT_SHOULD_DRAG_EDGE_ONLY
             )
 
         mDragDismissVelocity = typedArray.getInt(
@@ -308,8 +291,6 @@ internal class DragDismissLayout @JvmOverloads constructor(
         }
 
         override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int): Int {
-            if (!edgeSwipe()) return paddingLeft
-
             // Clamp the view if it's not All Drag and not dragged from left and not dragged from right
             if (!selectedAllDragBack() && !selectedLeftDragBack() && !selectedRightDragBack())
                 return paddingLeft
@@ -332,8 +313,6 @@ internal class DragDismissLayout @JvmOverloads constructor(
         }
 
         override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
-            if (!edgeSwipe()) return paddingTop
-
             // Clamp the view if it's not All Drag and not dragged from top and not dragged from bottom
             if (!selectedAllDragBack() && !selectedBottomDragBack() && !selectedTopDragBack())
                 return paddingTop
@@ -371,12 +350,6 @@ internal class DragDismissLayout @JvmOverloads constructor(
             super.onViewReleased(releasedChild, xVelocity, yVelocity)
             resetDragOnRelease()
 
-            if (!edgeSwipe()) {
-                mTouchedEdge = ViewDragHelper.INVALID_POINTER
-                resetOffsets()
-                return
-            }
-
             // Check velocity first and then distance
             val returnToOriginal =
                 !velocityRelease(xVelocity, yVelocity) && !distanceRelease()
@@ -403,11 +376,6 @@ internal class DragDismissLayout @JvmOverloads constructor(
 
         override fun getViewVerticalDragRange(child: View): Int {
             return mHeight
-        }
-
-        override fun onEdgeTouched(edgeFlags: Int, pointerId: Int) {
-            super.onEdgeTouched(edgeFlags, pointerId)
-            mTouchedEdge = edgeFlags
         }
 
         /**
@@ -541,36 +509,20 @@ internal class DragDismissLayout @JvmOverloads constructor(
         mTopOffset = 0
     }
 
-    private fun edgeSwipe(): Boolean {
-        if (mShouldDragEdgeOnly) {
-            var isTouchEnabled = false
-            if (selectedBottomDragBack())
-                isTouchEnabled = mTouchedEdge == ViewDragHelper.EDGE_BOTTOM
-            if (selectedTopDragBack())
-                isTouchEnabled = isTouchEnabled || mTouchedEdge == ViewDragHelper.EDGE_TOP
-            if (selectedLeftDragBack())
-                isTouchEnabled = isTouchEnabled || mTouchedEdge == ViewDragHelper.EDGE_LEFT
-            if (selectedRightDragBack())
-                isTouchEnabled = isTouchEnabled || mTouchedEdge == ViewDragHelper.EDGE_RIGHT
-            return isTouchEnabled
-        }
-        return true
-    }
-
     private fun selectedAllDragBack() =
-        mSelectedDragBackDirections.contains(DragDismissDirections.DIRECTION_ALL)
+        mSelectedDragBackDirections.contains(DragDismissDirections.ALL)
 
     private fun selectedBottomDragBack() =
-        mSelectedDragBackDirections.contains(DragDismissDirections.DIRECTION_FROM_BOTTOM)
+        mSelectedDragBackDirections.contains(DragDismissDirections.FROM_BOTTOM)
 
     private fun selectedTopDragBack() =
-        mSelectedDragBackDirections.contains(DragDismissDirections.DIRECTION_FROM_TOP)
+        mSelectedDragBackDirections.contains(DragDismissDirections.FROM_TOP)
 
     private fun selectedRightDragBack() =
-        mSelectedDragBackDirections.contains(DragDismissDirections.DIRECTION_FROM_RIGHT)
+        mSelectedDragBackDirections.contains(DragDismissDirections.FROM_RIGHT)
 
     private fun selectedLeftDragBack() =
-        mSelectedDragBackDirections.contains(DragDismissDirections.DIRECTION_FROM_LEFT)
+        mSelectedDragBackDirections.contains(DragDismissDirections.FROM_LEFT)
 
     /**
      * Moves the view's left and top.
@@ -604,8 +556,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
      *
      * @default [DragDismissDefaults.DEFAULT_DRAG_DIRECTION]
      */
-    fun setDraggingDirections(edges: Int) {
-        mSelectedDragBackDirections = Utilities.extractDirectionsFromFlag(edges)
+    fun setDraggingDirections(directions: Int) {
+        mSelectedDragBackDirections = Utilities.extractDirectionsFromFlag(directions)
     }
 
     fun getDragDismissDistance(): Float {
@@ -638,17 +590,6 @@ internal class DragDismissLayout @JvmOverloads constructor(
      */
     fun setDragDismissVelocityLevel(dragDismissVelocityLevel: DragDismissVelocityLevel) {
         mDragDismissVelocity = dragDismissVelocityLevel.velocity
-    }
-
-    fun shouldDragEdgeOnly(): Boolean {
-        return mShouldDragEdgeOnly
-    }
-
-    /**
-     * If should dismiss if dragged from the edges of selected directions only.
-     */
-    fun setShouldDragEdgeOnly(shouldDragEdgeOnly: Boolean) {
-        mShouldDragEdgeOnly = shouldDragEdgeOnly
     }
 
     fun setDismissCallback(dismissCallback: (() -> Unit)?) {

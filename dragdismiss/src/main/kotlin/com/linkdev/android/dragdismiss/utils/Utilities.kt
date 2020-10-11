@@ -29,11 +29,11 @@ internal object Utilities {
 
     fun extractDirectionsFromFlag(directionFlag: Int): ArrayList<Int> {
         val directions = intArrayOf(
-            DragDismissDirections.DIRECTION_FROM_LEFT,
-            DragDismissDirections.DIRECTION_FROM_BOTTOM,
-            DragDismissDirections.DIRECTION_FROM_RIGHT,
-            DragDismissDirections.DIRECTION_FROM_TOP,
-            DragDismissDirections.DIRECTION_ALL
+            DragDismissDirections.FROM_LEFT,
+            DragDismissDirections.FROM_BOTTOM,
+            DragDismissDirections.FROM_RIGHT,
+            DragDismissDirections.FROM_TOP,
+            DragDismissDirections.ALL
         )
         val result = ArrayList<Int>()
         for (direction in directions) {

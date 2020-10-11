@@ -36,7 +36,6 @@ class SampleFragment : Fragment() {
         return DragDismiss.create(requireActivity())
             .setDragDismissScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
             .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
-            .setShouldDragEdgeOnly(sampleAttrs.shouldDragEdgeOnly)
             .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
             .setDragDismissBackgroundDim(sampleAttrs.backgroundAlpha)
             .attach(this, R.layout.fragment_sample)

@@ -10,6 +10,8 @@ import com.linkdev.android.dragdismiss.models.DragDismissVelocityLevel
 import com.linkdev.dragDismiss.sample_activities.ActivityHorizontalRecyclerView
 import com.linkdev.dragDismiss.sample_activities.ActivityNestedScrollView
 import com.linkdev.dragDismiss.sample_activities.ActivityRecyclerView
+import com.linkdev.dragDismiss.sample_activities.ActivityWebView
+import com.linkdev.dragDismiss.sample_activities.viewpager_sample.ActivityViewPager
 import com.linkdev.dragDismiss.utils.SampleDismissAttrs
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.section_drag_dismiss_values.*
@@ -60,11 +62,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         btnRecyclerView.setOnClickListener {
             ActivityRecyclerView.startActivity(mContext, getDragDismissAttrs())
         }
+        btnViewPager.setOnClickListener {
+            ActivityViewPager.startActivity(mContext, getDragDismissAttrs())
+        }
         btnNestedScrollView.setOnClickListener {
             ActivityNestedScrollView.startActivity(mContext, getDragDismissAttrs())
         }
         btnHorizontalScrollView.setOnClickListener {
             ActivityHorizontalRecyclerView.startActivity(mContext, getDragDismissAttrs())
+        }
+        btnWebView.setOnClickListener {
+            ActivityWebView.startActivity(mContext, getDragDismissAttrs())
         }
         btnFragment.setOnClickListener {
             mListener.onFragmentClicked(getDragDismissAttrs())
@@ -82,7 +90,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         return SampleDismissAttrs(
             dragDismissScreenPercentage,
             velocityLevel,
-            checkboxEdgeDrag.isChecked,
             selectedDirections,
             backgroundDim
         )
@@ -90,17 +97,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun getSelectedDirections(): Int {
         if (checkboxAll.isChecked)
-            return DragDismissDirections.DIRECTION_ALL
+            return DragDismissDirections.ALL
 
         var directions = 0
         if (checkboxBottom.isChecked)
-            directions = directions or DragDismissDirections.DIRECTION_FROM_BOTTOM
+            directions = directions or DragDismissDirections.FROM_BOTTOM
         if (checkboxTop.isChecked)
-            directions = directions or DragDismissDirections.DIRECTION_FROM_TOP
+            directions = directions or DragDismissDirections.FROM_TOP
         if (checkboxLeft.isChecked)
-            directions = directions or DragDismissDirections.DIRECTION_FROM_LEFT
+            directions = directions or DragDismissDirections.FROM_LEFT
         if (checkboxRight.isChecked)
-            directions = directions or DragDismissDirections.DIRECTION_FROM_RIGHT
+            directions = directions or DragDismissDirections.FROM_RIGHT
 
         return directions
     }

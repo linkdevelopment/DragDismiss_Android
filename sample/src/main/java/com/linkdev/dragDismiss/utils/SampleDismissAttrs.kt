@@ -8,7 +8,6 @@ import kotlinx.android.parcel.Parcelize
 data class SampleDismissAttrs(
     val dragDismissScreenPercentage: Float,
     val dragDragDismissVelocityLevel: DragDismissVelocityLevel,
-    val shouldDragEdgeOnly: Boolean,
     val draggingDirections: Int,
     val backgroundAlpha: Float
 ) : Parcelable

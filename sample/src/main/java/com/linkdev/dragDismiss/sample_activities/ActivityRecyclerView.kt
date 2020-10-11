@@ -50,7 +50,6 @@ class ActivityRecyclerView : AppCompatActivity() {
         return DragDismiss.create(mContext)
             .setDragDismissScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
             .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
-            .setShouldDragEdgeOnly(sampleAttrs.shouldDragEdgeOnly)
             .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
             .setDragDismissBackgroundDim(sampleAttrs.backgroundAlpha)
             .attach(this, R.layout.activity_recycler_view)

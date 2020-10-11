@@ -20,9 +20,9 @@ package com.linkdev.android.dragdismiss.models
  * The drag direction options to select from.
  */
 object DragDismissDirections {
-    const val DIRECTION_ALL = 15
-    const val DIRECTION_FROM_TOP = 1
-    const val DIRECTION_FROM_RIGHT = 2
-    const val DIRECTION_FROM_BOTTOM = 4
-    const val DIRECTION_FROM_LEFT = 8
+    const val ALL = 15
+    const val FROM_TOP = 1
+    const val FROM_RIGHT = 2
+    const val FROM_BOTTOM = 4
+    const val FROM_LEFT = 8
 }
