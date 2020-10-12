@@ -66,6 +66,14 @@ internal object Utilities {
         return flagSet or flag == flagSet
     }
 
+    fun fractionFromPercentage(percentage: Int): Float {
+        return percentage / 100f
+    }
+
+    fun percentageFromFraction(fraction: Float): Int {
+        return (fraction * 100).toInt()
+    }
+
     fun calculateAlphaFromFraction(fraction: Float): Int {
         return (fraction * 255).roundToInt()
     }

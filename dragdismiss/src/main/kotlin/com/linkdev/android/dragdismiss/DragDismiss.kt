@@ -18,6 +18,7 @@ package com.linkdev.android.dragdismiss
 
 import android.content.Context
 import android.view.View
+import androidx.annotation.IntRange
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -29,6 +30,7 @@ import com.linkdev.android.dragdismiss.models.DragDismissVelocityLevel
 import com.linkdev.android.dragdismiss.models.DragDismissDefaults
 import com.linkdev.android.dragdismiss.models.DragDismissDirections
 import com.linkdev.android.dragdismiss.models.DragDismissProperties
+import com.linkdev.android.dragdismiss.utils.Utilities
 
 // Created on 6/2/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
@@ -51,11 +53,22 @@ class DragDismiss private constructor(private val mContext: Context) {
         backgroundDim: Float = DragDismissDefaults.DEFAULT_BACKGROUND_DIM
     ): DragDismiss {
         mDragDismissProperties.apply {
-            this.dragDismissScreenPercentage = dragDismissScreenPercentage
+            this.dragDismissScreenPercentage =
+                Utilities.percentageFromFraction(dragDismissScreenPercentage)
             this.dragDragDismissVelocityLevel = dragDismissVelocityLevel
             this.draggingDirections = draggingDirections
-            this.backgroundDim = backgroundDim
+            this.backgroundDim = Utilities.percentageFromFraction(backgroundDim)
         }
+        return this
+    }
+
+    /**
+     * The selected drag directions(Can be more than one direction) from [DragDismissDirections]
+     *
+     * @default [DragDismissDefaults.DEFAULT_DRAG_DIRECTION]
+     */
+    fun setDragDismissDirections(draggingDirections: Int): DragDismiss {
+        mDragDismissProperties.draggingDirections = draggingDirections
         return this
     }
 
@@ -66,7 +79,9 @@ class DragDismiss private constructor(private val mContext: Context) {
      *
      * @default [DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE]
      */
-    fun setDragDismissScreenPercentage(dragDismissScreenPercentage: Float): DragDismiss {
+    fun setDragScreenPercentage(
+        @IntRange(from = 0, to = 100) dragDismissScreenPercentage: Int
+    ): DragDismiss {
         mDragDismissProperties.dragDismissScreenPercentage = dragDismissScreenPercentage
         return this
     }
@@ -76,18 +91,8 @@ class DragDismiss private constructor(private val mContext: Context) {
      *
      * @default [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL]
      */
-    fun setDragDismissVelocityLevel(dragDragDismissVelocityLevel: DragDismissVelocityLevel): DragDismiss {
+    fun setDragVelocityLevel(dragDragDismissVelocityLevel: DragDismissVelocityLevel): DragDismiss {
         mDragDismissProperties.dragDragDismissVelocityLevel = dragDragDismissVelocityLevel
-        return this
-    }
-
-    /**
-     * The selected drag directions(Can be more than one direction) from [DragDismissDirections]
-     *
-     * @default [DragDismissDefaults.DEFAULT_DRAG_DIRECTION]
-     */
-    fun setDragDismissDraggingDirections(draggingDirections: Int): DragDismiss {
-        mDragDismissProperties.draggingDirections = draggingDirections
         return this
     }
 
@@ -96,7 +101,9 @@ class DragDismiss private constructor(private val mContext: Context) {
      *
      * @default [DragDismissDefaults.DEFAULT_BACKGROUND_DIM]
      */
-    fun setDragDismissBackgroundDim(backgroundAlpha: Float): DragDismiss {
+    fun setDragBackgroundDimPercentage(
+        @IntRange(from = 0, to = 100) backgroundAlpha: Int
+    ): DragDismiss {
         mDragDismissProperties.backgroundDim = backgroundAlpha
         return this
     }
@@ -108,7 +115,7 @@ class DragDismiss private constructor(private val mContext: Context) {
     private fun constructDragDismissLayout(): DragDismissLayout {
         val dragDismissLayout = DragDismissLayout(mContext)
         dragDismissLayout.apply {
-            setDragDismissDistance(mDragDismissProperties.dragDismissScreenPercentage)
+            setDragDismissScreenPercentage(mDragDismissProperties.dragDismissScreenPercentage)
             setDragDismissVelocityLevel(mDragDismissProperties.dragDragDismissVelocityLevel)
             setDraggingDirections(mDragDismissProperties.draggingDirections)
             setBackgroundDim(mDragDismissProperties.backgroundDim)

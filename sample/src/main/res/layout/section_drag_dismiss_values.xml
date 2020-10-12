@@ -27,26 +27,13 @@
         app:layout_constraintStart_toEndOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tvDismissValues" />
 
-    <TextView
-        android:id="@+id/tvVelocityProgress"
-        style="@style/textTitle"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/spVelocity"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/marginMedium"
+        android:layout_marginHorizontal="@dimen/marginLarge"
         android:layout_marginTop="@dimen/marginMedium"
-        android:text="@string/default_dismiss_velocity_level"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvVelocity"
-        app:layout_constraintStart_toEndOf="@id/tvVelocity" />
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/seekbarVelocity"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:max="5"
         android:paddingVertical="@dimen/marginMedium"
-        android:progress="3"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tvVelocity" />
 
     <TextView
@@ -57,7 +44,7 @@
         android:layout_marginTop="@dimen/marginMedium"
         android:text="@string/drag_dismiss_screen_percentage"
         app:layout_constraintStart_toEndOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/seekbarVelocity" />
+        app:layout_constraintTop_toBottomOf="@id/spVelocity" />
 
     <TextView
         android:id="@+id/tvDistanceProgress"
@@ -74,9 +61,9 @@
         android:id="@+id/seekbarDistance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:max="70"
+        android:max="100"
         android:paddingVertical="@dimen/marginMedium"
-        android:progress="10"
+        android:progress="40"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tvScreenPercentage" />

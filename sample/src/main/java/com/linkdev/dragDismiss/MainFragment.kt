@@ -2,9 +2,11 @@ package com.linkdev.dragDismiss
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
+import com.linkdev.android.dragdismiss.models.DragDismissDefaults
 import com.linkdev.android.dragdismiss.models.DragDismissDirections
 import com.linkdev.android.dragdismiss.models.DragDismissVelocityLevel
 import com.linkdev.dragDismiss.sample_activities.ActivityHorizontalRecyclerView
@@ -24,7 +26,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var mContext: Context
 
     companion object {
-        const val SEEKBAR_SCREEN_PERCENTAGE_MIN = 30
         const val TAG = "MainFragment"
 
         fun newInstance() = MainFragment()
@@ -39,7 +40,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onActivityCreated(savedInstanceState)
         mContext = requireActivity()
 
+        initVelocitySpinner()
         setListeners()
+    }
+
+    private fun initVelocitySpinner() {
+        val velocityLevels =
+            arrayListOf("Level 0", "Level 1", "Level 2", "Level 3", "Level 4", "Level 5")
+
+        val arrayAdapter =
+            ArrayAdapter(mContext, android.R.layout.simple_spinner_item, velocityLevels)
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spVelocity.adapter = arrayAdapter
+        spVelocity.setSelection(DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL.ordinal)
     }
 
     private fun setListeners() {
@@ -81,11 +95,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun getDragDismissAttrs(): SampleDismissAttrs {
         val selectedDirections = getSelectedDirections()
-        val velocityLevel =
-            DragDismissVelocityLevel.values()[seekbarVelocity.progress]
-        val dragDismissScreenPercentage =
-            (seekbarDistance.progress.toFloat() + SEEKBAR_SCREEN_PERCENTAGE_MIN) / 100
-        val backgroundDim = seekbarBackgroundAlpha.progress.toFloat() / 100
+        val velocityLevel = DragDismissVelocityLevel.values()[spVelocity.selectedItemPosition]
+        val dragDismissScreenPercentage = seekbarDistance.progress
+        val backgroundDim = seekbarBackgroundAlpha.progress
 
         return SampleDismissAttrs(
             dragDismissScreenPercentage,
@@ -113,8 +125,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun setupDragDismissAttrs() {
-        seekbarVelocity.setOnSeekBarChangeListener(onSeekBarVelocityChangeListener())
-
         seekbarDistance.setOnSeekBarChangeListener(onSeekBarDistanceChangeListener())
 
         seekbarBackgroundAlpha.setOnSeekBarChangeListener(onSeekBarBackgroundChangeListener())
@@ -139,7 +149,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         return object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 tvAlphaProgress.text =
-                    (seekbarBackgroundAlpha.progress).toString()
+                    "${seekbarBackgroundAlpha.progress}%"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -151,20 +161,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun onSeekBarDistanceChangeListener(): SeekBar.OnSeekBarChangeListener {
         return object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                tvDistanceProgress.text =
-                    (seekbarDistance.progress + SEEKBAR_SCREEN_PERCENTAGE_MIN).toString()
-            }
+                tvDistanceProgress.text = "${seekbarDistance.progress}%"
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        }
-    }
-
-    private fun onSeekBarVelocityChangeListener(): SeekBar.OnSeekBarChangeListener {
-        return object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                tvVelocityProgress.text = seekbarVelocity.progress.toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}

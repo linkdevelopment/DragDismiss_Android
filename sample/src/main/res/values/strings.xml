@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Drag Dismiss</string>
 
-    <string name="default_bg_visibility">80</string>
+    <string name="default_bg_visibility">80%</string>
     <string name="background_dim">Background dim</string>
-    <string name="default_drag_dismiss">40</string>
+    <string name="default_drag_dismiss">40%</string>
     <string name="drag_dismiss_screen_percentage">Drag dismiss screen travel percentage</string>
     <string name="default_dismiss_velocity_level">3</string>
     <string name="drag_dismiss_velocity_level">Drag dismiss velocity level</string>

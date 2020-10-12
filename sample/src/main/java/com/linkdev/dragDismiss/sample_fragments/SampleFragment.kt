@@ -34,10 +34,10 @@ class SampleFragment : Fragment() {
     private fun getDragDismissView(): View {
         val sampleAttrs = arguments?.getParcelable<SampleDismissAttrs>(Extras.EXTRA_SAMPLE_ATTRS)!!
         return DragDismiss.create(requireActivity())
-            .setDragDismissScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
-            .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
-            .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
-            .setDragDismissBackgroundDim(sampleAttrs.backgroundAlpha)
+            .setDragScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
+            .setDragVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
+            .setDragDismissDirections(sampleAttrs.draggingDirections)
+            .setDragBackgroundDimPercentage(sampleAttrs.backgroundAlpha)
             .attach(this, R.layout.fragment_sample)
     }
 }

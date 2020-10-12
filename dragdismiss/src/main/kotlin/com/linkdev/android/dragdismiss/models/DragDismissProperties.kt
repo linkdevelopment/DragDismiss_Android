@@ -16,11 +16,13 @@
 
 package com.linkdev.android.dragdismiss.models
 
+import com.linkdev.android.dragdismiss.utils.Utilities
+
 // Created on 6/3/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
 internal class DragDismissProperties(
-    var dragDismissScreenPercentage: Float = DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE,
+    var dragDismissScreenPercentage: Int = Utilities.percentageFromFraction(DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE),
     var dragDragDismissVelocityLevel: DragDismissVelocityLevel = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL,
     var draggingDirections: Int = DragDismissDefaults.DEFAULT_DRAG_DIRECTION,
-    var backgroundDim: Float = DragDismissDefaults.DEFAULT_BACKGROUND_DIM
+    var backgroundDim: Int = Utilities.percentageFromFraction(DragDismissDefaults.DEFAULT_BACKGROUND_DIM)
 )

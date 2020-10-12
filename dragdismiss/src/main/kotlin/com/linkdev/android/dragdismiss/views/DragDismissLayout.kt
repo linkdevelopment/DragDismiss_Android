@@ -24,7 +24,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
-import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import androidx.core.view.ViewCompat
 import androidx.customview.widget.ViewDragHelper
@@ -546,8 +545,9 @@ internal class DragDismissLayout @JvmOverloads constructor(
      *
      * @default [DragDismissDefaults.DEFAULT_BACKGROUND_DIM]
      */
-    fun setBackgroundDim(@FloatRange(from = 0.0, to = 1.0) backgroundDimAlpha: Float) {
-        mBackgroundDimAlpha = Utilities.calculateAlphaFromFraction(backgroundDimAlpha)
+    fun setBackgroundDim(@IntRange(from = 0, to = 100) backgroundDimAlpha: Int) {
+        val fraction = Utilities.fractionFromPercentage(backgroundDimAlpha)
+        mBackgroundDimAlpha = Utilities.calculateAlphaFromFraction(fraction)
     }
 
     /**
@@ -560,8 +560,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
         mSelectedDragBackDirections = Utilities.extractDirectionsFromFlag(directions)
     }
 
-    fun getDragDismissDistance(): Float {
-        return mDragDismissScreenPercentage
+    fun getDragDismissScreenPercentage(): Int {
+        return Utilities.percentageFromFraction(mDragDismissScreenPercentage)
     }
 
     /**
@@ -572,8 +572,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
      * @default [DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE]
      * @see mDragDismissVelocity
      */
-    fun setDragDismissDistance(@FloatRange(from = 0.0, to = 1.0) screenDragDismiss: Float) {
-        mDragDismissScreenPercentage = screenDragDismiss
+    fun setDragDismissScreenPercentage(@IntRange(from = 0, to = 100) screenPercentage: Int) {
+        mDragDismissScreenPercentage = Utilities.fractionFromPercentage(screenPercentage)
     }
 
     /**

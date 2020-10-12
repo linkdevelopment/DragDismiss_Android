@@ -41,10 +41,10 @@ class ActivityWebView : AppCompatActivity() {
     private fun getDragDismissContentView(): View {
         val sampleAttrs = intent.getParcelableExtra<SampleDismissAttrs>(Extras.EXTRA_SAMPLE_ATTRS)!!
         return DragDismiss.create(mContext)
-            .setDragDismissScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
-            .setDragDismissVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
-            .setDragDismissDraggingDirections(sampleAttrs.draggingDirections)
-            .setDragDismissBackgroundDim(sampleAttrs.backgroundAlpha)
+            .setDragScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
+            .setDragVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
+            .setDragDismissDirections(sampleAttrs.draggingDirections)
+            .setDragBackgroundDimPercentage(sampleAttrs.backgroundAlpha)
             .attach(this, R.layout.activity_webview)
     }
 }
