@@ -27,7 +27,7 @@ import kotlin.math.roundToInt
  */
 internal object Utilities {
 
-    fun extractDirectionsFromFlag(directionFlag: Int): ArrayList<Int> {
+    internal fun extractDirectionsFromFlag(directionFlag: Int): ArrayList<Int> {
         val directions = intArrayOf(
             DragDismissDirections.FROM_LEFT,
             DragDismissDirections.FROM_BOTTOM,
@@ -43,7 +43,7 @@ internal object Utilities {
         return result
     }
 
-    fun findAllScrollViews(viewGroup: ViewGroup): ArrayList<View> {
+    internal fun findAllScrollViews(viewGroup: ViewGroup): ArrayList<View> {
         val innerScrollViewsList = arrayListOf<View>()
 
         findAllScrollViews(viewGroup, innerScrollViewsList)
@@ -66,15 +66,15 @@ internal object Utilities {
         return flagSet or flag == flagSet
     }
 
-    fun fractionFromPercentage(percentage: Int): Float {
+    internal fun fractionFromPercentage(percentage: Int): Float {
         return percentage / 100f
     }
 
-    fun percentageFromFraction(fraction: Float): Int {
+    internal fun percentageFromFraction(fraction: Float): Int {
         return (fraction * 100).toInt()
     }
 
-    fun calculateAlphaFromFraction(fraction: Float): Int {
+    internal fun calculateAlphaFromFraction(fraction: Float): Int {
         return (fraction * 255).roundToInt()
     }
 }
