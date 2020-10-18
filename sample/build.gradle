@@ -7,7 +7,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.linkdev.dragDismiss"
+        applicationId "com.linkdev.dragdismisssample"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

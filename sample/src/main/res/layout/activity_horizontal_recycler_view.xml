@@ -33,7 +33,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="800dp"
                 android:layout_margin="16dp"
                 android:background="@color/colorPrimary" />
         </LinearLayout>

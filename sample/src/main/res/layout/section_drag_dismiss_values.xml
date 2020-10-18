@@ -79,7 +79,7 @@
         app:layout_constraintTop_toBottomOf="@id/seekbarDistance" />
 
     <TextView
-        android:id="@+id/tvAlphaProgress"
+        android:id="@+id/tvDimProgress"
         style="@style/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
         app:layout_constraintStart_toEndOf="@id/tvBackgroundDim" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/seekbarBackgroundAlpha"
+        android:id="@+id/seekbarBackgroundDim"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:max="100"
