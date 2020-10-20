@@ -115,7 +115,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
     /**
      * The minimum distance in pixels that the user must travel to initiate a drag.
      */
-    private var mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
+    private var mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop + 30
 
     private var mWidth = 0
     private var mHeight = 0
@@ -241,11 +241,13 @@ internal class DragDismissLayout @JvmOverloads constructor(
                 mPointerX = event.rawX
                 mPointerY = event.rawY
             }
-            MotionEvent.ACTION_MOVE ->
+            MotionEvent.ACTION_MOVE -> {
                 // Handle children scrollable views touch interception.
                 if (mInnerScrollViewsList.isNotEmpty()) {
                     val xOffset = abs(event.rawX - mPointerX)
                     val yOffset = abs(event.rawY - mPointerY)
+                    if (xOffset < mTouchSlop && yOffset < mTouchSlop) return false
+
                     for (innerScrollView in mInnerScrollViewsList) {
                         if (innerScrollView.contains(mPointerX, mPointerY)) {
                             var shouldIntercept = true
@@ -262,6 +264,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
                         }
                     }
                 }
+            }
         }
         return mDragHelper.shouldInterceptTouchEvent(event) || super.onInterceptTouchEvent(event)
     }
