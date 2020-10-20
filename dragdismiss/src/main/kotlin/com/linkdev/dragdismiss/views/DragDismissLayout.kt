@@ -122,6 +122,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
     private var mTopOffset = paddingTop
     private var mLeftOffset = paddingLeft
     private var mDragHelper = ViewDragHelper.create(this, 1f, DragHelperCallback())
+    private var mDismiss: Boolean = false
 
     /**
      * The callback method after the animation is done the implementing activity will have to call it's finish
@@ -340,8 +341,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
 
             // check which direction was moved most to determine the moved fraction
             mSwipeBackFraction =
-                if (absLeft > absTop) 1.0f * absLeft / mWidth
-                else 1.0f * absTop / mHeight
+                if (absTop > absLeft) absTop.toFloat() / mHeight
+                else absLeft.toFloat() / mWidth
             invalidate()
         }
 
@@ -356,14 +357,14 @@ internal class DragDismissLayout @JvmOverloads constructor(
             // settle the view to it's original  position
             if (returnToOriginal) {
                 settleViewAt(paddingLeft, paddingTop)
-            }
+            } else mDismiss = true
             resetOffsets()
         }
 
         override fun onViewDragStateChanged(state: Int) {
             super.onViewDragStateChanged(state)
             if (state == ViewDragHelper.STATE_IDLE) {
-                if (mSwipeBackFraction >= 1) { // The view is out of screen
+                if (mDismiss) { // The view is out of screen
                     dismiss()
                 }
             }
