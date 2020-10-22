@@ -67,8 +67,9 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
-     * The selected drag directions(Can be more than one direction) from [DragDismissDirections]
+     * Sets the selected drag directions(Can be more than one direction) from [DragDismissDirections]
      *
+     * @param draggingDirections The directions to set from [DragDismissDirections]
      * @default [DragDismissDirections.FROM_LEFT]
      */
     fun setDragDismissDirections(vararg draggingDirections: DragDismissDirections): DragDismiss {
@@ -77,9 +78,10 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
-     * The percentage of the screen traveled before the screen is dismissed on release.
+     * Sets the percentage of the screen traveled before the screen is dismissed on release.
      *
-     * @default 0.4f
+     * @param dragDismissScreenPercentage The percentage to set from 0 to 100.
+     * @default 40
      */
     fun setDragScreenPercentage(
         @IntRange(from = 0, to = 100) dragDismissScreenPercentage: Int
@@ -89,9 +91,11 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
-     * The speed level that if the screen is flung past it will be dismissed on release.
+     * Sets the speed level that if the screen is flung past it will be dismissed on release.
      *
+     * @param dragDragDismissVelocityLevel The level to set.
      * @default [DragDismissVelocityLevel.LEVEL_3]
+     * @see dragDragDismissVelocityLevel
      */
     fun setDragVelocityLevel(dragDragDismissVelocityLevel: DragDismissVelocityLevel): DragDismiss {
         mDragDismissProperties.dragDragDismissVelocityLevel = dragDragDismissVelocityLevel
@@ -99,9 +103,10 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
-     * The starting alpha of the canvas background for the dismiss background fade out effect.
+     * Sets the starting alpha of the canvas background for the dismiss background fade out effect.
      *
-     * @default 0.8f
+     * @param backgroundDim The percentage to set from 0 to 100.
+     * @default 80
      */
     fun setDragBackgroundDimPercentage(
         @IntRange(from = 0, to = 100) backgroundDim: Int
@@ -111,7 +116,8 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
-     * Constructs the layout using sat attrs and using defaults if not.
+     * Constructs the layout using the set attrs.
+     *
      * @return returns the DragDismissView
      */
     private fun constructDragDismissLayout(): DragDismissLayout {

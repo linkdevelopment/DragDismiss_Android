@@ -26,7 +26,7 @@
         </attr>
 
         <!-- Sets the alpha of the black Background while the view is dragged -->
-        <attr name="backgroundAlpha" format="fraction|reference" />
+        <attr name="backgroundDim" format="fraction|reference" />
 
         <!-- Sets the directions that the view is dismissed if dragged from -->
         <attr name="draggingDirections">

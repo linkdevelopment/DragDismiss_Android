@@ -10,5 +10,5 @@ data class SampleDismissAttrs(
     val dragDismissScreenPercentage: Int,
     val dragDragDismissVelocityLevel: DragDismissVelocityLevel,
     val draggingDirections: ArrayList<DragDismissDirections>,
-    val backgroundAlpha: Int
+    val backgroundDim: Int
 ) : Parcelable

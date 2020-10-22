@@ -36,7 +36,7 @@ class ActivityNestedScrollView : AppCompatActivity() {
             .setDragScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
             .setDragVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
             .setDragDismissDirections(*sampleAttrs.draggingDirections.toTypedArray())
-            .setDragBackgroundDimPercentage(sampleAttrs.backgroundAlpha)
+            .setDragBackgroundDimPercentage(sampleAttrs.backgroundDim)
             .attach(this, R.layout.activity_nested_scroll_view)
     }
 }

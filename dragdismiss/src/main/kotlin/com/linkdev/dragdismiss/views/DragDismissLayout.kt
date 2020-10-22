@@ -162,7 +162,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
         mBackgroundDim =
             Utilities.calculateAlphaFromFraction(
                 typedArray.getFraction(
-                    R.styleable.DragDismissLayout_backgroundAlpha,
+                    R.styleable.DragDismissLayout_backgroundDim,
                     1,
                     1,
                     DragDismissDefaults.DEFAULT_BACKGROUND_DIM
@@ -540,19 +540,20 @@ internal class DragDismissLayout @JvmOverloads constructor(
     }
 
     /**
-     * The starting alpha of the canvas background for the dismiss background fade out effect.
+     * Returns the starting alpha of the canvas background for the dismiss background fade out effect.
      *
-     * @default 0.8f
+     * @return The currently set percentage.
      */
-    @IntRange(from = 0, to = 255)
+    @IntRange(from = 0, to = 100)
     fun getBackgroundDim(): Int {
-        return mBackgroundDim
+        return (Utilities.calculateFractionFromAlpha(mBackgroundDim) * 100).toInt()
     }
 
     /**
-     * The starting alpha of the canvas background for the dismiss background fade out effect.
+     * Sets The starting alpha of the canvas background for the dismiss background fade out effect.
      *
-     * @default 0.8f
+     * @param backgroundDim The percentage to set from 0 to 100.
+     * @default 80
      */
     fun setBackgroundDim(@IntRange(from = 0, to = 100) backgroundDim: Int) {
         val fraction = Utilities.fractionFromPercentage(backgroundDim)
@@ -560,8 +561,9 @@ internal class DragDismissLayout @JvmOverloads constructor(
     }
 
     /**
-     * The selected drag directions(Can be more than one direction) from [DragDismissDirections]
+     * Sets The drag directions (Can be more than one direction) from [DragDismissDirections]
      *
+     * @param directions The directions to set from [DragDismissDirections]
      * @default [DragDismissDirections.FROM_LEFT]
      */
     fun setDraggingDirections(directions: Int) {
@@ -569,39 +571,40 @@ internal class DragDismissLayout @JvmOverloads constructor(
     }
 
     /**
-     * The percentage of the screen traveled before the screen is dismissed on release.
+     * Returns the percentage of the screen traveled before the screen is dismissed on release.
      *
-     * @default 0.4f
+     * @return The currently set percentage.
      */
     fun getDragDismissScreenPercentage(): Int {
         return Utilities.percentageFromFraction(mDragDismissScreenPercentage)
     }
 
     /**
-     * The percentage of the screen traveled before the screen is dismissed on release.
+     * Sets the percentage of the screen traveled before the screen is dismissed on release.
      *
-     * @default 0.4f
+     * @param screenPercentage The percentage to set from 0 to 100.
+     * @default 40
      */
     fun setDragDismissScreenPercentage(@IntRange(from = 0, to = 100) screenPercentage: Int) {
         mDragDismissScreenPercentage = Utilities.fractionFromPercentage(screenPercentage)
     }
 
     /**
-     * There are two implemented ways to dismiss the view
+     * Sets the speed level that if the screen is flung past, It will be dismissed on release.
      *
-     * 1) [mDragDismissVelocity] If the view is flanged above a certain speed.
-     *
-     * 2) [mDragDismissScreenPercentage] If the layout passed a certain percentage of the screen.
-     *
-     * So if it's set to [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL] then if the layout is dragged at speed pass [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL] will be dismissed on release.
-     *
-     * @default [DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL]
+     * @param dragDismissVelocityLevel The level to set.
+     * @default [DragDismissVelocityLevel.LEVEL_3]
      * @see mDragDismissScreenPercentage
      */
     fun setDragDismissVelocityLevel(dragDismissVelocityLevel: DragDismissVelocityLevel) {
         mDragDismissVelocity = dragDismissVelocityLevel.velocity
     }
 
+    /**
+     * Sets the callback to be invoked when the Dragging is done.
+     *
+     * @param dismissCallback the callback to set.
+     */
     fun setDismissCallback(dismissCallback: (() -> Unit)?) {
         mDismissCallback = dismissCallback
     }

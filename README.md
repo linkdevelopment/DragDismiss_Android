@@ -1,6 +1,6 @@
 # DragDismiss
 [![Platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)
-![API](https://img.shields.io/badge/Min--SDK-19-yellowgreen)
+![API](https://img.shields.io/badge/Min--SDK-21-yellowgreen)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 DragDismissLayout is a ViewGroup, built using the ViewDragHelper utility class, To help you give your users the flexibility of swiping to dismiss the visible screen.
@@ -11,6 +11,22 @@ DragDismissLayout is a ViewGroup, built using the ViewDragHelper utility class, 
 - Works with activities and fragments.
 - Built using androidx ViewDragHelper utility class.
 - Kotlin-Idiomatic, written completely in kotlin.
+
+#Setup
+
+Gradle:
+```
+implementation 'com.linkdev.dragdismiss:dragdismiss:1.0.0'
+```
+Maven:
+```
+<dependency>
+  <groupId>com.linkdev.dragdismiss</groupId>
+  <artifactId>dragdismiss</artifactId>
+  <version>1.0.0</version>
+  <type>pom</type>
+</dependency>
+```
 
 # How to use DragDismiss
 DragDismiss can be used with both activities and fragments:
@@ -43,7 +59,15 @@ The `DragDismiss.attach(...)` method takes the whole activity layout and returns
  so you should call `setContentView(...)` in your activity using this new View.
 
 ## Fragments
-The fragment will have to be added using the
+**Firstly, **It's required that the fragment is added and not replaced using the Fragment manger like below.
+```kotlin
+supportFragmentManager.beginTransaction()
+    .add(R.id.fragmentContainer, SampleFragment.newInstance(dragDismissAttrs), SampleFragment.TAG)
+    .addToBackStack(null)
+    .commit()
+```
+
+**Then, **You can set the DragDismiss directly from your onCreateView like below.
 ```kotlin
 override fun onCreateView(
     inflater: LayoutInflater,
@@ -89,6 +113,7 @@ Possible values are
 * LEVEL_3
 * LEVEL_4
 * LEVEL_5
+
 The higher the level the harder it is to dismiss the screen by a fling.
 
 ```kotlin
@@ -96,14 +121,16 @@ DragDismiss.create(mContext)
     .setDragDismissVelocityLevel(DragDismissVelocityLevel.LEVEL_3)
 ```
 **Default: **LEVEL_3
+
 **Note, ** LEVEL_0 disables the dismiss feature
 
 ## Set dragging directions
-The directions that the screen ca be dragged from.
-Possible values:
-* ALL             * FROM_LEFT
-* FROM_RIGHT      * FROM_TOP
-* FROM_BOTTOM)
+The directions that the screen can be dragged from, Possible values:
+* ALL
+* FROM_LEFT
+* FROM_RIGHT
+* FROM_TOP
+* FROM_BOTTOM
 ```kotlin
 DragDismiss.create(mContext)
     .setDragDismissDraggingDirections(DragDismissDirections.FROM_LEFT , DragDismissDirections.FROM_RIGHT)
@@ -111,7 +138,7 @@ DragDismiss.create(mContext)
 **Default: **FROM_LEFT
 
 ## Set dragging background dim
-While dragging you could have a black window show above the previous screen that gets brighter when the screen is about to be dismiss.
+While dragging you could have a black transparent window show above the previous screen that gets brighter when the screen is about to be dismiss.
 This attribute sets the percentage of the dim of the previous screen while dragging, The higher the darker.
 ```kotlin
 DragDismiss.create(mContext)
@@ -121,22 +148,6 @@ DragDismiss.create(mContext)
 **Note, ** set to 0 to make it fully visible.
 
 You can learn more and play around with the attrs in the sample by cloning the repo.
-
-#Setup
-
-Gradle:
-```
-implementation 'com.linkdev.dragdismiss:dragDismiss:1.0.0'
-```
-Maven:
-```
-<dependency>
-  <groupId>com.linkdev.dragdismiss</groupId>
-  <artifactId>dragdismiss</artifactId>
-  <version>1.0.0</version>
-  <type>pom</type>
-</dependency>
-```
 
 # Contribute
 Contributions and contributors are always welcome! Help us make DragDismiss better and give back to the community.

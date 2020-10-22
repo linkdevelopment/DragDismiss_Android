@@ -78,6 +78,10 @@ internal object Utilities {
         return (fraction * 255).roundToInt()
     }
 
+    internal fun calculateFractionFromAlpha(alpha: Int): Float {
+        return alpha / 255.0f
+    }
+
     internal fun extractDraggingDirectionsValues(vararg directions: DragDismissDirections): Int {
         var directionsFlag = 0
         directions.forEach { direction ->
