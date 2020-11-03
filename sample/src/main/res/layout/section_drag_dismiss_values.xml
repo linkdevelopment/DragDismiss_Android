@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/marginLarge"
+    android:layout_marginBottom="@dimen/marginLarge"
+    android:background="@color/colorPrimary"
+    android:paddingVertical="@dimen/marginLarge">
+
+    <TextView
+        android:id="@+id/tvDismissValues"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dismiss_values"
+        app:layout_constraintStart_toEndOf="@id/guidelineStart"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvVelocity"
+        style="@style/textBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginMedium"
+        android:text="@string/drag_dismiss_velocity_level"
+        app:layout_constraintStart_toEndOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tvDismissValues" />
+
+    <Spinner
+        android:id="@+id/spVelocity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/marginLarge"
+        android:layout_marginTop="@dimen/marginMedium"
+        android:paddingVertical="@dimen/marginMedium"
+        app:layout_constraintTop_toBottomOf="@id/tvVelocity" />
+
+    <TextView
+        android:id="@+id/tvScreenPercentage"
+        style="@style/textBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginMedium"
+        android:text="@string/drag_dismiss_screen_percentage"
+        app:layout_constraintStart_toEndOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/spVelocity" />
+
+    <TextView
+        android:id="@+id/tvDistanceProgress"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginMedium"
+        android:layout_marginTop="@dimen/marginMedium"
+        android:text="@string/default_drag_dismiss"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvScreenPercentage"
+        app:layout_constraintStart_toEndOf="@id/tvScreenPercentage" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekbarDistance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:paddingVertical="@dimen/marginMedium"
+        android:progress="40"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tvScreenPercentage" />
+
+    <TextView
+        android:id="@+id/tvBackgroundDim"
+        style="@style/textBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginMedium"
+        android:text="@string/background_dim"
+        app:layout_constraintStart_toEndOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/seekbarDistance" />
+
+    <TextView
+        android:id="@+id/tvDimProgress"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginMedium"
+        android:layout_marginTop="@dimen/marginMedium"
+        android:text="@string/default_bg_visibility"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvBackgroundDim"
+        app:layout_constraintStart_toEndOf="@id/tvBackgroundDim" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekbarBackgroundDim"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:paddingVertical="@dimen/marginMedium"
+        android:progress="80"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tvBackgroundDim" />
+
+    <include
+        android:id="@+id/guidelineStart"
+        layout="@layout/view_guideline_start" />
+
+    <include
+        android:id="@+id/guidelineEnd"
+        layout="@layout/view_guideline_end" />
+</androidx.constraintlayout.widget.ConstraintLayout>
