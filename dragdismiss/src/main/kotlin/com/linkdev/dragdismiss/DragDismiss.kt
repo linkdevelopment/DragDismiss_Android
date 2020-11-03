@@ -73,7 +73,8 @@ class DragDismiss private constructor(private val mContext: Context) {
      * @default [DragDismissDirections.FROM_LEFT]
      */
     fun setDragDismissDirections(vararg draggingDirections: DragDismissDirections): DragDismiss {
-        mDragDismissProperties.draggingDirections = Utilities.extractDraggingDirectionsValues(*draggingDirections)
+        mDragDismissProperties.draggingDirections =
+            Utilities.extractDraggingDirectionsValues(*draggingDirections)
         return this
     }
 

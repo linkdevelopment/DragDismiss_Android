@@ -115,7 +115,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
     /**
      * The minimum distance in pixels that the user must travel to initiate a drag.
      */
-    private var mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop + 30
+    private var mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop + DragDismissDefaults.DRAG_DISMISS_TOUCH_SLOP
 
     private var mWidth = 0
     private var mHeight = 0
