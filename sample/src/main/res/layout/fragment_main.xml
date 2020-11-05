@@ -68,7 +68,7 @@
         android:layout_marginStart="@dimen/marginLarge"
         android:layout_marginEnd="@dimen/marginMedium"
         android:text="@string/horizontal_scroll_view"
-        app:layout_constraintBottom_toTopOf="@id/btnFragment"
+        app:layout_constraintBottom_toTopOf="@id/btnActivity"
         app:layout_constraintEnd_toStartOf="@id/btnNestedScrollView"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -81,17 +81,17 @@
         android:layout_marginBottom="@dimen/marginMedium"
         android:text="@string/web_view"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnFragment"
+        app:layout_constraintEnd_toStartOf="@id/btnActivity"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnFragment"
+        android:id="@+id/btnActivity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marginMedium"
         android:layout_marginEnd="@dimen/marginLarge"
         android:layout_marginBottom="@dimen/marginMedium"
-        android:text="@string/fragment"
+        android:text="@string/activity"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnWebView" />

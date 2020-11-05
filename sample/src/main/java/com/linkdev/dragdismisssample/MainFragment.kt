@@ -9,11 +9,12 @@ import androidx.fragment.app.Fragment
 import com.linkdev.dragdismiss.models.DragDismissDefaults
 import com.linkdev.dragdismiss.models.DragDismissDirections
 import com.linkdev.dragdismiss.models.DragDismissVelocityLevel
-import com.linkdev.dragdismisssample.sample_activities.ActivityHorizontalRecyclerView
-import com.linkdev.dragdismisssample.sample_activities.ActivityNestedScrollView
-import com.linkdev.dragdismisssample.sample_activities.ActivityRecyclerView
-import com.linkdev.dragdismisssample.sample_activities.ActivityWebView
-import com.linkdev.dragdismisssample.sample_activities.viewpager_sample.ActivityViewPager
+import com.linkdev.dragdismisssample.sample_activities.FragmentHorizontalRecyclerView
+import com.linkdev.dragdismisssample.sample_activities.FragmentNestedScrollView
+import com.linkdev.dragdismisssample.sample_activities.FragmentRecyclerView
+import com.linkdev.dragdismisssample.sample_activities.FragmentWebView
+import com.linkdev.dragdismisssample.sample_activities.viewpager_sample.FragmentViewPager
+import com.linkdev.dragdismisssample.sample_fragments.ActivitySample
 import com.linkdev.dragdismisssample.utils.SampleDismissAttrs
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.section_drag_dismiss_values.*
@@ -74,22 +75,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun setSampleActivitiesClickListeners() {
         btnRecyclerView.setOnClickListener {
-            ActivityRecyclerView.startActivity(mContext, getDragDismissAttrs())
+            mListener.onFragmentClicked(FragmentRecyclerView.newInstance(getDragDismissAttrs()))
         }
         btnViewPager.setOnClickListener {
-            ActivityViewPager.startActivity(mContext, getDragDismissAttrs())
+            mListener.onFragmentClicked(FragmentViewPager.newInstance(getDragDismissAttrs()))
         }
         btnNestedScrollView.setOnClickListener {
-            ActivityNestedScrollView.startActivity(mContext, getDragDismissAttrs())
+            mListener.onFragmentClicked(FragmentNestedScrollView.newInstance(getDragDismissAttrs()))
         }
         btnHorizontalScrollView.setOnClickListener {
-            ActivityHorizontalRecyclerView.startActivity(mContext, getDragDismissAttrs())
+            mListener.onFragmentClicked(FragmentHorizontalRecyclerView.newInstance(getDragDismissAttrs()))
         }
         btnWebView.setOnClickListener {
-            ActivityWebView.startActivity(mContext, getDragDismissAttrs())
+            mListener.onFragmentClicked(FragmentWebView.newInstance(getDragDismissAttrs()))
         }
-        btnFragment.setOnClickListener {
-            mListener.onFragmentClicked(getDragDismissAttrs())
+        btnActivity.setOnClickListener {
+            ActivitySample.startActivity(mContext, getDragDismissAttrs())
         }
     }
 
@@ -172,6 +173,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     interface IMainFragmentInteraction {
-        fun onFragmentClicked(dragDismissAttrs: SampleDismissAttrs)
+        fun onFragmentClicked(fragment: Fragment)
     }
 }

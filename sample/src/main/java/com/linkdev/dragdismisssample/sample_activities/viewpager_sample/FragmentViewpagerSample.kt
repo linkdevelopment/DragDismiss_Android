@@ -5,5 +5,5 @@ import com.linkdev.dragdismisssample.R
 
 // Created by Mohammed Fareed on 10/7/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
-class FragmentViewpagerSample: Fragment(R.layout.fragment_sample) {
+class FragmentViewpagerSample: Fragment(R.layout.activity_sample) {
 }

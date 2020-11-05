@@ -2,8 +2,8 @@ package com.linkdev.dragdismisssample
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.linkdev.dragdismisssample.sample_fragments.SampleFragment
-import com.linkdev.dragdismisssample.utils.SampleDismissAttrs
+import androidx.fragment.app.Fragment
+import com.linkdev.dragdismisssample.sample_fragments.ActivitySample
 
 class MainActivity : AppCompatActivity(), MainFragment.IMainFragmentInteraction {
 
@@ -18,13 +18,9 @@ class MainActivity : AppCompatActivity(), MainFragment.IMainFragmentInteraction 
         }
     }
 
-    override fun onFragmentClicked(dragDismissAttrs: SampleDismissAttrs) {
+    override fun onFragmentClicked(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .add(
-                R.id.fragmentContainer,
-                SampleFragment.newInstance(dragDismissAttrs),
-                SampleFragment.TAG
-            )
+            .add(R.id.fragmentContainer, fragment, null)
             .addToBackStack(null)
             .commit()
     }
