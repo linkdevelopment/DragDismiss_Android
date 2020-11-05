@@ -59,7 +59,7 @@ The `DragDismiss.attach(...)` method takes the whole activity layout and returns
  so you should call `setContentView(...)` in your activity using this new View.
 
 ## Fragments
-**Firstly, **It's required that the fragment is added and not replaced using the Fragment manger like below.
+**Firstly, ** It's required that the fragment is added and not replaced using the Fragment manger like below.
 ```kotlin
 supportFragmentManager.beginTransaction()
     .add(R.id.fragmentContainer, SampleFragment.newInstance(dragDismissAttrs), SampleFragment.TAG)
@@ -67,7 +67,7 @@ supportFragmentManager.beginTransaction()
     .commit()
 ```
 
-**Then, **You can set the DragDismiss directly from your onCreateView like below.
+**Then, ** You can set the DragDismiss directly from your onCreateView like below.
 ```kotlin
 override fun onCreateView(
     inflater: LayoutInflater,
@@ -102,7 +102,7 @@ The percentage of the screen traveled before the screen is dismissed on release.
 DragDismiss.create(mContext)
     .setDragDismissScreenPercentage(40)
 ```
-**Default: **40
+**Default: ** 40
 
 ## Set velocity level
 The Speed that if the screen is flung past it will be dismissed.
@@ -120,7 +120,7 @@ The higher the level the harder it is to dismiss the screen by a fling.
 DragDismiss.create(mContext)
     .setDragDismissVelocityLevel(DragDismissVelocityLevel.LEVEL_3)
 ```
-**Default: **LEVEL_3
+**Default: ** LEVEL_3
 
 **Note, ** LEVEL_0 disables the dismiss feature
 
@@ -135,7 +135,9 @@ The directions that the screen can be dragged from, Possible values:
 DragDismiss.create(mContext)
     .setDragDismissDraggingDirections(DragDismissDirections.FROM_LEFT , DragDismissDirections.FROM_RIGHT)
 ```
-**Default: **FROM_LEFT
+**Default: ** FROM_LEFT
+
+**Note, ** For the time being, If your view contains a view pager, avoid using it with direction `All` as it will interfere with the view pager scrolling behavior.
 
 ## Set dragging background dim
 While dragging you could have a black transparent window show above the previous screen that gets brighter when the screen is about to be dismiss.
@@ -144,7 +146,8 @@ This attribute sets the percentage of the dim of the previous screen while dragg
 DragDismiss.create(mContext)
     .setDragDismissBackgroundDim(80)
 ```
-**Default: **80
+**Default: ** 80
+
 **Note, ** set to 0 to make it fully visible.
 
 You can learn more and play around with the attrs in the sample by cloning the repo.
