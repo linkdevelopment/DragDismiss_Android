@@ -1,4 +1,4 @@
-package com.linkdev.dragdismisssample.sample_activities
+package com.linkdev.dragdismisssample.sample_fragments
 
 import android.content.Context
 import android.os.Bundle

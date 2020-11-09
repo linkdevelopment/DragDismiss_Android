@@ -1,4 +1,4 @@
-package com.linkdev.dragdismisssample.sample_activities.viewpager_sample
+package com.linkdev.dragdismisssample.sample_fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -11,17 +11,15 @@ import com.linkdev.dragdismiss.DragDismiss
 import com.linkdev.dragdismisssample.R
 import com.linkdev.dragdismisssample.utils.Extras
 import com.linkdev.dragdismisssample.utils.SampleDismissAttrs
-import kotlinx.android.synthetic.main.fragment_viewpager.*
+import kotlinx.android.synthetic.main.fragment_nested_scroll_view.*
 
-// Created by Mohammed Fareed on 10/7/2020.
-// Copyright (c) 2020 Link Development All rights reserved.
-class FragmentViewPager : Fragment() {
+class FragmentNestedScrollView : Fragment() {
 
     companion object {
-        const val TAG = "FragmentViewPager"
+        const val TAG = "FragmentNestedScrollView"
 
         fun newInstance(sampleDismissAttrs: SampleDismissAttrs) =
-            FragmentViewPager().apply {
+            FragmentNestedScrollView().apply {
                 arguments = Bundle().apply {
                     putParcelable(Extras.EXTRA_SAMPLE_ATTRS, sampleDismissAttrs)
                 }
@@ -45,7 +43,7 @@ class FragmentViewPager : Fragment() {
             .setDragVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
             .setDragDismissDirections(*sampleAttrs.draggingDirections.toTypedArray())
             .setDragBackgroundDimPercentage(sampleAttrs.backgroundDim)
-            .attach(this, R.layout.fragment_viewpager)
+            .attach(this, R.layout.fragment_nested_scroll_view)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -53,13 +51,5 @@ class FragmentViewPager : Fragment() {
         mContext = requireActivity()
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-
-        initViewPager()
-    }
-
-    private fun initViewPager() {
-        val viewPagerAdapter = ViewPagerAdapter(childFragmentManager)
-        viewPager.adapter = viewPagerAdapter
-        tablayout.setupWithViewPager(viewPager)
     }
 }

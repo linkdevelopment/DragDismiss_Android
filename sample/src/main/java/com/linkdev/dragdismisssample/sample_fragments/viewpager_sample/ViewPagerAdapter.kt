@@ -1,4 +1,4 @@
-package com.linkdev.dragdismisssample.sample_activities.viewpager_sample
+package com.linkdev.dragdismisssample.sample_fragments.viewpager_sample
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

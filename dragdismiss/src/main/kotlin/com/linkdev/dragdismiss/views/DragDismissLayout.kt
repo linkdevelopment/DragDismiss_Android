@@ -246,7 +246,6 @@ internal class DragDismissLayout @JvmOverloads constructor(
                 if (mInnerScrollViewsList.isNotEmpty()) {
                     val xOffset = abs(event.rawX - mPointerX)
                     val yOffset = abs(event.rawY - mPointerY)
-                    if (xOffset < mTouchSlop && yOffset < mTouchSlop) return false
 
                     for (innerScrollView in mInnerScrollViewsList) {
                         if (innerScrollView.contains(mPointerX, mPointerY)) {

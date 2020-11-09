@@ -20,7 +20,7 @@
         </activity>
 
         <activity
-            android:name=".sample_fragments.ActivitySample"
+            android:name=".sample_activities.ActivitySample"
             android:theme="@style/DragDismissTheme" />
     </application>
 
