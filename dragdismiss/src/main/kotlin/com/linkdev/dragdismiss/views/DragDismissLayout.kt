@@ -246,6 +246,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
                 if (mInnerScrollViewsList.isNotEmpty()) {
                     val xOffset = abs(event.rawX - mPointerX)
                     val yOffset = abs(event.rawY - mPointerY)
+                    if (xOffset < mTouchSlop && yOffset < mTouchSlop) return false
 
                     for (innerScrollView in mInnerScrollViewsList) {
                         if (innerScrollView.contains(mPointerX, mPointerY)) {
@@ -390,7 +391,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
                 if (innerScrollView.contains(mPointerX, mPointerY)) {
                     if (selectedLeftDragBack() && left > 0) {
                         canScrollViewScroll = canViewScrollRight(innerScrollView)
-                    } else if (selectedRightDragBack() && left < 0) {
+                    }
+                    if (selectedRightDragBack() && left < 0) {
                         canScrollViewScroll = canViewScrollLeft(innerScrollView)
                     }
                 }
@@ -409,7 +411,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
                 if (innerScrollView.contains(mPointerX, mPointerY)) {
                     if (selectedTopDragBack() && top > 0) {
                         canScrollViewScroll = canViewScrollDown(innerScrollView)
-                    } else if (selectedBottomDragBack() && top < 0) {
+                    }
+                    if (selectedBottomDragBack() && top < 0) {
                         canScrollViewScroll = canViewScrollUp(innerScrollView)
                     }
                 }
