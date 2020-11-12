@@ -31,7 +31,7 @@ class ActivitySample : AppCompatActivity() {
         return DragDismiss.create(this)
             .setDragScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
             .setDragVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
-            .setDragDismissDirections(*sampleAttrs.draggingDirections.toTypedArray())
+            .setDragDismissDirections(sampleAttrs.draggingDirections)
             .setDragBackgroundDimPercentage(sampleAttrs.backgroundDim)
             .attach(this, R.layout.activity_sample)
     }

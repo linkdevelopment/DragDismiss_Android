@@ -30,11 +30,11 @@
 
         <!-- Sets the directions that the view is dismissed if dragged from -->
         <attr name="draggingDirections">
-            <flag name="all" value="15" />
-            <flag name="fromTop" value="1" />
-            <flag name="fromRight" value="2" />
-            <flag name="fromBottom" value="4" />
-            <flag name="fromLeft" value="8" />
+            <enum name="all" value="15" />
+            <enum name="fromTop" value="1" />
+            <enum name="fromRight" value="2" />
+            <enum name="fromBottom" value="4" />
+            <enum name="fromLeft" value="8" />
         </attr>
     </declare-styleable>
 </resources>

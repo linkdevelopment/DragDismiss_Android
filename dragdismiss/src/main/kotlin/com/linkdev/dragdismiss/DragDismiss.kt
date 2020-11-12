@@ -53,7 +53,7 @@ class DragDismiss private constructor(private val mContext: Context) {
     fun setDragDismissAttrs(
         dragDismissScreenPercentage: Float = DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE,
         dragDismissVelocityLevel: DragDismissVelocityLevel = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL,
-        draggingDirections: Int = DragDismissDefaults.DEFAULT_DRAG_DIRECTION,
+        draggingDirections: DragDismissDirections = DragDismissDefaults.DEFAULT_DRAG_DIRECTION,
         backgroundDim: Float = DragDismissDefaults.DEFAULT_BACKGROUND_DIM
     ): DragDismiss {
         mDragDismissProperties.apply {
@@ -67,14 +67,13 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
-     * Sets the selected drag directions(Can be more than one direction) from [DragDismissDirections]
+     * Sets the selected drag direction from [DragDismissDirections]
      *
-     * @param draggingDirections The directions to set from [DragDismissDirections]
+     * @param draggingDirections The direction to set from [DragDismissDirections]
      * @default [DragDismissDirections.FROM_LEFT]
      */
-    fun setDragDismissDirections(vararg draggingDirections: DragDismissDirections): DragDismiss {
-        mDragDismissProperties.draggingDirections =
-            Utilities.extractDraggingDirectionsValues(*draggingDirections)
+    fun setDragDismissDirections(draggingDirections: DragDismissDirections): DragDismiss {
+        mDragDismissProperties.draggingDirections = draggingDirections
         return this
     }
 

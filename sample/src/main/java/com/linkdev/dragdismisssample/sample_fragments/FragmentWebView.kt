@@ -44,7 +44,7 @@ class FragmentWebView : Fragment() {
         return DragDismiss.create(requireActivity())
             .setDragScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
             .setDragVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
-            .setDragDismissDirections(*sampleAttrs.draggingDirections.toTypedArray())
+            .setDragDismissDirections(sampleAttrs.draggingDirections)
             .setDragBackgroundDimPercentage(sampleAttrs.backgroundDim)
             .attach(this, R.layout.fragment_webview)
     }

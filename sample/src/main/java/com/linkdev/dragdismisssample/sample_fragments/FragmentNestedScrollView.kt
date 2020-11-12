@@ -41,7 +41,7 @@ class FragmentNestedScrollView : Fragment() {
         return DragDismiss.create(requireActivity())
             .setDragScreenPercentage(sampleAttrs.dragDismissScreenPercentage)
             .setDragVelocityLevel(sampleAttrs.dragDragDismissVelocityLevel)
-            .setDragDismissDirections(*sampleAttrs.draggingDirections.toTypedArray())
+            .setDragDismissDirections(sampleAttrs.draggingDirections)
             .setDragBackgroundDimPercentage(sampleAttrs.backgroundDim)
             .attach(this, R.layout.fragment_nested_scroll_view)
     }

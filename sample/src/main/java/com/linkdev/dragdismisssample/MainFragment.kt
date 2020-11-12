@@ -61,33 +61,38 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         setSampleActivitiesClickListeners()
 
         setupDragDismissAttrs()
-
-        setCheckListeners()
-    }
-
-    private fun setCheckListeners() {
-        checkboxAll.setOnCheckedChangeListener { com, isChecked -> onAllChecked(com, isChecked) }
-        checkboxTop.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
-        checkboxBottom.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
-        checkboxLeft.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
-        checkboxRight.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
     }
 
     private fun setSampleActivitiesClickListeners() {
         btnRecyclerView.setOnClickListener {
-            mListener.onFragmentClicked(FragmentRecyclerView.newInstance(getDragDismissAttrs()))
+            mListener.onFragmentClicked(
+                FragmentRecyclerView.newInstance(getDragDismissAttrs()),
+                FragmentRecyclerView.TAG
+            )
         }
         btnViewPager.setOnClickListener {
-            mListener.onFragmentClicked(FragmentViewPager.newInstance(getDragDismissAttrs()))
+            mListener.onFragmentClicked(
+                FragmentViewPager.newInstance(getDragDismissAttrs()),
+                FragmentViewPager.TAG
+            )
         }
         btnNestedScrollView.setOnClickListener {
-            mListener.onFragmentClicked(FragmentNestedScrollView.newInstance(getDragDismissAttrs()))
+            mListener.onFragmentClicked(
+                FragmentNestedScrollView.newInstance(getDragDismissAttrs()),
+                FragmentNestedScrollView.TAG
+            )
         }
         btnHorizontalScrollView.setOnClickListener {
-            mListener.onFragmentClicked(FragmentHorizontalRecyclerView.newInstance(getDragDismissAttrs()))
+            mListener.onFragmentClicked(
+                FragmentHorizontalRecyclerView.newInstance(getDragDismissAttrs()),
+                FragmentHorizontalRecyclerView.TAG
+            )
         }
         btnWebView.setOnClickListener {
-            mListener.onFragmentClicked(FragmentWebView.newInstance(getDragDismissAttrs()))
+            mListener.onFragmentClicked(
+                FragmentWebView.newInstance(getDragDismissAttrs()),
+                FragmentWebView.TAG
+            )
         }
         btnActivity.setOnClickListener {
             ActivitySample.startActivity(mContext, getDragDismissAttrs())
@@ -108,42 +113,24 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         )
     }
 
-    private fun getSelectedDirections(): ArrayList<DragDismissDirections> {
-        if (checkboxAll.isChecked)
-            return arrayListOf(DragDismissDirections.ALL)
-
-        val directions = arrayListOf<DragDismissDirections>()
-        if (checkboxBottom.isChecked)
-            directions.add(DragDismissDirections.FROM_BOTTOM)
-        if (checkboxTop.isChecked)
-            directions.add(DragDismissDirections.FROM_TOP)
-        if (checkboxLeft.isChecked)
-            directions.add(DragDismissDirections.FROM_LEFT)
-        if (checkboxRight.isChecked)
-            directions.add(DragDismissDirections.FROM_RIGHT)
-
-        return directions
+    private fun getSelectedDirections(): DragDismissDirections {
+        return when {
+            checkboxBottom.isChecked ->
+                DragDismissDirections.FROM_BOTTOM
+            checkboxTop.isChecked ->
+                DragDismissDirections.FROM_TOP
+            checkboxLeft.isChecked ->
+                DragDismissDirections.FROM_LEFT
+            checkboxRight.isChecked ->
+                DragDismissDirections.FROM_RIGHT
+            else -> DragDismissDirections.FROM_LEFT
+        }
     }
 
     private fun setupDragDismissAttrs() {
         seekbarDistance.setOnSeekBarChangeListener(onSeekBarDistanceChangeListener())
 
         seekbarBackgroundDim.setOnSeekBarChangeListener(onSeekBarBackgroundChangeListener())
-    }
-
-    private fun onDirectionChecked() {
-        checkboxAll.isChecked =
-            checkboxTop.isChecked && checkboxBottom.isChecked && checkboxLeft.isChecked && checkboxRight.isChecked
-    }
-
-    private fun onAllChecked(compoundButton: CompoundButton, checked: Boolean) {
-        if (!compoundButton.isPressed)
-            return
-
-        checkboxTop.isChecked = checked
-        checkboxBottom.isChecked = checked
-        checkboxLeft.isChecked = checked
-        checkboxRight.isChecked = checked
     }
 
     private fun onSeekBarBackgroundChangeListener(): SeekBar.OnSeekBarChangeListener {
@@ -173,6 +160,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     interface IMainFragmentInteraction {
-        fun onFragmentClicked(fragment: Fragment)
+        fun onFragmentClicked(fragment: Fragment, tag: String)
     }
 }

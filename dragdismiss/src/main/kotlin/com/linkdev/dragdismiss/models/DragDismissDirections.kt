@@ -20,9 +20,13 @@ package com.linkdev.dragdismiss.models
  * The drag direction options to select from.
  */
 enum class DragDismissDirections(val value: Int) {
-    ALL(15),
     FROM_TOP(1),
     FROM_RIGHT(2),
     FROM_BOTTOM(4),
-    FROM_LEFT(8),
+    FROM_LEFT(8);
+
+    companion object {
+        private val map = values().associateBy(DragDismissDirections::value)
+        operator fun get(direction: Int) = map[direction]
+    }
 }
