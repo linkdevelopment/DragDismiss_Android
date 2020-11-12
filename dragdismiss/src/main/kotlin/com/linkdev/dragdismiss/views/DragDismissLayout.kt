@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
@@ -115,7 +116,13 @@ internal class DragDismissLayout @JvmOverloads constructor(
     /**
      * The minimum distance in pixels that the user must travel to initiate a drag.
      */
-    private var mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop + DragDismissDefaults.DRAG_DISMISS_TOUCH_SLOP
+    private var mScaledTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
+
+    /**
+     * We add extra margin to the touchSlop to give child views chance to intercept the touch event before the DragDismiss intercepts it.
+     */
+    private var mDragDismissTouchSlop =
+        mScaledTouchSlop + DragDismissDefaults.DRAG_DISMISS_TOUCH_SLOP_MARGIN
 
     private var mWidth = 0
     private var mHeight = 0
@@ -246,20 +253,23 @@ internal class DragDismissLayout @JvmOverloads constructor(
                 if (mInnerScrollViewsList.isNotEmpty()) {
                     val xOffset = abs(event.rawX - mPointerX)
                     val yOffset = abs(event.rawY - mPointerY)
-                    if (xOffset < mTouchSlop && yOffset < mTouchSlop) return false
+                    if (xOffset < mDragDismissTouchSlop && yOffset < mDragDismissTouchSlop)
+                        return super.onInterceptTouchEvent(event)
 
                     for (innerScrollView in mInnerScrollViewsList) {
                         if (innerScrollView.contains(mPointerX, mPointerY)) {
                             var shouldIntercept = true
                             if (selectedLeftDragBack() || selectedRightDragBack()) {
-                                shouldIntercept = !(yOffset > mTouchSlop && yOffset > xOffset)
+                                shouldIntercept =
+                                    !(yOffset > mDragDismissTouchSlop && yOffset > xOffset)
                             }
                             if (!shouldIntercept && (selectedTopDragBack() || selectedBottomDragBack())) {
-                                shouldIntercept = !(xOffset > mTouchSlop && xOffset > yOffset)
+                                shouldIntercept =
+                                    !(xOffset > mDragDismissTouchSlop && xOffset > yOffset)
                             }
                             return if (shouldIntercept)
-                                mDragHelper.shouldInterceptTouchEvent(event) ||
-                                        super.onInterceptTouchEvent(event)
+                                super.onInterceptTouchEvent(event) ||
+                                        mDragHelper.shouldInterceptTouchEvent(event)
                             else super.onInterceptTouchEvent(event)
                         }
                     }
