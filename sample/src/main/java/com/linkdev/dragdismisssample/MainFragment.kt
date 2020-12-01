@@ -115,8 +115,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun getSelectedDirections(): DragDismissDirections {
         return when {
-            checkboxBottom.isChecked ->
-                DragDismissDirections.FROM_BOTTOM
             checkboxTop.isChecked ->
                 DragDismissDirections.FROM_TOP
             checkboxLeft.isChecked ->

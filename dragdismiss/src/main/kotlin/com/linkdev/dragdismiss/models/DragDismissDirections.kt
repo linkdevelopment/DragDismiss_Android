@@ -22,7 +22,6 @@ package com.linkdev.dragdismiss.models
 enum class DragDismissDirections(val value: Int) {
     FROM_TOP(1),
     FROM_RIGHT(2),
-    FROM_BOTTOM(4),
     FROM_LEFT(8);
 
     companion object {

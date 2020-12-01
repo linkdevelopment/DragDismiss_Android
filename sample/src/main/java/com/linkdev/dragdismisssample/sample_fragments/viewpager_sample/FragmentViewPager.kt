@@ -13,7 +13,6 @@ import com.linkdev.dragdismisssample.utils.Extras
 import com.linkdev.dragdismisssample.utils.SampleDismissAttrs
 import kotlinx.android.synthetic.main.fragment_viewpager.*
 
-// Created by Mohammed Fareed on 10/7/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
 class FragmentViewPager : Fragment() {
 

@@ -246,18 +246,16 @@ internal class DragDismissLayout @JvmOverloads constructor(
                     val xOffset = abs(event.rawX - mPointerX)
                     val yOffset = abs(event.rawY - mPointerY)
                     if (xOffset < mTouchSlop && yOffset < mTouchSlop)
-                        return super.onInterceptTouchEvent(event)
+                        return false
 
                     for (innerScrollView in mInnerScrollViewsList) {
                         if (innerScrollView.contains(mPointerX, mPointerY)) {
                             var shouldIntercept = true
                             if (selectedLeftDragBack() || selectedRightDragBack()) {
-                                shouldIntercept =
-                                    !(yOffset > mTouchSlop && yOffset > xOffset)
+                                shouldIntercept = !(yOffset > mTouchSlop && yOffset > xOffset)
                             }
                             if (!shouldIntercept && (selectedTopDragBack() || selectedBottomDragBack())) {
-                                shouldIntercept =
-                                    !(xOffset > mTouchSlop && xOffset > yOffset)
+                                shouldIntercept = !(xOffset > mTouchSlop && xOffset > yOffset)
                             }
                             return if (shouldIntercept)
                                 super.onInterceptTouchEvent(event) ||
@@ -272,8 +270,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        mDragHelper.processTouchEvent(event!!)
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        mDragHelper.processTouchEvent(event)
         return true
     }
 
@@ -517,7 +515,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
     }
 
     private fun selectedBottomDragBack() =
-        mSelectedDragBackDirections == DragDismissDirections.FROM_BOTTOM
+        false
 
     private fun selectedTopDragBack() =
         mSelectedDragBackDirections == DragDismissDirections.FROM_TOP

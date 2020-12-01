@@ -47,14 +47,6 @@
             android:layout_marginTop="@dimen/marginMedium"
             android:paddingHorizontal="@dimen/marginLarge"
             android:text="@string/right" />
-
-        <RadioButton
-            android:id="@+id/checkboxBottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginMedium"
-            android:paddingHorizontal="@dimen/marginLarge"
-            android:text="@string/bottom" />
     </RadioGroup>
 
     <include layout="@layout/view_guideline_start" />

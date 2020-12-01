@@ -59,7 +59,8 @@ The `DragDismiss.attach(...)` method takes the whole activity layout and returns
  so you should call `setContentView(...)` in your activity using this new View.
 
 ## Fragments
-**Firstly,** It's required that the fragment is added and not replaced using the Fragment manger like below.
+**Firstly,** It's required that the fragment is added and not replaced,
+also make sure to add the fragment to the back stack like below using the fragment manger, otherwise check the autoDismiss in [setsetDismissCallback].
 ```kotlin
 supportFragmentManager.beginTransaction()
     .add(R.id.fragmentContainer, SampleFragment.newInstance(dragDismissAttrs), SampleFragment.TAG)
@@ -130,7 +131,6 @@ The directions that the screen can be dragged from, Possible values:
 * FROM_LEFT
 * FROM_RIGHT
 * FROM_TOP
-* FROM_BOTTOM
 ```kotlin
 DragDismiss.create(mContext)
     .setDragDismissDraggingDirections(DragDismissDirections.FROM_LEFT , DragDismissDirections.FROM_RIGHT)

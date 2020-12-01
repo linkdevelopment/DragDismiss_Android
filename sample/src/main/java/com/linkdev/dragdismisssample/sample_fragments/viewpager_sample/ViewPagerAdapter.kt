@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-// Created by Mohammed Fareed on 10/7/2020.
 // Copyright (c) 2020 Link Development All rights reserved.
 class ViewPagerAdapter(private val fragmentManager: FragmentManager) :
     FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

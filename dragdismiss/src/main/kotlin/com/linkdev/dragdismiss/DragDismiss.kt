@@ -47,6 +47,18 @@ class DragDismiss private constructor(private val mContext: Context) {
     private val mDragDismissProperties = DragDismissProperties()
 
     /**
+     * The callback method after the animation is done the implementing activity will have to call it's finish
+     */
+    private var mDismissCallback: (() -> Unit)? = null
+
+    /**
+     * If should automatically dismiss the screen or just call the callBack set as part of [setDismissCallback]
+     *
+     * @default true
+     */
+    private var mAutoDismiss: Boolean = true
+
+    /**
      * Sets all the attrs for the DragDismiss
      * @see [setDragDismissDirections], [setDragScreenPercentage], [setDragVelocityLevel], [setDragBackgroundDimPercentage]
      */
@@ -134,9 +146,27 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
+     *  setter for [mDismissCallback]
+     *
+     *  Callback on the screen dismissed, To call the Container dismiss function to close the screen.
+     *
+     *  @param callback The callback on the
+     *  @param autoDismiss should
+     */
+    private fun setDismissCallback(callback: () -> Unit, autoDismiss: Boolean = true) {
+        mDismissCallback = callback
+        mAutoDismiss = autoDismiss
+    }
+
+    /**
      * Callback on the screen dismissed, To call the Container dismiss function to close the screen.
      */
-    private fun onViewDismissed(): () -> Unit = { mContainer.onDismiss() }
+    private fun onViewDismissed(): () -> Unit = {
+        mDismissCallback?.invoke()
+
+        if (mAutoDismiss)
+            mContainer.onDismiss()
+    }
 
     /**
      * Call attach to attach the drag dismiss to your layout.
