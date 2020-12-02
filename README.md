@@ -127,17 +127,14 @@ DragDismiss.create(mContext)
 
 ## Set dragging directions
 The directions that the screen can be dragged from, Possible values:
-* ALL
 * FROM_LEFT
 * FROM_RIGHT
 * FROM_TOP
 ```kotlin
 DragDismiss.create(mContext)
-    .setDragDismissDraggingDirections(DragDismissDirections.FROM_LEFT , DragDismissDirections.FROM_RIGHT)
+    .setDragDismissDraggingDirections(DragDismissDirections.FROM_LEFT)
 ```
 **Default:** `FROM_LEFT`
-
-**Note,** For the time being, If your view contains a view pager, avoid using it with direction `All` as it will interfere with the view pager scrolling behavior.
 
 ## Set dragging background dim
 While dragging you could have a black transparent window show above the previous screen that gets brighter when the screen is about to be dismiss.
