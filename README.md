@@ -60,7 +60,7 @@ The `DragDismiss.attach(...)` method takes the whole activity layout and returns
 
 ## Fragments
 **Firstly,** It's required that the fragment is added and not replaced,
-also make sure to add the fragment to the back stack like below using the fragment manger, otherwise check the autoDismiss in [setsetDismissCallback].
+also make sure to add the fragment to the back stack like below using the fragment manger, otherwise check the autoDismiss in [setDismissCallback].
 ```kotlin
 supportFragmentManager.beginTransaction()
     .add(R.id.fragmentContainer, SampleFragment.newInstance(dragDismissAttrs), SampleFragment.TAG)
@@ -92,7 +92,7 @@ For extra custmizations for your DragDismissLayout check below.
 DragDismiss.create(mContext)
     .setDragDismissScreenPercentage(40)
     .setDragDismissVelocityLevel(DragDismissVelocityLevel.LEVEL_3)
-    .setDragDismissDraggingDirections(DragDismissDirections.FROM_LEFT, DragDismissDirections.FROM_RIGHT)
+    .setDragDismissDraggingDirections(DragDismissDirections.FROM_LEFT)
     .setDragDismissBackgroundDim(80)
     .attach(this, R.layout.activity_layout_name)
 ```
@@ -123,7 +123,7 @@ DragDismiss.create(mContext)
 ```
 **Default:** `LEVEL_3`
 
-**Note,** LEVEL_0 disables the dismiss feature
+**Note,** LEVEL_0 disables the dismiss by a fling feature
 
 ## Set dragging directions
 The directions that the screen can be dragged from, Possible values:
