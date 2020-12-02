@@ -59,7 +59,8 @@ The `DragDismiss.attach(...)` method takes the whole activity layout and returns
  so you should call `setContentView(...)` in your activity using this new View.
 
 ## Fragments
-**Firstly,** It's required that the fragment is added and not replaced using the Fragment manger like below.
+**Firstly,** It's required that the fragment is added and not replaced,
+also make sure to add the fragment to the back stack like below using the fragment manger, otherwise check the autoDismiss in [setDismissCallback].
 ```kotlin
 supportFragmentManager.beginTransaction()
     .add(R.id.fragmentContainer, SampleFragment.newInstance(dragDismissAttrs), SampleFragment.TAG)
@@ -91,7 +92,7 @@ For extra custmizations for your DragDismissLayout check below.
 DragDismiss.create(mContext)
     .setDragDismissScreenPercentage(40)
     .setDragDismissVelocityLevel(DragDismissVelocityLevel.LEVEL_3)
-    .setDragDismissDraggingDirections(DragDismissDirections.FROM_LEFT, DragDismissDirections.FROM_RIGHT)
+    .setDragDismissDraggingDirections(DragDismissDirections.FROM_LEFT)
     .setDragDismissBackgroundDim(80)
     .attach(this, R.layout.activity_layout_name)
 ```
@@ -122,22 +123,18 @@ DragDismiss.create(mContext)
 ```
 **Default:** `LEVEL_3`
 
-**Note,** LEVEL_0 disables the dismiss feature
+**Note,** LEVEL_0 disables the dismiss by a fling feature
 
 ## Set dragging directions
 The directions that the screen can be dragged from, Possible values:
-* ALL
 * FROM_LEFT
 * FROM_RIGHT
 * FROM_TOP
-* FROM_BOTTOM
 ```kotlin
 DragDismiss.create(mContext)
-    .setDragDismissDraggingDirections(DragDismissDirections.FROM_LEFT , DragDismissDirections.FROM_RIGHT)
+    .setDragDismissDraggingDirections(DragDismissDirections.FROM_LEFT)
 ```
 **Default:** `FROM_LEFT`
-
-**Note,** For the time being, If your view contains a view pager, avoid using it with direction `All` as it will interfere with the view pager scrolling behavior.
 
 ## Set dragging background dim
 While dragging you could have a black transparent window show above the previous screen that gets brighter when the screen is about to be dismiss.

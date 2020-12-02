@@ -21,6 +21,5 @@ object DragDismissDefaults {
     const val DEFAULT_DISMISS_SCREEN_PERCENTAGE = 0.4f
     val DEFAULT_DISMISS_VELOCITY_LEVEL = DragDismissVelocityLevel.LEVEL_3
     const val DEFAULT_BACKGROUND_DIM = 0.8f
-    val DEFAULT_DRAG_DIRECTION = DragDismissDirections.FROM_LEFT.value
-    const val DRAG_DISMISS_TOUCH_SLOP = 35
+    val DEFAULT_DRAG_DIRECTION = DragDismissDirections.FROM_LEFT
 }

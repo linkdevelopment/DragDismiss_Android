@@ -16,64 +16,38 @@
         app:layout_constraintStart_toEndOf="@id/guidelineStart"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkboxAll"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginMedium"
-        android:paddingHorizontal="@dimen/marginLarge"
-        android:text="@string/all"
-        app:layout_constraintBottom_toTopOf="@id/checkboxBottom"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/checkboxTop" />
+        app:layout_constraintTop_toBottomOf="@id/tvDraggingDirection">
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkboxLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginMedium"
-        android:checked="true"
-        android:paddingHorizontal="@dimen/marginLarge"
-        android:text="@string/left"
-        app:layout_constraintBottom_toBottomOf="@id/checkboxAll"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/checkboxAll"
-        app:layout_constraintTop_toTopOf="@id/checkboxAll" />
+        <RadioButton
+            android:id="@+id/checkboxTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginMedium"
+            android:paddingHorizontal="@dimen/marginLarge"
+            android:text="@string/top" />
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkboxRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginMedium"
-        android:paddingHorizontal="@dimen/marginLarge"
-        android:text="@string/right"
-        app:layout_constraintBottom_toBottomOf="@id/checkboxAll"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintTop_toTopOf="@id/checkboxAll" />
+        <RadioButton
+            android:id="@+id/checkboxLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginMedium"
+            android:checked="true"
+            android:paddingHorizontal="@dimen/marginLarge"
+            android:text="@string/left" />
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkboxTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginMedium"
-        android:paddingHorizontal="@dimen/marginLarge"
-        android:text="@string/top"
-        app:layout_constraintBottom_toTopOf="@id/checkboxAll"
-        app:layout_constraintStart_toStartOf="@id/checkboxAll"
-        app:layout_constraintTop_toBottomOf="@id/tvDraggingDirection"
-        app:layout_constraintVertical_chainStyle="spread_inside" />
-
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkboxBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginMedium"
-        android:paddingHorizontal="@dimen/marginLarge"
-        android:text="@string/bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/checkboxAll"
-        app:layout_constraintTop_toBottomOf="@id/checkboxAll" />
+        <RadioButton
+            android:id="@+id/checkboxRight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginMedium"
+            android:paddingHorizontal="@dimen/marginLarge"
+            android:text="@string/right" />
+    </RadioGroup>
 
     <include layout="@layout/view_guideline_start" />
 

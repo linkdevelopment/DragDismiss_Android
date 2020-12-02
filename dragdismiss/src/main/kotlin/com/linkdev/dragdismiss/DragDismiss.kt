@@ -47,13 +47,25 @@ class DragDismiss private constructor(private val mContext: Context) {
     private val mDragDismissProperties = DragDismissProperties()
 
     /**
+     * The callback method after the animation is done the implementing activity will have to call it's finish
+     */
+    private var mDismissCallback: (() -> Unit)? = null
+
+    /**
+     * If should automatically dismiss the screen or just call the callBack set as part of [setDismissCallback]
+     *
+     * @default true
+     */
+    private var mAutoDismiss: Boolean = true
+
+    /**
      * Sets all the attrs for the DragDismiss
      * @see [setDragDismissDirections], [setDragScreenPercentage], [setDragVelocityLevel], [setDragBackgroundDimPercentage]
      */
     fun setDragDismissAttrs(
         dragDismissScreenPercentage: Float = DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE,
         dragDismissVelocityLevel: DragDismissVelocityLevel = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL,
-        draggingDirections: Int = DragDismissDefaults.DEFAULT_DRAG_DIRECTION,
+        draggingDirections: DragDismissDirections = DragDismissDefaults.DEFAULT_DRAG_DIRECTION,
         backgroundDim: Float = DragDismissDefaults.DEFAULT_BACKGROUND_DIM
     ): DragDismiss {
         mDragDismissProperties.apply {
@@ -67,14 +79,13 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
-     * Sets the selected drag directions(Can be more than one direction) from [DragDismissDirections]
+     * Sets the selected drag direction from [DragDismissDirections]
      *
-     * @param draggingDirections The directions to set from [DragDismissDirections]
+     * @param draggingDirections The direction to set from [DragDismissDirections]
      * @default [DragDismissDirections.FROM_LEFT]
      */
-    fun setDragDismissDirections(vararg draggingDirections: DragDismissDirections): DragDismiss {
-        mDragDismissProperties.draggingDirections =
-            Utilities.extractDraggingDirectionsValues(*draggingDirections)
+    fun setDragDismissDirections(draggingDirections: DragDismissDirections): DragDismiss {
+        mDragDismissProperties.draggingDirections = draggingDirections
         return this
     }
 
@@ -135,9 +146,27 @@ class DragDismiss private constructor(private val mContext: Context) {
     }
 
     /**
+     *  setter for [mDismissCallback]
+     *
+     *  Callback on the screen dismissed, To call the Container dismiss function to close the screen.
+     *
+     *  @param callback The callback on the
+     *  @param autoDismiss should
+     */
+    private fun setDismissCallback(callback: () -> Unit, autoDismiss: Boolean = true) {
+        mDismissCallback = callback
+        mAutoDismiss = autoDismiss
+    }
+
+    /**
      * Callback on the screen dismissed, To call the Container dismiss function to close the screen.
      */
-    private fun onViewDismissed(): () -> Unit = { mContainer.onDismiss() }
+    private fun onViewDismissed(): () -> Unit = {
+        mDismissCallback?.invoke()
+
+        if (mAutoDismiss)
+            mContainer.onDismiss()
+    }
 
     /**
      * Call attach to attach the drag dismiss to your layout.

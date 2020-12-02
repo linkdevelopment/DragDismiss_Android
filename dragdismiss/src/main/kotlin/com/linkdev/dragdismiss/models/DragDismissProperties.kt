@@ -23,6 +23,6 @@ import com.linkdev.dragdismiss.utils.Utilities
 internal class DragDismissProperties(
     var dragDismissScreenPercentage: Int = Utilities.percentageFromFraction(DragDismissDefaults.DEFAULT_DISMISS_SCREEN_PERCENTAGE),
     var dragDragDismissVelocityLevel: DragDismissVelocityLevel = DragDismissDefaults.DEFAULT_DISMISS_VELOCITY_LEVEL,
-    var draggingDirections: Int = DragDismissDefaults.DEFAULT_DRAG_DIRECTION,
+    var draggingDirections: DragDismissDirections = DragDismissDefaults.DEFAULT_DRAG_DIRECTION,
     var backgroundDim: Int = Utilities.percentageFromFraction(DragDismissDefaults.DEFAULT_BACKGROUND_DIM)
 )

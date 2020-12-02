@@ -9,11 +9,12 @@ import androidx.fragment.app.Fragment
 import com.linkdev.dragdismiss.models.DragDismissDefaults
 import com.linkdev.dragdismiss.models.DragDismissDirections
 import com.linkdev.dragdismiss.models.DragDismissVelocityLevel
-import com.linkdev.dragdismisssample.sample_activities.ActivityHorizontalRecyclerView
-import com.linkdev.dragdismisssample.sample_activities.ActivityNestedScrollView
-import com.linkdev.dragdismisssample.sample_activities.ActivityRecyclerView
-import com.linkdev.dragdismisssample.sample_activities.ActivityWebView
-import com.linkdev.dragdismisssample.sample_activities.viewpager_sample.ActivityViewPager
+import com.linkdev.dragdismisssample.sample_fragments.FragmentHorizontalRecyclerView
+import com.linkdev.dragdismisssample.sample_fragments.FragmentNestedScrollView
+import com.linkdev.dragdismisssample.sample_fragments.FragmentRecyclerView
+import com.linkdev.dragdismisssample.sample_fragments.FragmentWebView
+import com.linkdev.dragdismisssample.sample_fragments.viewpager_sample.FragmentViewPager
+import com.linkdev.dragdismisssample.sample_activities.ActivitySample
 import com.linkdev.dragdismisssample.utils.SampleDismissAttrs
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.section_drag_dismiss_values.*
@@ -60,36 +61,41 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         setSampleActivitiesClickListeners()
 
         setupDragDismissAttrs()
-
-        setCheckListeners()
-    }
-
-    private fun setCheckListeners() {
-        checkboxAll.setOnCheckedChangeListener { com, isChecked -> onAllChecked(com, isChecked) }
-        checkboxTop.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
-        checkboxBottom.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
-        checkboxLeft.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
-        checkboxRight.setOnCheckedChangeListener { _, _ -> onDirectionChecked() }
     }
 
     private fun setSampleActivitiesClickListeners() {
         btnRecyclerView.setOnClickListener {
-            ActivityRecyclerView.startActivity(mContext, getDragDismissAttrs())
+            mListener.onFragmentClicked(
+                FragmentRecyclerView.newInstance(getDragDismissAttrs()),
+                FragmentRecyclerView.TAG
+            )
         }
         btnViewPager.setOnClickListener {
-            ActivityViewPager.startActivity(mContext, getDragDismissAttrs())
+            mListener.onFragmentClicked(
+                FragmentViewPager.newInstance(getDragDismissAttrs()),
+                FragmentViewPager.TAG
+            )
         }
         btnNestedScrollView.setOnClickListener {
-            ActivityNestedScrollView.startActivity(mContext, getDragDismissAttrs())
+            mListener.onFragmentClicked(
+                FragmentNestedScrollView.newInstance(getDragDismissAttrs()),
+                FragmentNestedScrollView.TAG
+            )
         }
         btnHorizontalScrollView.setOnClickListener {
-            ActivityHorizontalRecyclerView.startActivity(mContext, getDragDismissAttrs())
+            mListener.onFragmentClicked(
+                FragmentHorizontalRecyclerView.newInstance(getDragDismissAttrs()),
+                FragmentHorizontalRecyclerView.TAG
+            )
         }
         btnWebView.setOnClickListener {
-            ActivityWebView.startActivity(mContext, getDragDismissAttrs())
+            mListener.onFragmentClicked(
+                FragmentWebView.newInstance(getDragDismissAttrs()),
+                FragmentWebView.TAG
+            )
         }
-        btnFragment.setOnClickListener {
-            mListener.onFragmentClicked(getDragDismissAttrs())
+        btnActivity.setOnClickListener {
+            ActivitySample.startActivity(mContext, getDragDismissAttrs())
         }
     }
 
@@ -107,42 +113,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         )
     }
 
-    private fun getSelectedDirections(): ArrayList<DragDismissDirections> {
-        if (checkboxAll.isChecked)
-            return arrayListOf(DragDismissDirections.ALL)
-
-        val directions = arrayListOf<DragDismissDirections>()
-        if (checkboxBottom.isChecked)
-            directions.add(DragDismissDirections.FROM_BOTTOM)
-        if (checkboxTop.isChecked)
-            directions.add(DragDismissDirections.FROM_TOP)
-        if (checkboxLeft.isChecked)
-            directions.add(DragDismissDirections.FROM_LEFT)
-        if (checkboxRight.isChecked)
-            directions.add(DragDismissDirections.FROM_RIGHT)
-
-        return directions
+    private fun getSelectedDirections(): DragDismissDirections {
+        return when {
+            checkboxTop.isChecked ->
+                DragDismissDirections.FROM_TOP
+            checkboxLeft.isChecked ->
+                DragDismissDirections.FROM_LEFT
+            checkboxRight.isChecked ->
+                DragDismissDirections.FROM_RIGHT
+            else -> DragDismissDirections.FROM_LEFT
+        }
     }
 
     private fun setupDragDismissAttrs() {
         seekbarDistance.setOnSeekBarChangeListener(onSeekBarDistanceChangeListener())
 
         seekbarBackgroundDim.setOnSeekBarChangeListener(onSeekBarBackgroundChangeListener())
-    }
-
-    private fun onDirectionChecked() {
-        checkboxAll.isChecked =
-            checkboxTop.isChecked && checkboxBottom.isChecked && checkboxLeft.isChecked && checkboxRight.isChecked
-    }
-
-    private fun onAllChecked(compoundButton: CompoundButton, checked: Boolean) {
-        if (!compoundButton.isPressed)
-            return
-
-        checkboxTop.isChecked = checked
-        checkboxBottom.isChecked = checked
-        checkboxLeft.isChecked = checked
-        checkboxRight.isChecked = checked
     }
 
     private fun onSeekBarBackgroundChangeListener(): SeekBar.OnSeekBarChangeListener {
@@ -172,6 +158,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     interface IMainFragmentInteraction {
-        fun onFragmentClicked(dragDismissAttrs: SampleDismissAttrs)
+        fun onFragmentClicked(fragment: Fragment, tag: String)
     }
 }

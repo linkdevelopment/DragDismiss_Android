@@ -32,7 +32,6 @@ import com.linkdev.dragdismiss.models.DragDismissDefaults
 import com.linkdev.dragdismiss.models.DragDismissDirections
 import com.linkdev.dragdismiss.models.DragDismissVelocityLevel
 import com.linkdev.dragdismiss.utils.*
-import java.util.*
 import kotlin.math.abs
 import kotlin.properties.Delegates
 
@@ -94,7 +93,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
      *
      * @default [DragDismissDefaults.DEFAULT_DRAG_DIRECTION]
      */
-    private lateinit var mSelectedDragBackDirections: ArrayList<Int>
+    private lateinit var mSelectedDragBackDirections: DragDismissDirections
 
     /**
      * Pointers to the current touch event start points.
@@ -115,7 +114,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
     /**
      * The minimum distance in pixels that the user must travel to initiate a drag.
      */
-    private var mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop + DragDismissDefaults.DRAG_DISMISS_TOUCH_SLOP
+    private var mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
 
     private var mWidth = 0
     private var mHeight = 0
@@ -143,13 +142,13 @@ internal class DragDismissLayout @JvmOverloads constructor(
     private fun initAttrs(context: Context, attrs: AttributeSet?) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.DragDismissLayout)
 
-        val directionFlags =
+        val directionFlag =
             typedArray.getInt(
                 R.styleable.DragDismissLayout_draggingDirections,
-                DragDismissDefaults.DEFAULT_DRAG_DIRECTION
+                DragDismissDefaults.DEFAULT_DRAG_DIRECTION.value
             )
         mSelectedDragBackDirections =
-            Utilities.extractDirectionsFromFlag(directionFlags)
+            DragDismissDirections[directionFlag] ?: DragDismissDefaults.DEFAULT_DRAG_DIRECTION
 
         mDragDismissScreenPercentage =
             typedArray.getFraction(
@@ -246,7 +245,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
                 if (mInnerScrollViewsList.isNotEmpty()) {
                     val xOffset = abs(event.rawX - mPointerX)
                     val yOffset = abs(event.rawY - mPointerY)
-                    if (xOffset < mTouchSlop && yOffset < mTouchSlop) return false
+                    if (xOffset < mTouchSlop && yOffset < mTouchSlop)
+                        return false
 
                     for (innerScrollView in mInnerScrollViewsList) {
                         if (innerScrollView.contains(mPointerX, mPointerY)) {
@@ -258,8 +258,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
                                 shouldIntercept = !(xOffset > mTouchSlop && xOffset > yOffset)
                             }
                             return if (shouldIntercept)
-                                mDragHelper.shouldInterceptTouchEvent(event) ||
-                                        super.onInterceptTouchEvent(event)
+                                super.onInterceptTouchEvent(event) ||
+                                        mDragHelper.shouldInterceptTouchEvent(event)
                             else super.onInterceptTouchEvent(event)
                         }
                     }
@@ -270,8 +270,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        mDragHelper.processTouchEvent(event!!)
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        mDragHelper.processTouchEvent(event)
         return true
     }
 
@@ -295,7 +295,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
 
         override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int): Int {
             // Clamp the view if it's not All Drag and not dragged from left and not dragged from right
-            if (!selectedAllDragBack() && !selectedLeftDragBack() && !selectedRightDragBack())
+            if (!selectedLeftDragBack() && !selectedRightDragBack())
                 return paddingLeft
 
             mLeftOffset = paddingLeft
@@ -317,7 +317,7 @@ internal class DragDismissLayout @JvmOverloads constructor(
 
         override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
             // Clamp the view if it's not All Drag and not dragged from top and not dragged from bottom
-            if (!selectedAllDragBack() && !selectedBottomDragBack() && !selectedTopDragBack())
+            if (!selectedBottomDragBack() && !selectedTopDragBack())
                 return paddingTop
 
             mTopOffset = paddingTop
@@ -391,7 +391,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
                 if (innerScrollView.contains(mPointerX, mPointerY)) {
                     if (selectedLeftDragBack() && left > 0) {
                         canScrollViewScroll = canViewScrollRight(innerScrollView)
-                    } else if (selectedRightDragBack() && left < 0) {
+                    }
+                    if (selectedRightDragBack() && left < 0) {
                         canScrollViewScroll = canViewScrollLeft(innerScrollView)
                     }
                 }
@@ -410,7 +411,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
                 if (innerScrollView.contains(mPointerX, mPointerY)) {
                     if (selectedTopDragBack() && top > 0) {
                         canScrollViewScroll = canViewScrollDown(innerScrollView)
-                    } else if (selectedBottomDragBack() && top < 0) {
+                    }
+                    if (selectedBottomDragBack() && top < 0) {
                         canScrollViewScroll = canViewScrollUp(innerScrollView)
                     }
                 }
@@ -462,16 +464,16 @@ internal class DragDismissLayout @JvmOverloads constructor(
             if (mDragDismissVelocity <= 0) // LEVEL_0 turns off the velocity dismiss
                 return false
 
-            if (xVelocity > mDragDismissVelocity && (selectedAllDragBack() || selectedLeftDragBack())) {
+            if (xVelocity > mDragDismissVelocity && selectedLeftDragBack()) {
                 settleViewAt(mWidth, mTopOffset)
                 return true
-            } else if (xVelocity < -mDragDismissVelocity && (selectedAllDragBack() || selectedRightDragBack())) {
+            } else if (xVelocity < -mDragDismissVelocity && selectedRightDragBack()) {
                 settleViewAt(-mWidth, mTopOffset)
                 return true
-            } else if (yVelocity > mDragDismissVelocity && (selectedAllDragBack() || selectedTopDragBack())) {
+            } else if (yVelocity > mDragDismissVelocity && selectedTopDragBack()) {
                 settleViewAt(mLeftOffset, mHeight)
                 return true
-            } else if (yVelocity < -mDragDismissVelocity && (selectedAllDragBack() || selectedBottomDragBack())) {
+            } else if (yVelocity < -mDragDismissVelocity && selectedBottomDragBack()) {
                 settleViewAt(mLeftOffset, -mHeight)
                 return true
             }
@@ -512,20 +514,17 @@ internal class DragDismissLayout @JvmOverloads constructor(
         mTopOffset = 0
     }
 
-    private fun selectedAllDragBack() =
-        mSelectedDragBackDirections.contains(DragDismissDirections.ALL.value)
-
     private fun selectedBottomDragBack() =
-        mSelectedDragBackDirections.contains(DragDismissDirections.FROM_BOTTOM.value)
+        false
 
     private fun selectedTopDragBack() =
-        mSelectedDragBackDirections.contains(DragDismissDirections.FROM_TOP.value)
+        mSelectedDragBackDirections == DragDismissDirections.FROM_TOP
 
     private fun selectedRightDragBack() =
-        mSelectedDragBackDirections.contains(DragDismissDirections.FROM_RIGHT.value)
+        mSelectedDragBackDirections == DragDismissDirections.FROM_RIGHT
 
     private fun selectedLeftDragBack() =
-        mSelectedDragBackDirections.contains(DragDismissDirections.FROM_LEFT.value)
+        mSelectedDragBackDirections == DragDismissDirections.FROM_LEFT
 
     /**
      * Moves the view's left and top.
@@ -566,8 +565,8 @@ internal class DragDismissLayout @JvmOverloads constructor(
      * @param directions The directions to set from [DragDismissDirections]
      * @default [DragDismissDirections.FROM_LEFT]
      */
-    fun setDraggingDirections(directions: Int) {
-        mSelectedDragBackDirections = Utilities.extractDirectionsFromFlag(directions)
+    fun setDraggingDirections(directions: DragDismissDirections) {
+        mSelectedDragBackDirections = directions
     }
 
     /**

@@ -20,24 +20,7 @@
         </activity>
 
         <activity
-            android:name="com.linkdev.dragdismisssample.sample_activities.ActivityRecyclerView"
-            android:label="@string/recyclerview"
-            android:theme="@style/DragDismissTheme" />
-        <activity
-            android:name="com.linkdev.dragdismisssample.sample_activities.ActivityNestedScrollView"
-            android:label="@string/nested_scroll_view"
-            android:theme="@style/DragDismissTheme" />
-        <activity
-            android:name="com.linkdev.dragdismisssample.sample_activities.ActivityHorizontalRecyclerView"
-            android:label="@string/horizontal_scroll_view"
-            android:theme="@style/DragDismissTheme" />
-        <activity
-            android:name="com.linkdev.dragdismisssample.sample_activities.viewpager_sample.ActivityViewPager"
-            android:label="@string/view_pager"
-            android:theme="@style/DragDismissTheme" />
-        <activity
-            android:name="com.linkdev.dragdismisssample.sample_activities.ActivityWebView"
-            android:label="@string/web_view"
+            android:name=".sample_activities.ActivitySample"
             android:theme="@style/DragDismissTheme" />
     </application>
 

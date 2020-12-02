@@ -47,5 +47,6 @@ internal class FragmentContainer : IContainer {
             throw Exception("Fragment is not added")
 
         fragmentManager.beginTransaction().remove(mContainingFragment).commit()
+        fragmentManager.popBackStack()
     }
 }
