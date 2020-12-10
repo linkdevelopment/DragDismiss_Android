@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/app_name" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@id/btnRecyclerView"
+        app:layout_constraintTop_toBottomOf="@id/appbarLayout">
+
+        <include layout="@layout/section_drag_dismiss_attrs" />
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/btnRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginLarge"
+        android:layout_marginEnd="@dimen/marginMedium"
+        android:text="@string/recyclerview"
+        app:layout_constraintEnd_toStartOf="@id/btnViewPager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnViewPager" />
+
+    <Button
+        android:id="@+id/btnViewPager"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginMedium"
+        android:layout_marginEnd="@dimen/marginLarge"
+        android:text="@string/view_pager"
+        app:layout_constraintBottom_toTopOf="@id/btnHorizontalScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnRecyclerView" />
+
+    <Button
+        android:id="@+id/btnNestedScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginMedium"
+        android:layout_marginEnd="@dimen/marginLarge"
+        android:text="@string/nested_scroll_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnHorizontalScrollView"
+        app:layout_constraintTop_toTopOf="@id/btnHorizontalScrollView" />
+
+    <Button
+        android:id="@+id/btnHorizontalScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginLarge"
+        android:layout_marginEnd="@dimen/marginMedium"
+        android:text="@string/horizontal_scroll_view"
+        app:layout_constraintBottom_toTopOf="@id/btnActivity"
+        app:layout_constraintEnd_toStartOf="@id/btnNestedScrollView"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnWebView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginLarge"
+        android:layout_marginEnd="@dimen/marginMedium"
+        android:layout_marginBottom="@dimen/marginMedium"
+        android:text="@string/web_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnActivity"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnActivity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginMedium"
+        android:layout_marginEnd="@dimen/marginLarge"
+        android:layout_marginBottom="@dimen/marginMedium"
+        android:text="@string/activity"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnWebView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

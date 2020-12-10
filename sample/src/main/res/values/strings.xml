@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Drag Dismiss</string>
+
+    <string name="default_bg_visibility">80%</string>
+    <string name="background_dim">Background dim</string>
+    <string name="default_drag_dismiss">40%</string>
+    <string name="drag_dismiss_screen_percentage">Drag dismiss screen travel percentage</string>
+    <string name="default_dismiss_velocity_level">3</string>
+    <string name="drag_dismiss_velocity_level">Drag dismiss velocity level</string>
+    <string name="dismiss_values">Dismiss values</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="recyclerview">RecyclerView</string>
+    <string name="view_pager">ViewPager</string>
+    <string name="nested_scroll_view">Nested SV</string>
+    <string name="horizontal_scroll_view">Horizontal SV</string>
+    <string name="dragging_directions">Dragging directions</string>
+    <string name="all">All</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="top">Top</string>
+    <string name="bottom">Bottom</string>
+    <string name="web_view">Web view</string>
+    <string name="activity">Activity</string>
+</resources>

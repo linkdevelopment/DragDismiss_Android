@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright (c) 2020-present Link Development
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.-->
+
+<resources>
+    <declare-styleable name="DragDismissLayout">
+        <!-- The percentage of the screen that the view will be dismissed if dragged across it -->
+        <attr name="dragDismissScreenPercentage" format="fraction|reference" />
+
+        <!-- The velocity in Pixels/second that the view will be dismissed if flanged above it.
+        The higher the level the higher the speed required to dismiss -->
+        <attr name="dragDismissVelocityLevel">
+            <enum name="level_1" value="1000" />
+            <enum name="level_2" value="2000" />
+            <enum name="level_3" value="3000" />
+            <enum name="level_4" value="4000" />
+            <enum name="level_5" value="5000" />
+        </attr>
+
+        <!-- Sets the alpha of the black Background while the view is dragged -->
+        <attr name="backgroundDim" format="fraction|reference" />
+
+        <!-- Sets the directions that the view is dismissed if dragged from -->
+        <attr name="draggingDirections">
+            <enum name="fromTop" value="1" />
+            <enum name="fromRight" value="2" />
+            <enum name="fromBottom" value="4" />
+            <enum name="fromLeft" value="8" />
+        </attr>
+    </declare-styleable>
+</resources>
